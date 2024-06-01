@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Cá Nhân - Giasumienphi.edu.vn</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #001F3F;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin: -25px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .nav {
+            background-color: #F8F9FA;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .nav img {
+            height: 50px;
+            margin-right: 20px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            padding: 10px 20px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+        .nav .logout-button {
+            background-color: #FF4136;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-left: auto;
+        }
+        .container {
+            padding: 20px;
+        }
+        .info-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .info-section h2 {
+            margin-top: 0;
+        }
+        .info-section p {
+            margin: 10px 0;
+        }
+        .info-section p strong {
+            display: inline-block;
+            width: 150px;
+        }
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .actions a {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .actions .edit-button {
+            background-color: #FFC107;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h5>Thông Tin Cá Nhân</h5>
+    </div>
+    <div class="nav">
+        <img src="img/logo.png" alt="Logo">
+        <a href="home.html">Trang Chủ</a>
+        <a href="profile.html">Thông Tin Cá Nhân</a>
+        <a href="students.html">Học Sinh</a>
+        <a href="schedule.html">Lịch Dạy</a>
+        <a href="logout.html" class="logout-button">Đăng Xuất</a>
+    </div>
+    <div class="container">
+        <div class="info-section">
+            <h2>Thông Tin Cá Nhân</h2>
+            <p><strong>Tên:</strong> [Tên Giáo Viên]</p>
+            <p><strong>Email:</strong> [Email Giáo Viên]</p>
+            <p><strong>Số Điện Thoại:</strong> [Số Điện Thoại Giáo Viên]</p>
+            <p><strong>Chuyên Ngành:</strong> [Chuyên Ngành Giáo Viên]</p>
+            <p><strong>Kinh Nghiệm:</strong> [Kinh Nghiệm Giáo Viên]</p>
+        </div>
+        <div class="actions">
+            <a href="edit-profile.html" class="edit-button">Chỉnh Sửa</a>
+            <a href="home.html">Quay Lại Trang Chủ</a>
+        </div>
+    </div>
+</body>
+</html>
