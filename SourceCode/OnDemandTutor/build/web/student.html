@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giasumienphi.edu.vn</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            .header {
+                background-color: #001F3F;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+            }
+            .header h5 {
+                margin: 0;
+            }
+            .nav {
+                background-color: #F8F9FA;
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                border-bottom: 1px solid #ddd;
+                color: #000;
+            }
+            .nav img {
+                height: 100px;
+                margin-right: 20px;
+            }
+            .nav a, .nav .dropbtn {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                padding: 14px 20px;
+                margin: 0 5px;
+                display: inline-block;
+            }
+            .nav .dropdown {
+                position: relative;
+            }
+            .nav .dropbtn {
+                background-color: inherit;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .nav .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #001F3F;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+            }
+            .nav .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+            .nav .dropdown-content a:hover {
+                background-color: #575757;
+            }
+            .nav .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .nav .nav-links {
+                display: flex;
+                flex-grow: 1;
+                justify-content: center;
+            }
+            .register-button {
+                background-color: #FF4136;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 5px;
+                margin-left: auto;
+            }
+            .slideshow-container {
+                position: relative;
+                max-width: 100%;
+                margin: auto;
+            }
+            .slides {
+                display: none;
+            }
+            .slides img {
+                width: 100%;
+                height: auto;
+            }
+            .prev, .next {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                width: auto;
+                padding: 16px;
+                margin-top: -22px;
+                color: white;
+                font-weight: bold;
+                font-size: 18px;
+                transition: 0.6s ease;
+                border-radius: 0 3px 3px 0;
+                user-select: none;
+            }
+            .next {
+                right: 0;
+                border-radius: 3px 0 0 3px;
+            }
+            .prev:hover, .next:hover {
+                background-color: rgba(0,0,0,0.8);
+            }
+            .text {
+                color: white;
+                font-size: 15px;
+                padding: 8px 12px;
+                position: absolute;
+                bottom: 8px;
+                width: 100%;
+                text-align: center;
+            }
+            .active {
+                background-color: #717171;
+            }
+            .dot {
+                cursor: pointer;
+                height: 15px;
+                width: 15px;
+                margin: 0 2px;
+                background-color: #bbb;
+                border-radius: 50%;
+                display: inline-block;
+                transition: background-color 0.6s ease;
+            }
+            .dot:hover {
+                background-color: #717171;
+            }
+            .statistics {
+                background-color: #001F3F;
+                color: white;
+                text-align: center;
+                padding: 20px 0;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .statistic {
+                text-align: center;
+                flex: 1;
+                padding: 20px;
+                box-sizing: border-box;
+                min-width: 200px; /* Ensure the items don't get too small */
+            }
+            .statistic img {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 10px;
+            }
+            .statistic p {
+                margin: 0;
+            }
+            .statistic .number {
+                font-size: 24px;
+                font-weight: bold;
+                margin-top: 5px;
+            }
+            .teachers-container {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .teacher-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 200px;
+            }
+
+            .teacher-image-container {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            .teacher-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h5>Chào mừng đến với trung tâm gia sư miễn phí</h5>
+        </div>
+        <div class="nav">
+            <img src="img/logo.png" alt="Logo">
+            <div class="nav-links">
+                <a href="#">Thông tin cá nhân</a>
+                <a href="#">Lịch học</a>
+                <a href="#">Tình trạng đăng ký</a>
+                <a href="#">Đánh giá khóa học</a>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Tìm kiếm...">
+                <button class="search-button">Tìm kiếm</button>
+            </div>
+        </div>
+        <div class="teachers-section">
+            <h2>Giáo viên nổi bật</h2>
+            <div class="teachers-container">
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="img/1.jpg" alt="Teacher 1" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Nguyễn Văn A</h3>
+                        <p>Môn: Toán</p>
+                        <p>Kinh nghiệm: 5 năm</p>
+                        <p>Học vị: Thạc sĩ</p>
+                        <a href="#" class="btn">Xem thêm</a>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="img/2.jpg" alt="Teacher 2" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Trần Thị B</h3>
+                        <p>Môn: Văn</p>
+                        <p>Kinh nghiệm: 10 năm</p>
+                        <p>Học vị: Tiến Sĩ</p>
+                        <a href="#" class="btn">Xem thêm</a>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="img/3.jpg" alt="Teacher 2" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Hồ Thị C</h3>
+                        <p>Môn: Anh</p>
+                        <p>Kinh nghiệm: 10 năm</p>
+                        <p>Học vị: Cử Nhân</p>
+                        <a href="#" class="btn">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</html>
