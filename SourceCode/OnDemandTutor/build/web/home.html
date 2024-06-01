@@ -1,16 +1,229 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="vi">
     <head>
-        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giasumienphi.vn</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            .header {
+                background-color: #001F3F;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+            }
+            .header h5 {
+                margin: 0;
+            }
+            .nav {
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                align-items: center;
+                padding: 10px 20px;
+                border-bottom: 1px solid #ddd;
+                color: #000;
+            }
+            .nav img {
+                height: 100px;
+                margin-right: 20px;
+            }
+            .nav a, .nav .dropbtn {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                padding: 14px 20px;
+                margin: 0 5px;
+                display: inline-block;
+                text-align: center;
+                font-size: 16px; 
+            }
+            .nav .dropbtn {
+                background-color: inherit;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .nav .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .nav .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #001F3F;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+            }
+            .nav .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+            .nav .dropdown-content a:hover {
+                background-color: #575757;
+            }
+            .nav .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .nav .nav-links {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                justify-items: center;
+            }
+            .register-button {
+                background-color: #FF4136;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+            .slideshow-container {
+                position: relative;
+                max-width: 100%;
+                margin: auto;
+            }
+            .slides {
+                display: none;
+            }
+            .slides img {
+                width: 100%;
+                height: auto;
+            }
+            .prev, .next {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                width: auto;
+                padding: 16px;
+                margin-top: -22px;
+                color: white;
+                font-weight: bold;
+                font-size: 18px;
+                transition: 0.6s ease;
+                border-radius: 0 3px 3px 0;
+                user-select: none;
+            }
+            .next {
+                right: 0;
+                border-radius: 3px 0 0 3px;
+            }
+            .prev:hover, .next:hover {
+                background-color: rgba(0,0,0,0.8);
+            }
+            .statistics {
+                background-color: #001F3F;
+                color: white;
+                text-align: center;
+                padding: 20px 0;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .statistic {
+                text-align: center;
+                flex: 1;
+                padding: 20px;
+                box-sizing: border-box;
+                min-width: 200px; /* Ensure the items don't get too small */
+            }
+            .statistic img {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 10px;
+            }
+            .statistic p {
+                margin: 0;
+            }
+            .statistic .number {
+                font-size: 24px;
+                font-weight: bold;
+                margin-top: 5px;
+            }
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="header">
+            <h5>Chào mừng đến với trung tâm gia sư miễn phí</h5>
+        </div>
+        <div class="nav">
+            <img src="img/logo.png" alt="Logo">
+            <div class="nav-links">
+                <a href="#">TRANG CHỦ</a>
+                <div class="dropdown">
+                    <button class="dropbtn">GIỚI THIỆU</button>
+                    <div class="dropdown-content">
+                        <a href="#">Danh Sách Gia Sư Tiêu Biểu</a>
+                        <a href="#">Bảng Giá Gia Sư</a>
+                        <a href="#">Đánh Giá Từ Mạng Xã Hội</a>
+                    </div>
+                </div>
+                <a href="#">TRỞ THÀNH GIA SƯ</a>
+            </div>
+            <a href="#" class="register-button">ĐĂNG NHẬP</a>
+        </div>
+        <div class="slideshow-container">
+            <div class="slides fade">
+                <img src="img/banner1.jpg" alt="Banner Image 1">
+            </div>
+            <div class="slides fade">
+                <img src="img/banner2.jpg" alt="Banner Image 2">
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <div class="statistics">
+            <div class="statistic">
+                <img src="img/student-icon.png" alt="Student Icon">
+                <p>Tổng số học sinh</p>
+                <p class="number" id="student-count">500</p>
+            </div>
+            <div class="statistic">
+                <img src="img/teacher-icon.png" alt="Teacher Icon">
+                <p>Tổng giáo viên</p>
+                <p class="number" id="teacher-count">100</p>
+            </div>
+            <div class="statistic">
+                <img src="img/graduate-icon.png" alt="Graduate Icon">
+                <p>Số học sinh giỏi sau khi học</p>
+                <p class="number" id="graduate-count">400</p>
+            </div>
+            <div class="statistic">
+                <img src="img/parent-icon.png" alt="Parent Icon">
+                <p>Số phụ huynh quay lại đăng ký</p>
+                <p class="number" id="parent-count">500</p>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
+        <script>
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function showSlides(n) {
+                let slides = document.getElementsByClassName("slides");
+                if (n > slides.length) {
+                    slideIndex = 1;
+                }
+                if (n < 1) {
+                    slideIndex = slides.length;
+                }
+                for (let slide of slides) {
+                    slide.style.display = "none";
+                }
+                slides[slideIndex - 1].style.display = "block";
+            }
+        </script>
     </body>
 </html>
