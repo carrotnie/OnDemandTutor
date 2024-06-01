@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Giasumienphi.vn</title>
+        <title>Giasumienphi.edu.vn</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -20,8 +20,8 @@
                 margin: 0;
             }
             .nav {
-                display: grid;
-                grid-template-columns: auto 1fr auto;
+                background-color: #F8F9FA;
+                display: flex;
                 align-items: center;
                 padding: 10px 20px;
                 border-bottom: 1px solid #ddd;
@@ -38,18 +38,15 @@
                 padding: 14px 20px;
                 margin: 0 5px;
                 display: inline-block;
-                text-align: center;
-                font-size: 16px; 
+            }
+            .nav .dropdown {
+                position: relative;
             }
             .nav .dropbtn {
                 background-color: inherit;
                 border: none;
                 font-weight: bold;
                 cursor: pointer;
-            }
-            .nav .dropdown {
-                position: relative;
-                display: inline-block;
             }
             .nav .dropdown-content {
                 display: none;
@@ -73,9 +70,9 @@
                 display: block;
             }
             .nav .nav-links {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                justify-items: center;
+                display: flex;
+                flex-grow: 1;
+                justify-content: center;
             }
             .register-button {
                 background-color: #FF4136;
@@ -84,6 +81,7 @@
                 text-decoration: none;
                 font-weight: bold;
                 border-radius: 5px;
+                margin-left: auto;
             }
             .slideshow-container {
                 position: relative;
@@ -118,6 +116,31 @@
             .prev:hover, .next:hover {
                 background-color: rgba(0,0,0,0.8);
             }
+            .text {
+                color: white;
+                font-size: 15px;
+                padding: 8px 12px;
+                position: absolute;
+                bottom: 8px;
+                width: 100%;
+                text-align: center;
+            }
+            .active {
+                background-color: #717171;
+            }
+            .dot {
+                cursor: pointer;
+                height: 15px;
+                width: 15px;
+                margin: 0 2px;
+                background-color: #bbb;
+                border-radius: 50%;
+                display: inline-block;
+                transition: background-color 0.6s ease;
+            }
+            .dot:hover {
+                background-color: #717171;
+            }
             .statistics {
                 background-color: #001F3F;
                 color: white;
@@ -148,6 +171,33 @@
                 font-weight: bold;
                 margin-top: 5px;
             }
+            .teachers-container {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .teacher-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 200px;
+            }
+
+            .teacher-image-container {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            .teacher-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         </style>
     </head>
     <body>
@@ -157,73 +207,55 @@
         <div class="nav">
             <img src="img/logo.png" alt="Logo">
             <div class="nav-links">
-                <a href="#">TRANG CHỦ</a>
-                <div class="dropdown">
-                    <button class="dropbtn">GIỚI THIỆU</button>
-                    <div class="dropdown-content">
-                        <a href="#">Danh Sách Gia Sư Tiêu Biểu</a>
-                        <a href="#">Bảng Giá Gia Sư</a>
-                        <a href="#">Đánh Giá Từ Mạng Xã Hội</a>
+                <a href="#">Thông tin cá nhân</a>
+                <a href="#">Lịch học</a>
+                <a href="#">Tình trạng đăng ký</a>
+                <a href="#">Đánh giá khóa học</a>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Tìm kiếm...">
+                <button class="search-button">Tìm kiếm</button>
+            </div>
+        </div>
+        <div class="teachers-section">
+            <h2>Giáo viên nổi bật</h2>
+            <div class="teachers-container">
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="img/1.jpg" alt="Teacher 1" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Nguyễn Văn A</h3>
+                        <p>Môn: Toán</p>
+                        <p>Kinh nghiệm: 5 năm</p>
+                        <p>Học vị: Thạc sĩ</p>
+                        <a href="#" class="btn">Xem thêm</a>
                     </div>
                 </div>
-                <a href="#">TRỞ THÀNH GIA SƯ</a>
-            </div>
-            <a href="#" class="register-button">ĐĂNG NHẬP</a>
-        </div>
-        <div class="slideshow-container">
-            <div class="slides fade">
-                <img src="img/banner1.jpg" alt="Banner Image 1">
-            </div>
-            <div class="slides fade">
-                <img src="img/banner2.jpg" alt="Banner Image 2">
-            </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-        <div class="statistics">
-            <div class="statistic">
-                <img src="img/student-icon.png" alt="Student Icon">
-                <p>Tổng số học sinh</p>
-                <p class="number" id="student-count">500</p>
-            </div>
-            <div class="statistic">
-                <img src="img/teacher-icon.png" alt="Teacher Icon">
-                <p>Tổng giáo viên</p>
-                <p class="number" id="teacher-count">100</p>
-            </div>
-            <div class="statistic">
-                <img src="img/graduate-icon.png" alt="Graduate Icon">
-                <p>Số học sinh giỏi sau khi học</p>
-                <p class="number" id="graduate-count">400</p>
-            </div>
-            <div class="statistic">
-                <img src="img/parent-icon.png" alt="Parent Icon">
-                <p>Số phụ huynh quay lại đăng ký</p>
-                <p class="number" id="parent-count">500</p>
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="img/2.jpg" alt="Teacher 2" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Trần Thị B</h3>
+                        <p>Môn: Văn</p>
+                        <p>Kinh nghiệm: 10 năm</p>
+                        <p>Học vị: Tiến Sĩ</p>
+                        <a href="#" class="btn">Xem thêm</a>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="img/3.jpg" alt="Teacher 2" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Hồ Thị C</h3>
+                        <p>Môn: Anh</p>
+                        <p>Kinh nghiệm: 10 năm</p>
+                        <p>Học vị: Cử Nhân</p>
+                        <a href="#" class="btn">Xem thêm</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
-        <script>
-            let slideIndex = 1;
-            showSlides(slideIndex);
-
-            function plusSlides(n) {
-                showSlides(slideIndex += n);
-            }
-
-            function showSlides(n) {
-                let slides = document.getElementsByClassName("slides");
-                if (n > slides.length) {
-                    slideIndex = 1;
-                }
-                if (n < 1) {
-                    slideIndex = slides.length;
-                }
-                for (let slide of slides) {
-                    slide.style.display = "none";
-                }
-                slides[slideIndex - 1].style.display = "block";
-            }
-        </script>
-    </body>
 </html>
