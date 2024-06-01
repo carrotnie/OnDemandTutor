@@ -1,4 +1,5 @@
- conf/
+conf/
 logs/
 *.war
 nbproject/
+SourceCode/OnDemandTutor/nbproject/private/private.properties
