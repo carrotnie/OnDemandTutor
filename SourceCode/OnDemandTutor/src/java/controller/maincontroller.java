@@ -10,5 +10,6 @@ package controller;
  * @author ADMIN
  */
 public class maincontroller {
-    
+   int hahaah;
+   int mani;
 }
