@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
+
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,36 +11,45 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author ADMIN
+ * @author MSI
  */
-public class MainController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+public class MainController extends HttpServlet{
+    private static final String MAIN_PAGE ="index.html";
+    
+    private static final String LOGIN_PAGE="LoginPage";
+    private static final String LOGIN_PAGE_VIEW="login.html";
+    
+    private static final String LOGIN="Login";
+    private static final String LOGIN_CONTROLLER="LoginController";
+   
+    private static final String REGISTER_PAGE="RegisterPage";
+    private static final String REGISTER_PAGE_VIEW="register.html";
+    
+    private static final String REGISTER="Register";
+    private static final String REGISTER_CONTROLLER="RegisterController";
+    
+    protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MainController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MainController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = MAIN_PAGE;
+        try{
+            String action=request.getParameter("action");
+            if (action==null){
+                url=MAIN_PAGE;
+            }else if (LOGIN_PAGE.equals(action)){
+                url=LOGIN_PAGE_VIEW;                       
+            }else if (LOGIN.equals(action)){
+                url=LOGIN_CONTROLLER;                       
+            }else if (REGISTER_PAGE.equals(action)){
+                url=REGISTER_PAGE_VIEW;
+            }else if (REGISTER.equals(action)){
+                url=REGISTER_CONTROLLER;
+            }
+        }catch (Exception e){
+            log("Error at MainController: " + e.toString());
+        }finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -82,5 +88,4 @@ public class MainController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
