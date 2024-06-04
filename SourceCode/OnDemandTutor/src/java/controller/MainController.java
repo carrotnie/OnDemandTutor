@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author MSI
  */
 public class MainController extends HttpServlet{
-    private static final String MAIN_PAGE ="index.html";
+    private static final String MAIN_PAGE ="home.html";
     
     private static final String LOGIN_PAGE="LoginPage";
     private static final String LOGIN_PAGE_VIEW="login.html";
