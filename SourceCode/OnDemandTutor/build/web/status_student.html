@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tình trạng xác nhận đăng ký học</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 600px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Đảm bảo chiều rộng bao gồm cả padding và border */
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e7f3fe;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+            display: none;
+        }
+        .error {
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tình trạng xác nhận đăng ký học</h1>
+        <form id="checkStatusForm">
+            <div class="form-group">
+                <label for="studentId">ID Sinh viên:</label>
+                <input type="text" id="studentId" name="studentId" required>
+            </div>
+            <div class="form-group">
+                <label for="studentName">Họ tên:</label>
+                <input type="text" id="studentName" name="studentName" required>
+            </div>
+            <input type="submit" value="Kiểm tra tình trạng">
+        </form>
+        <div class="status" id="status">
+            <p id="statusMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('checkStatusForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var studentId = document.getElementById('studentId').value;
+            var studentName = document.getElementById('studentName').value;
+
+            // Giả sử chúng ta có dữ liệu JSON chứa thông tin đăng ký của sinh viên
+            var mockData = {
+                "12345": {
+                    "name": "Nguyen Van A",
+                    "status": "Thành công",
+                    "courses": ["Toán", "Lý", "Hóa"]
+                },
+                "67890": {
+                    "name": "Tran Thi B",
+                    "status": "Chờ xử lý",
+                    "courses": ["Sinh học", "Anh văn"]
+                }
+            };
+
+            var statusMessage = document.getElementById('statusMessage');
+            var statusDiv = document.getElementById('status');
+
+            if (mockData[studentId] && mockData[studentId].name === studentName) {
+                var studentData = mockData[studentId];
+                statusMessage.innerHTML = `
+                    <strong>Trạng thái:</strong> ${studentData.status} <br>
+                    <strong>Môn học đã đăng ký:</strong> ${studentData.courses.join(", ")}
+                `;
+                statusDiv.style.display = 'block';
+            } else {
+                statusMessage.innerHTML = '<span class="error">Không tìm thấy thông tin sinh viên.</span>';
+                statusDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
