@@ -4,3 +4,12 @@ logs/
 nbproject/
 SourceCode/OnDemandTutor/nbproject/private/private.properties
 /SourceCode/OnDemandTutor/dist/
+/SourceCode/OnDemandTutor/nbproject/private/private.properties
+/SourceCode/OnDemandTutor/nbproject/
+*.jar
+*.war
+*.ear
+nbproject/private/
+build/
+nbbuild/
+/SourceCode/OnDemandTutor/nbproject/private/
