@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Giasumienphi.vn</title>
+        <link href="https://fonts.cdnfonts.com/css/arial" rel="stylesheet">
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -168,7 +169,7 @@
                 </div>
                 <a href="MainController?action=RegisterPage">TRỞ THÀNH GIA SƯ</a>
             </div>
-            <a href="MainController?action=LoginPage" class="register-button"> ĐĂNG NHẬP </a>
+            <a href="MainController?action=LoginPage" class="register-button">ĐĂNG NHẬP</a>
         </div>
         <div class="slideshow-container">
             <div class="slides fade">
@@ -177,7 +178,7 @@
             <div class="slides fade">
                 <img src="img/banner2.jpg" alt="Banner Image 2">
             </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="prev" onclick="plusSlides( - 1)">&#10094;</a>
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
         <div class="statistics">
@@ -204,26 +205,25 @@
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
         <script>
-            let slideIndex = 1;
-            showSlides(slideIndex);
+                        let slideIndex = 1;
+                        showSlides(slideIndex);
+                        function plusSlides(n) {
+                        showSlides(slideIndex += n);
+                        }
 
-            function plusSlides(n) {
-                showSlides(slideIndex += n);
-            }
-
-            function showSlides(n) {
+                function showSlides(n) {
                 let slides = document.getElementsByClassName("slides");
-                if (n > slides.length) {
-                    slideIndex = 1;
+                        if (n > slides.length) {
+                slideIndex = 1;
                 }
                 if (n < 1) {
-                    slideIndex = slides.length;
+                slideIndex = slides.length;
                 }
                 for (let slide of slides) {
-                    slide.style.display = "none";
+                slide.style.display = "none";
                 }
                 slides[slideIndex - 1].style.display = "block";
-            }
+                }
         </script>
     </body>
 </html>

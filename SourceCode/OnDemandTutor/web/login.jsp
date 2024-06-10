@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Đăng nhập - Giasumienphi.edu.vn</title>
+        <%@ page contentType="text/html;charset=UTF-8" language="java" %>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -183,9 +184,14 @@
                     <label for="Username">Tên đăng nhập:</label>
                     <input type="text" id="username" name="Username" required>
                     <label for="Password">Mật khẩu:</label>
+                    ${requestScope.ERROR}
                     <input type="password" id="password" name="Password" required>
                     <button type="submit" name="action" value="Login" class="button-login">Login</button>                   
                 </form>
+                <%
+                String error=(String) request.getAttribute("ERROR");
+                if(error==null) error="";
+                %>
                 Chưa có tài khoản ? <a href="MainController?action=RegisterPage" class="register-link">Đăng Ký</a>
             </div>
         </div>
@@ -193,4 +199,5 @@
             <p>&copy; 2024 Giasumienphi.edu.vn. All rights reserved.</p>
         </div>
     </body>
+    <%= error %>
 </html>
