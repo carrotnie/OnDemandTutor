@@ -173,19 +173,18 @@
             <img src="img/logo.png" alt="Logo">
            
         </div>
-        <div class="main-content">
+        <div class="main-content" >
             <div class="image-login">
                 <img src="img/giasu.jpg" alt="Loginbanner">
             </div>
-            <div class="login-container">
+            <div class="login-container" >
                 <h1>Đăng Nhập</h1>
-                <form action="login_process.html" method="POST">
-                    <label for="username">Tên đăng nhập:</label>
-                    <input type="text" id="username" name="username" required>
-                    <label for="password">Mật khẩu:</label>
-                    <input type="password" id="password" name="password" required>
-                    <button type="submit" class="button-login">Login</button>
-
+                <form action="MainController" method="POST">
+                    <label for="Username">Tên đăng nhập:</label>
+                    <input type="text" id="username" name="Username" required>
+                    <label for="Password">Mật khẩu:</label>
+                    <input type="password" id="password" name="Password" required>
+                    <button type="submit" name="action" value="Login" class="button-login">Login</button>                   
                 </form>
                 Chưa có tài khoản ? <a href="MainController?action=RegisterPage" class="register-link">Đăng Ký</a>
             </div>
