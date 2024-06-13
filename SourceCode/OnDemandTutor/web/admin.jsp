@@ -10,7 +10,7 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
-                margin: 0;
+                margin: auto;
                 padding: 0;
             }
             .nav {
@@ -19,10 +19,7 @@
                 align-items: center;
                 padding: 10px 20px;
                 border-bottom: 1px solid #ddd;
-            }
-            .nav img {
-                height: 100px;
-                margin-right: auto;
+                justify-content: space-between; /* Thêm dòng này */
             }
             .nav a, .nav .dropbtn {
                 text-decoration: none;
@@ -34,8 +31,11 @@
             }
             .nav h1 {
                 color: red;
-                margin-right: 750px;
+                text-align: center;
+                margin-left: auto; /* Thêm dòng này */
+                margin-right: auto; /* Thêm dòng này */
             }
+
 
             .statistics {
                 background-color: #001F3F;
@@ -106,27 +106,27 @@
             .account h2 {
                 text-align: center;
             }
-            
+
             /* CSS for Search button */
-.search-button {
-    background-color: #4CAF50; /* Màu nền xanh lá cây */
-    color: white; /* Màu chữ trắng */
-    padding: 10px 20px; /* Đệm bên trong nút */
-    border: none; /* Không có viền */
-    border-radius: 4px; /* Đường viền cong */
-    cursor: pointer; /* Con trỏ chuột thành bàn tay khi rê chuột qua nút */
-    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
-}
+            .search-button {
+                background-color: #4CAF50; /* Màu nền xanh lá cây */
+                color: white; /* Màu chữ trắng */
+                padding: 10px 20px; /* Đệm bên trong nút */
+                border: none; /* Không có viền */
+                border-radius: 4px; /* Đường viền cong */
+                cursor: pointer; /* Con trỏ chuột thành bàn tay khi rê chuột qua nút */
+                transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+            }
 
-/* CSS khi hover vào nút */
-.search-button:hover {
-    background-color: #45a049; /* Màu nền xanh lá cây nhạt hơn khi hover */
-}
+            /* CSS khi hover vào nút */
+            .search-button:hover {
+                background-color: #45a049; /* Màu nền xanh lá cây nhạt hơn khi hover */
+            }
 
-/* CSS khi nhấn vào nút */
-.search-button:active {
-    background-color: #367c39; /* Màu nền xanh lá cây sậm hơn khi nhấn */
-}
+            /* CSS khi nhấn vào nút */
+            .search-button:active {
+                background-color: #367c39; /* Màu nền xanh lá cây sậm hơn khi nhấn */
+            }
 
         </style>
     </head>
@@ -143,7 +143,6 @@
             }
         %>
         <div class="nav">
-            <img src="img/logo.png" alt="Logo">
             <h1> Welcomeback Admin</h1>
         </div>
         <div class="account">
