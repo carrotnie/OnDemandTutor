@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ page pageEncoding="UTF-8" %>
+<%@ page import="user.UserDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -51,7 +52,7 @@
                 flex: 1;
                 padding: 20px;
                 box-sizing: border-box;
-                min-width: 200px; /* Ensure the items don't get too small */
+                min-width: 200px;
             }
             .statistic img {
                 width: 50px;
@@ -102,99 +103,113 @@
                 background-color: #f44336;
                 color: white;
             }
-            .account h2{
+            .account h2 {
                 text-align: center;
-
             }
+            
+            /* CSS for Search button */
+.search-button {
+    background-color: #4CAF50; /* Màu nền xanh lá cây */
+    color: white; /* Màu chữ trắng */
+    padding: 10px 20px; /* Đệm bên trong nút */
+    border: none; /* Không có viền */
+    border-radius: 4px; /* Đường viền cong */
+    cursor: pointer; /* Con trỏ chuột thành bàn tay khi rê chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+}
+
+/* CSS khi hover vào nút */
+.search-button:hover {
+    background-color: #45a049; /* Màu nền xanh lá cây nhạt hơn khi hover */
+}
+
+/* CSS khi nhấn vào nút */
+.search-button:active {
+    background-color: #367c39; /* Màu nền xanh lá cây sậm hơn khi nhấn */
+}
+
         </style>
     </head>
     <body>
-    
-    <div class="nav">
-        <img src="img/logo.png" alt="Logo">
-        <h1> Welcomeback Admin</h1>
-    </div>
-    <div class="account">
-        <h2>Danh sách tài khoản người dùng</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>FullName</th>
-                    <th>Password</th>
-                    <th>Year of birth</th>
-                    <th>Gender</th>
-                    <th>Role</th>
-                    <th>Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Alo</td>
-                    <td>********</td>
-                    <td>01/01/2000</td>
-                    <td>Nam</td>
-                    <td>Học sinh</td>
-                    <td class="action-buttons">
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Alooo</td>
-                    <td>********</td>
-                    <td>02/02/1990</td>
-                    <td>Nữ</td>
-                    <td>Gia Sư</td>
-                    <td class="action-buttons">
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Aloooo </td>
-                    <td>********</td>
-                    <td>03/03/1985</td>
-                    <td>Nam</td>
-                    <td>Gia Sư</td>
-                    <td class="action-buttons">
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-    </div>
-    <div class="statistics">
-        <div class="statistic">
-            <img src="img/student-icon.png" alt="Student Icon">
-            <p>Tổng số học sinh</p>
-            <p class="number" id="student-count">1000</p>
+        <%
+            UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
+            if (loginUser == null || !"admin".equals(loginUser.getRole())) {
+                response.sendRedirect("login.html");
+                return;
+            }
+            String search = request.getParameter("search");
+            if (search == null) {
+                search = "";
+            }
+        %>
+        <div class="nav">
+            <img src="img/logo.png" alt="Logo">
+            <h1> Welcomeback Admin</h1>
         </div>
-        <div class="statistic">
-            <img src="img/teacher-icon.png" alt="Teacher Icon">
-            <p>Tổng giáo viên</p>
-            <p class="number" id="teacher-count">500</p>
+        <div class="account">
+            <h2>Danh sách tài khoản người dùng</h2>
+            <form action="SearchController" method="GET">
+                <input type="text" name="search" value="<%= search%>"/>
+                <button class="search-button" type="submit">Search</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>FullName</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        List<UserDTO> users = (List<UserDTO>) request.getAttribute("LIST_USER");
+                        if (users != null) {
+                            for (UserDTO user : users) {
+                    %>
+                    <tr>
+                        <td><%= user.getId()%></td>
+                        <td><%= user.getName()%></td>
+                        <td><%= user.getUsername()%></td>
+                        <td>********</td>
+                        <td><%= user.getRole()%></td>
+                        <td class="action-buttons">
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <%
+                            }
+                        } else {
+                            out.println("<tr><td colspan='6'>Who you wanna find ?</td></tr>");
+                        }
+                    %>
+                </tbody>
+            </table>
         </div>
-        <div class="statistic">
-            <img src="img/graduate-icon.png" alt="Graduate Icon">
-            <p>Số học sinh giỏi sau khi học tại trung tâm</p>
-            <p class="number" id="graduate-count">700</p>
+        <div class="statistics">
+            <div class="statistic">
+                <img src="img/student-icon.png" alt="Student Icon">
+                <p>Tổng số học sinh</p>
+                <p class="number" id="student-count">1000</p>
+            </div>
+            <div class="statistic">
+                <img src="img/teacher-icon.png" alt="Teacher Icon">
+                <p>Tổng giáo viên</p>
+                <p class="number" id="teacher-count">500</p>
+            </div>
+            <div class="statistic">
+                <img src="img/graduate-icon.png" alt="Graduate Icon">
+                <p>Số học sinh giỏi sau khi học tại trung tâm</p>
+                <p class="number" id="graduate-count">700</p>
+            </div>
+            <div class="statistic">
+                <img src="img/parent-icon.png" alt="Parent Icon">
+                <p>Số phụ huynh quay lại đăng ký cho con em</p>
+                <p class="number" id="parent-count">500</p>
+            </div>
         </div>
-        <div class="statistic">
-            <img src="img/parent-icon.png" alt="Parent Icon">
-            <p>Số phụ huynh quay lại đăng ký cho con em</p>
-            <p class="number" id="parent-count">500</p>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
-    <script>
-
-    </script>
-    ${requestScope.ERROR}
-</body>
+    </body>
 </html>
