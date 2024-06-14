@@ -12,6 +12,14 @@
         <servlet-name>SearchController</servlet-name>
         <servlet-class>controller.SearchController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateStudentInfoController</servlet-name>
+        <servlet-class>controller.UpdateStudentInfoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateStudentInfoController</servlet-name>
+        <url-pattern>/UpdateStudentInfoController</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
