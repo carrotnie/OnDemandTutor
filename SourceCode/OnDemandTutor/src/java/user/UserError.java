@@ -19,7 +19,7 @@ public class UserError {
 
     public UserError() {
         this.IdError = 0;
-         this.NameError = "";
+        this.NameError = "";
         this.UsernameError = "";
         this.PasswordError = "";
         this.RoleError = "";
