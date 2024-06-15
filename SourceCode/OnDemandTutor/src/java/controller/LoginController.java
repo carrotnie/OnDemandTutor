@@ -23,7 +23,7 @@ public class LoginController extends HttpServlet {
     private static final String ADMIN_PAGE = "admin.jsp";
     private static final String MOD_PAGE = "moderator.html";
     private static final String ST_PAGE = "student.html";
-    private static final String TU_PAGE = "tutor.html";
+    private static final String TU_PAGE = "tutor_homepage.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
