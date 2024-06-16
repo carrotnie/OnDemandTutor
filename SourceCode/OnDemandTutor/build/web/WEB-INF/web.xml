@@ -16,6 +16,10 @@
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <servlet-class>controller.UpdateStudentInfoController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TutorhomeController</servlet-name>
+        <servlet-class>controller.TutorhomeController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>SearchController</servlet-name>
         <url-pattern>/SearchController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TutorhomeController</servlet-name>
+        <url-pattern>/TutorhomeController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
