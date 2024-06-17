@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đội Ngũ Chúng Tôi</title>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #007bff; 
+            color: white;
+        }
+        .header img {
+            height: 80px; 
+            width: 60px;
+            object-fit: cover; 
+        }
+        .header h5 {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            padding-left: 100px;
+        }
+        .login-button {
+            background-color: #ff0000; /* Màu đỏ */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #cc0000; /* Màu đỏ đậm khi hover */
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .swiper {
+            width: 100%;
+            padding: 20px 0;
+        }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+        .card img {
+            border-radius: 50%;
+            width: 80px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .card .name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .card .location {
+            color: #777;
+            margin-bottom: 10px;
+        }
+        .card .stars {
+            color: #ffa500;
+            margin-bottom: 10px;
+        }
+        .card .feedback-text {
+            font-size: 16px;
+            color: #555;
+        }
+        .tutors .card {
+            max-width: 250px;
+        }
+        .tutors .card img {
+            width: 80px;
+            height: 100px;
+        }
+        .tutors .title {
+            color: #00aaff;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Header -->
+    <div class="header">
+        <img src="img/logoo.png" alt="Login Icon"> <!-- Hình ảnh đăng nhập -->
+        <h5>Đội Ngũ Giảng Viên Của Gia Sư Tri Thức</h5>
+        <button class="login-button" onclick="window.location.href='login.html'">Quay lại Trang Chủ</button>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Phản Hồi Của Học Viên</h2>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/student/s8.jpg" >
+                        <div class="name">Bạn Phương Thanh</div>
+                        <div class="location">TP Hồ Chí Minh</div>
+                        <div class="stars">★★★★★</div>
+                        <div class="feedback-text">“Mình học thích lắm, nói cô gia sư dạy dễ hiểu, bài giảng có nhiều hình ảnh vui vui nữa. Cả buổi dạy còn có bạn chuyên môn ngồi dự giờ nên mình rất yên tâm. Xin Cám Ơn!”</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/student/s9.jpg">
+                        <div class="name">Bạn Hồng Dung</div>
+                        <div class="location">Đà Nẵng</div>
+                        <div class="stars">★★★★★</div>
+                        <div class="feedback-text">“Gia sư dạy mình có kỹ năng giao tiếp tốt. Hiểu được mình đang có Gì, thiếu gì để bổ sung, bồi đắp đúng lúc. Kết quả là mình đã trúng tuyển Đại học Quốc Gia. Mình Cám Ơn.”</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/student/s7.jpg">
+                        <div class="name">Bạn Thảo</div>
+                        <div class="location">Hà Nội</div>
+                        <div class="stars">★★★★★</div>
+                        <div class="feedback-text">“Các thầy cô ở đây không chỉ giỏi mà còn rất tâm huyết và luôn hỗ trợ học sinh. Bài giảng dễ hiểu. Tôi cảm thấy rất may mắn khi biết đến và học tập tại đây.”</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/student/s6.jpg">
+                        <div class="name">Bạn Cẩm Duyên</div>
+                        <div class="location">TP Hồ Chí Minh</div>
+                        <div class="stars">★★★★★</div>
+                        <div class="feedback-text">“Sau khi thử qua nhiều dịch vụ gia sư khác nhau, tôi phải nói rằng gia sư Tri Thức là tốt nhất. Họ có đội ngũ gia sư chất lượng cao, luôn chu đáo và tận tâm với từng học sinh.”</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/student/s10.jpg">
+                        <div class="name">Bạn Hồng Dung</div>
+                        <div class="location">Nha Trang</div>
+                        <div class="stars">★★★★★</div>
+                        <div class="feedback-text">“Tôi luôn hào hứng mỗi khi đến giờ học và đã đạt được nhiều tiến bộ rõ rệt. Tôi rất biết ơn sự hỗ trợ và tận tâm của các thầy cô ở đây.”</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/student/s48.jpg">
+                        <div class="name">Bạn Huyền</div>
+                        <div class="location">Hà Nội</div>
+                        <div class="stars">★★★★★</div>
+                        <div class="feedback-text">“"Trên web có thể connect với gia sư và giải đáp thắc mắc rất nhanh. Tôi rất hài lòng và sẽ tiếp tục sử dụng dịch vụ của họ trong tương lai.”</div>
+                    </div>
+                </div>
+                <!-- Add more feedback slides as needed -->
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <h2 class="section-title" data-aos="fade-up">Đội ngũ gia sư tri thức</h2>
+        <div class="swiper mySwiper tutors">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/tutor/48.jpg">
+                        <div class="name">Nguyễn Văn Hưng</div>
+                        <div class="title">Giáo viên Lí tại gia sư tri thức</div>
+                        <div class="feedback-text">Với niềm đam mê giảng dạy và chia sẻ kiến thức. Và hơn 10 năm kinh nghiệm giảng dạy và bằng Tiến sĩ Vật lý từ Đại học Quốc gia, tôi cam kết mang đến cho bạn những bài học thú vị và dễ hiểu. Tôi tin rằng mỗi học sinh đều có thể trở thành một nhà khoa học tài ba nếu được hướng dẫn đúng cách.</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/tutor/6.jpg" >
+                        <div class="name">Lê Thị Hồng</div>
+                        <div class="title">Giáo viên Nhật tại gia sư tri thức</div>
+                        <div class="feedback-text">Là giáo viên Tiếng Nhật với 6 năm kinh nghiệm giảng dạy từ cơ bản đến nâng cao. Tôi từng sống và làm việc tại Nhật Bản, giúp tôi hiểu sâu sắc về ngôn ngữ và văn hóa Nhật. Hãy cùng tôi khám phá ngôn ngữ thú vị này qua những bài học sinh động và thực tế, giúp bạn tự tin giao tiếp và hiểu rõ hơn về Nhật Bản.</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/tutor/14.jpeg" >
+                        <div class="name">Phương Thảo</div>
+                        <div class="title">Giáo viên English tại gia sư tri thức</div>
+                        <div class="feedback-text">Tôi là Phương Thảo, chuyên gia tiếng Anh với hơn 7 năm kinh nghiệm trong việc giảng dạy và luyện thi IELTS. Tôi có bằng Thạc sĩ Ngôn ngữ học từ Đại học Ngoại ngữ và đã giúp nhiều học viên đạt điểm số mơ ước. Phương pháp của tôi không chỉ tập trung vào việc cải thiện kỹ năng ngôn ngữ mà còn tạo ra môi trường học tập thoải mái và đầy cảm hứng.</div>
+                    </div>
+                </div>
+                <div class="swiper-slide" data-aos="zoom-in">
+                    <div class="card">
+                        <img src="img/tutor/38.jpg">
+                        <div class="name">Võ Thành Tài</div>
+                        <div class="title">Giáo viên Toán tại gia sư tri thức</div>
+                        <div class="feedback-text">Hiện đang là gia sư Toán với hơn 5 năm kinh nghiệm giảng dạy. Tôi tốt nghiệp Đại học Bách Khoa với thành tích xuất sắc và đã giúp đỡ hàng trăm học viên đạt điểm cao trong các kỳ thi. Phương pháp giảng dạy của tôi luôn linh hoạt và hướng đến việc kích thích sự sáng tạo của học viên. Hãy cùng tôi khám phá thế giới Toán học một cách thú vị và hiệu quả!</div>
+                    </div>
+                </div>
+                <!-- Add more tutor slides as needed -->
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Swiper
+        var swiper = new Swiper('.mySwiper', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true, // Enable looping
+            autoplay: {
+                delay: 3000, // Slide transition delay in ms
+                disableOnInteraction: false, // Continue autoplay after interactions
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 50,
+                },
+            }
+        });
+
+        // Initialize AOS
+        AOS.init({
+            duration: 1000, // Thời gian animation trong 1000ms
+            once: true,     // Hiệu ứng chỉ chạy một lần khi cuộn trang
+        });
+    </script>
+</body>
+</html>
