@@ -24,15 +24,15 @@
                 margin: 0;
             }
             .nav {
-                background-color: #F8F9FA;
+                background-color: #001e54;
                 display: flex;
                 align-items: center;
-                padding: 10px 20px;
+                padding: 8px 10px;
                 border-bottom: 1px solid #ddd;
             }
             .nav img {
-                height: 100px;
-                margin-right: 20px;
+                height: 50px;
+                margin-left: 23px;
             }
             .nav a, .nav .dropbtn {
                 text-decoration: none;
@@ -89,28 +89,25 @@
 
             .main-content {
                 display: flex;
-                padding: 50px;
+/*                padding: 50px;*/
+                padding-left: 50px;
+                padding-right: 50px;
             }
 
             .image-login {
                 flex: 1; /* Phần tử ảnh mở rộng ra theo tỷ lệ so với phần tử form */
                 max-width: 50%; /* Chỉ định chiều rộng tối đa của phần tử ảnh */
-
             }
 
             .image-login img {
                 width: 100%;
-                height: auto;
-
+                margin-top: 50px;
             }
 
             .login-container {
                 flex: 1; /* Phần tử form mở rộng ra theo tỷ lệ so với phần tử ảnh */
                 padding: 50px;
-
             }
-
-
 
             .login-container h1 {
                 text-align: center;
@@ -123,7 +120,6 @@
             }
 
             .login-container label {
-
                 margin-bottom: 10px;
                 font-weight: bold;
             }
@@ -161,23 +157,21 @@
                 background-color: #001F3F;
                 color: white;
             }
-            
-            
-            .wrapper{
+
+            .wrapper {
                 margin: 0 auto;
                 margin-bottom: 20px;
                 display: inline-flex;
                 background: #fff;
                 height: 40px;
                 width: 400px;
-               align-items: center;
+                align-items: center;
                 justify-content: center;
                 border-radius: 5px;
                 padding: 10px 10px;
-                box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+                box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
             }
-            .wrapper .option{
-                
+            .wrapper .option {
                 background: #fff;
                 height: 100%;
                 width: 100%;
@@ -191,16 +185,14 @@
                 border: 2px solid lightgrey;
                 transition: all 0.3s ease;
             }
-            .wrapper .option .dot{
-                
+            .wrapper .option .dot {
                 height: 20px;
                 width: 20px;
                 background: #d9d9d9;
                 border-radius: 50%;
                 position: relative;
             }
-            .wrapper .option .dot::before{
-                
+            .wrapper .option .dot::before {
                 position: absolute;
                 content: "";
                 top: 4px;
@@ -213,45 +205,53 @@
                 transform: scale(1.5);
                 transition: all 0.3s ease;
             }
-            input[type="radio"]{
-                
+            input[type="radio"] {
                 display: none;
             }
-            #option-1:checked:checked ~ .option-1,
-            #option-2:checked:checked ~ .option-2{
+            #option-1:checked ~ .option-1,
+            #option-2:checked ~ .option-2 {
                 border-color: #001F3F;
                 background: #001F3F;
             }
-            #option-1:checked:checked ~ .option-1 .dot,
-            #option-2:checked:checked ~ .option-2 .dot{
+            #option-1:checked ~ .option-1 .dot,
+            #option-2:checked ~ .option-2 .dot {
                 background: #fff;
             }
-            #option-1:checked:checked ~ .option-1 .dot::before,
-            #option-2:checked:checked ~ .option-2 .dot::before{
+            #option-1:checked ~ .option-1 .dot::before,
+            #option-2:checked ~ .option-2 .dot::before {
                 opacity: 1;
                 transform: scale(1);
             }
-            .wrapper .option span{
+            .wrapper .option span {
                 font-size: 20px;
                 color: #808080;
                 margin-left: 5px;
             }
-            #option-1:checked:checked ~ .option-1 span,
-            #option-2:checked:checked ~ .option-2 span{
+            #option-1:checked ~ .option-1 span,
+            #option-2:checked ~ .option-2 span {
                 color: #fff;
-                
             }
-
         </style>
+        <script>
+            // Thêm JavaScript để xử lý điều hướng
+            window.onload = function() {
+                document.getElementById("register-button").addEventListener("click", function(event) {
+                    event.preventDefault(); // Ngăn chặn việc gửi form ngay lập tức
+                    let studentOption = document.getElementById("option-1").checked;
+                    let tutorOption = document.getElementById("option-2").checked;
+
+                    if (studentOption) {
+                        window.location.href = "student_homepage.jsp"; // Chuyển đến trang Học Sinh
+                    } else if (tutorOption) {
+                        window.location.href = "tutor_homepage.html"; // Chuyển đến trang Gia Sư
+                    }
+                });
+            };
+        </script>
     </head>
     <body>
-        <div class="header">
-            <h5>Chào mừng đến với trung tâm gia sư miễn phí</h5>
-        </div>
         <div class="nav">
-            <img src="img/logo.png" alt="Logo">
-           
-           
+            <img src="img/logoo.png" alt="Logo">
         </div>
         <div class="main-content">
             <div class="image-login">
@@ -278,15 +278,10 @@
                             <span>Gia Sư</span>
                         </label>
                     </div>
-                    <button type="submit" class="button-login">Register</button>
-
                 </form>
-                
-                Đã có tài khoản ! <a href="MainController?action=LoginPage" class="register-link">Đăng Nhập</a>
+                Đã có tài khoản ! <a href="MainController?action=LoginPage" class="register-link">Đăng Nhập</a> hoặc 
+                <a href="MainController?action=HomePage" class="register-link">Trở về Trang Chủ</a>
             </div>
-        </div>
-        <div class="footer">
-            <p>&copy; 2024 Giasumienphi.edu.vn. All rights reserved.</p>
         </div>
     </body>
 </html>
