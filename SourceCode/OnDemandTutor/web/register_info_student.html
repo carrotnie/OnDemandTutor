@@ -1,184 +1,169 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="vi">
     <head>
-        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Điền Thông Tin Giáo Viên - Giasumienphi.edu.vn</title>
         <style>
-            .container {
-                background-color:#f4f4f4;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                border-radius: 5px;
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
             }
-            
+            .header {
+                background-color: #001F3F;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+                margin: -25px;
+            }
+            .header h1 {
+                margin: 0;
+            }
+            .nav {
+                background-color: #F8F9FA;
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                border-bottom: 1px solid #ddd;
+            }
+            .nav img {
+                height: 50px;
+                margin-right: 20px;
+            }
+            .nav a {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                padding: 10px 20px;
+                margin: 0 5px;
+                display: inline-block;
+            }
+            .nav .logout-button {
+                background-color: #FF4136;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 5px;
+                margin-left: auto;
+            }
+            .container {
+                padding: 20px;
+            }
+            .form-section {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .form-section h2 {
+                margin-top: 0;
+            }
+            .form-section form {
+                display: flex;
+                flex-direction: column;
+            }
+            .form-section label {
+                margin: 10px 0 5px;
+            }
+            .form-section input, .form-section select, .form-section textarea {
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .form-section button {
+                margin-top: 20px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background-color: #007BFF;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            .form-section button:hover {
+                background-color: #0056b3;
+            }
         </style>
     </head>
-    <body>   
     <body>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <!-- <link href="templates/fonts/font-awesome/font-awesome.min.css" rel="stylesheet" /> -->
-        <link rel="stylesheet" href="templates/module/fontawesome-free-6.3.0-web/css/all.css">
-        <link href="templates/fonts/font_entypo/entypo.css" rel="stylesheet" />
-        <link rel='stylesheet' href='templates/extra/layerslider/layerslider.css' type='text/css' media='all' />
-        <link href="templates/extra/owlcarousel/owl.carousel.css" rel="stylesheet" />
-        <link href="templates/extra/wow/animate.css" rel="stylesheet" />
-        <link href="templates/extra/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet" />
-        <link href="templates/extra/select2/select2.css" rel="stylesheet" />
-        <link href="templates/extra/sweetalert/sweetalert.css" rel="stylesheet" />
-        <link href="templates/extra/icheck/square/blue.css" rel="stylesheet" />
-        <link href="templates/extra/slick/slick.css" rel="stylesheet" />
-        <link href="templates/css/style.css?ver=1" rel="stylesheet" />
-        <link href="templates/css/module.css" rel="stylesheet" />
-        <link href="templates/css/responsive.css" rel="stylesheet" />
-        <link href="templates/css/responsive_module.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.css" />
-        <link rel="stylesheet" href="templates/css/jquery.fancybox.min.css" />
-        <script type="text/javascript" src="templates/js/jquery-1.11.0.min.js"></script>
-        
-        <div class="wrapper wrapper-detail">
+        <div class="header">
+            <h5>Điền Thông Tin Giáo Viên</h5>
+        </div>
+        <div class="nav">
+            <img src="img/logo.png" alt="Logo">
+            <a href="home.html">Trang Chủ</a>
+            <a href="profile.html">Thông Tin Cá Nhân</a>
+            <a href="students.html">Học Sinh</a>
+            <a href="schedule.html">Lịch Dạy</a>
+            <a href="logout.html" class="logout-button">Đăng Xuất</a>
+        </div>
         <div class="container">
-        <div class="row">
-        <div class="col-12 ">
-            <!-- co 1 tin -->
-        <div class="box-item module">
-            <h2>Điền thông tin học sinh</h2>
-        <form class="form-ph form-horizontal form-custom mb15" method="post" action="">
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Họ và tên (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative"><input type="text" name="hoten" id="hoten" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Địa chỉ (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative"><input type="text" name="diachi" id="diachi" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Điện thoại (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative"><input type="text" name="dienthoai" id="dienthoai" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Lớp (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative">
-                        <select class="form-control select2" name="lop" id="lop" style="width:100%;">
-                            <option value="">- Chọn lớp -</option>
-                            <option value="f25134348f2de21c47da686e2dee2d94df9f4ca8">Lớp 1</option>
-                            <option value="902a3a31926cf0c362fff833ec992d9f1a3d0b0f">Lớp 2</option>
-                            <option value="38ede566afe6aad0751ed7f94d071c4c1c2377b6">Lớp 3</option>
-                            <option value="2402a92080ca1d21f0b90196e743bb1d0dc04ab7">Lớp 4 </option>
-                            <option value="b3feb198f50966df492afa690e9e17a20351d323">Lớp 5</option>
-                            <option value="63e87e3cead0294e3326e9b667a525d4cb051e25">Lớp 6</option>
-                            <option value="0dba71367ba12d066dbc9601123afda3be337250">Lớp 7</option>
-                            <option value="622a4dc6e951fde6bb60d01175dd2642cb6f7c4a">Lớp 8</option>
-                            <option value="073ef4b005a32cb2d18d88906b2a8bad3fca9183">Lớp 9</option>
-                            <option value="4e8c172403291e7ef62eb03a74614b2ffd427799">Lớp 10</option>
-                            <option value="c9005dee94e0216539bb4653e68a1edecdaac161">Lớp 11</option>
-                            <option value="40fc9be5985d5f1217837b2ee3e742a6749523b6">Lớp 12</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Môn học (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative">
-                        <select class="form-control select2" name="monhoc[]" id="monhoc" style="width:100%;">
-                            <option value="1d1c0e6d701687c966d740f4cc92200837ac4ed6">Toán Học</option>
-                            <option value="e6397b84cb1121a3779e7a55572b301ac1396cb2">Vật Lý</option>
-                            <option value="2a0792a7778030454c35f3adfa1245ab3fb1be89">Hóa Học</option>
-                            <option value="2b3582d09d5d0249091333802d6c21eca845dea4">Sinh Học</option>
-                            <option value="3a9c01809afeb0899606fa9a9399a0e6f4b2282d">Tiếng Anh</option>
-                            <option value="299f27925a030d0a613cd9448a71e4dda07a7a5f">Lịch Sử</option>
-                            <option value="96a61548624f9fbc5993f27d02846f3ad7da346a">Địa Lí</option>
-                            <option value="3298ff46d9955429b19dcec141519b994087d1ac">Văn Học</option>
-                            <option value="6c3f12e99efa52f66b6584ec481f8684377b9c73">Anh Văn - Luyện Thi TOEIC</option>
-                            <option value="7d0358937420eb4f28b0894ccc30e35529771720">Anh Văn - Luyện Thi IELTS </option>
-                            <option value="bef4c4a56554b5e0c7db0e67d2b08c3cf7226ada">Tiếng Trung</option>
-                            <option value="06d38336c194f2379da03f6954dc9d0473ce610a">Tiếng Nhật</option>
-                            <option value="8273dddd4d2429cbb952c548649db2c9d0ae58a1">Tiếng Hàn</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Học lực hiện tại (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative">
-                        <select class="form-control select2" name="hocluc" id="hocluc" style="width:100%;">
-                            <option value="">- Chọn học lực -</option>
-                            <option value="c8a0692a7d077180c33147d5d7978f88a6519987">Giỏi</option>
-                            <option value="ccbac5ecbcbd30cf2e06412990555c7b96a3bfbe">Khá</option>
-                            <option value="7864072536780859d6acbd2d1f6b97d51f2ca4fb">Trung bình</option>
-                            <option value="cb61d430653b7f3c78186d71aa8772b875271bf2">Yếu</option>
-                            <option value="6ffd632a72d89ab01dab5eee4a01080139d91bd1">Kém</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Số buổi (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="row5">
-                        <div class="col-xs-6 plr5">
-                            <select class="form-control select2" name="sobuoi" id="sobuoi" style="width:100%;">
-                                <option value="">- Chọn số buổi/tuần -</option>
-                                <option value="9360112f543b517b6f54c2f1bd8a0e2fa85dbc52">1 buổi</option>
-                                <option value="6c1ce2eae827c1c518f1cdac03cb00b0c10e29ba">2 buổi</option>
-                                <option value="2b39b066b634787b938bcedd4f148f802fd7a7bc">3 buổi</option>
-                                <option value="dead60ff64f1748180fd367cf99291cc9c15c555">4 buổi</option>
-                                <option value="8d9038fb27c83cda80dfd006cc1ee08334e80539">5 buổi</option>
-                                <option value="a38311a0c6ae1dcd42c6654e7c7bd7bf607ed7a3">6 buổi</option>
-                                <option value="04fe3608a4b06f144e92ad6fcaf956efbccb5385">7 buổi</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Thời gian học (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="relative"><input type="text" name="thoigianhoc" id="thoigianhoc" class="form-control" placeholder="Ví dụ: Thứ 2, Thứ 3 ..."></div>
-                </div>
-            </div>
-            <div class="row form-group mb-4">
-                <label class="col-md-2 control-label">Yêu cầu (<span class="color-red">*</span>)</label>
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <select class="form-control select2" name="trinhdo" id="trinhdo" style="width:100%;">
-                                <option value="">- Chọn trình độ -</option>
-                                <option value="6ec0e266acaf766c89889bb807e8831793bf2200">Giáo viên</option>
-                                <option value="a577f132848b0d351a17cd924bffba1fa182ce15">Cử Nhân</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <select class="form-control select2" name="gioitinh" id="gioitinh" style="width:100%;">
-                                <option value="">- Chọn giới tính -</option>
-                                <option value="0">Nam</option>
-                                <option value="1">Nữ</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="form-section">
+                <h2>Thông Tin Cá Nhân</h2>
+                <form action="submit-profile.html" method="post" enctype="multipart/form-data">
+                    <!-- Personal Information -->
+                    <label for="name">Tên:</label>
+                    <input type="text" id="name" name="name" required>
 
-            <div class="row form-group">
-                <div class="col-md-2"></div>
-                <div class="col-md-10 ">
-                    <button class="btn border-radius0 btn-dangky" type="submit">Đăng ký</button>
-                </div>
-            </div>
-        </form> 
+                    <label for="gender">Giới tính:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected hidden>Chọn giới tính</option>
+                        <option value="male">Nam</option>
+                        <br/>
+                        <option value="female">Nữ</option>
+                    </select>
 
+                    <label for="dob">Năm Sinh:</label>
+                    <input type="number" id="dob" name="dob" min="2004" max="2023" required>
+
+                    <label for="address">Địa Chỉ:</label>
+                    <input type="text" id="address" name="address" required>
+
+                    <label for="phone">Số Điện Thoại:</label>
+                    <input type="tel" id="phone" name="phone" required>
+
+                    <label for="class">Chọn Lớp:</label>
+                    <select id="class" name="class" required>
+                        <option value="" disabled selected hidden>Chọn lớp</option>
+                        <option value="1">Lớp 1</option>
+                        <br/>
+                        <option value="2">Lớp 2</option>
+                        <br/>
+                        <option value="3">Lớp 3</option>
+                        <br/>
+                        <option value="4">Lớp 4</option>
+                        <br/>
+                        <option value="5">Lớp 5</option>
+                        <br/>
+                        <option value="6">Lớp 6</option>
+                        <br/>
+                        <option value="7">Lớp 7</option>
+                        <br/>
+                        <option value="8">Lớp 8</option>
+                        <br/>
+                        <option value="9">Lớp 9</option>
+                        <br/>
+                        <option value="10">Lớp 10</option>
+                        <br/>
+                        <option value="11">Lớp 11</option>
+                        <br/>
+                        <option value="12">Lớp 12</option>
+                    </select>
+                    <!-- Profile Picture Upload -->
+                    <label for="profile_picture">Ảnh Đại Diện:</label>
+                    <input type="file" id="profile_picture" name="profile_picture" accept=".jpg,.jpeg,.png">
+                    <!-- Submit Button -->
+                    <button type="submit">Lưu Thông Tin</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

@@ -232,22 +232,6 @@
                 color: #fff;
             }
         </style>
-        <script>
-            // Thêm JavaScript để xử lý điều hướng
-            window.onload = function() {
-                document.getElementById("register-button").addEventListener("click", function(event) {
-                    event.preventDefault(); // Ngăn chặn việc gửi form ngay lập tức
-                    let studentOption = document.getElementById("option-1").checked;
-                    let tutorOption = document.getElementById("option-2").checked;
-
-                    if (studentOption) {
-                        window.location.href = "student_homepage.jsp"; // Chuyển đến trang Học Sinh
-                    } else if (tutorOption) {
-                        window.location.href = "tutor_homepage.html"; // Chuyển đến trang Gia Sư
-                    }
-                });
-            };
-        </script>
     </head>
     <body>
         <div class="nav">
@@ -278,6 +262,7 @@
                             <span>Gia Sư</span>
                         </label>
                     </div>
+                    <button type="submit" class="button-login" name="submit">Register</button>
                 </form>
                 Đã có tài khoản ! <a href="MainController?action=LoginPage" class="register-link">Đăng Nhập</a> hoặc 
                 <a href="MainController?action=HomePage" class="register-link">Trở về Trang Chủ</a>
