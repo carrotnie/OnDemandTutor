@@ -14,6 +14,9 @@ public class TutorDTO {
     private String phoneNumber;
     private String location;
     private int yob;
+    private int Id;
+    private String subjectName;
+    private double rating;
 
     public TutorDTO() {
     }
@@ -25,6 +28,42 @@ public class TutorDTO {
         this.yob = yob;
     }
 
+    public TutorDTO(String name, String phoneNumber, String location, int yob, int Id, String subjectName, double rating) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.location = location;
+        this.yob = yob;
+        this.Id = Id;
+        this.subjectName = subjectName;
+        this.rating = rating;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    
+    
     public String getName() {
         return name;
     }
