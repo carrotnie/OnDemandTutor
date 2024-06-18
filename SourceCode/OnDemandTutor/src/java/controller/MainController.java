@@ -17,7 +17,7 @@ public class MainController extends HttpServlet{
     private static final String MAIN_PAGE ="home.html";
     
     private static final String LOGIN_PAGE="LoginPage";
-    private static final String LOGIN_PAGE_VIEW="login.html";
+    private static final String LOGIN_PAGE_VIEW="login.jsp";
     
     private static final String LOGIN="Login";
     private static final String LOGIN_CONTROLLER="LoginController";
@@ -27,6 +27,7 @@ public class MainController extends HttpServlet{
     
     private static final String REGISTER="Register";
     private static final String REGISTER_CONTROLLER="RegisterController";
+    
     
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
         response.setContentType("text/html;charset=UTF-8");
