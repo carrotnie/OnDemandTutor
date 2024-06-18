@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Đăng nhập - Giasumienphi.edu.vn</title>
+        <title>Đăng nhập</title>
         <%@ page contentType="text/html;charset=UTF-8" language="java" %>
         <style>
             body {
@@ -25,15 +25,15 @@
                 margin: 0;
             }
             .nav {
-                background-color: #F8F9FA;
+                background-color: #001e54;
                 display: flex;
                 align-items: center;
-                padding: 10px 20px;
+                padding: 8px 10px;
                 border-bottom: 1px solid #ddd;
             }
             .nav img {
-                height: 100px;
-                margin-right: 20px;
+                height: 50px;
+                margin-left: 23px;
             }
             .nav a, .nav .dropbtn {
                 text-decoration: none;
@@ -90,7 +90,8 @@
 
             .main-content {
                 display: flex;
-                padding: 50px;
+                padding-left: 50px;
+                padding-right: 50px;
             }
 
             .image-login {
@@ -101,7 +102,8 @@
 
             .image-login img {
                 width: 100%;
-                height: auto;
+                margin-top: 50px;
+                
 
             }
 
@@ -167,11 +169,8 @@
         </style>
     </head>
     <body>
-        <div class="header">
-            <h5>Chào mừng đến với trung tâm gia sư miễn phí</h5>
-        </div>
         <div class="nav">
-            <img src="img/logo.png" alt="Logo">
+            <img src="img/logoo.png" alt="Logo">
            
         </div>
         <div class="main-content" >
@@ -192,11 +191,9 @@
                 String error=(String) request.getAttribute("ERROR");
                 if(error==null) error="";
                 %>
-                Chưa có tài khoản ? <a href="MainController?action=RegisterPage" class="register-link">Đăng Ký</a>
+                Chưa có tài khoản ? <a href="MainController?action=RegisterPage" class="register-link">Đăng Ký</a> hoặc
+                <a href="MainController?action=HomePage" class="register-link">Quay lại</a>
             </div>
-        </div>
-        <div class="footer">
-            <p>&copy; 2024 Giasumienphi.edu.vn. All rights reserved.</p>
         </div>
     </body>
     <%= error %>

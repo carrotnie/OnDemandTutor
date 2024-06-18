@@ -19,7 +19,7 @@
                 margin: 0;
             }
             .nav {
-                background-color: #007bff;
+                background-color: #001F3F;
                 display: flex;
                 align-items: center;
                 padding: 10px 20px;
@@ -28,11 +28,11 @@
             }
             .nav img {
                 height: 50px;
-                margin-right: 20px;
+                margin-left: 14px;
             }
             .nav a, .nav .dropbtn {
                 text-decoration: none;
-                color: black;
+                color: #ddd;
                 font-weight: bold;
                 padding: 14px 20px;
                 margin: 0 5px;
@@ -230,7 +230,7 @@
                     </div>
                     <div class="teacher-info">
                         <h3><%= tutor.getName()%></h3>
-                        <p>Môn: <%= tutor.getSubjectName()%></p>
+                        <p>Môn: <%= tutor.getSubjectName()+1%></p>
                         <p>Đánh giá: <%= String.format("%.1f", tutor.getRating())%> ★</p>
                         <a href="#" class="btn">Xem thêm</a>
                     </div>
