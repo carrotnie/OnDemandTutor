@@ -145,4 +145,56 @@ public class TutorDAO {
         return rowUpdated;
     }
     
+    public List<TutorDTO> searchTutors(String search) throws SQLException, ClassNotFoundException {
+        List<TutorDTO> tutors = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
+                         + "STRING_AGG(s.[Name], ', ') AS SubjectName, "
+                         + "COALESCE(AVG(r.Rating), 0) AS AverageRating "
+                         + "FROM Tutor t "
+                         + "JOIN Account a ON t.AccountId = a.Id "
+                         + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
+                         + "JOIN Subject s ON ts.SubjectId = s.Id "
+                         + "LEFT JOIN Rating r ON t.Id = r.TutorId "
+                         + "WHERE a.[Name] LIKE ? "
+                         + "GROUP BY t.Id, a.[Name] "
+                         + "ORDER BY AverageRating DESC";
+
+                // Chuẩn bị câu lệnh với điều kiện tìm kiếm
+                stm = conn.prepareStatement(query);
+                stm.setString(1, "%" + search + "%");
+
+                // Thực thi câu lệnh SQL
+                rs = stm.executeQuery();
+
+                // Duyệt qua kết quả trả về
+                while (rs.next()) {
+                    TutorDTO tutor = new TutorDTO();
+                    tutor.setId(rs.getInt("TutorId"));
+                    tutor.setName(rs.getString("TutorName"));
+                    tutor.setSubjectName(rs.getString("SubjectName"));
+                    tutor.setRating(rs.getDouble("AverageRating"));
+                    tutors.add(tutor);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        // Trả về danh sách các gia sư
+        return tutors;
+    }
+    
 }

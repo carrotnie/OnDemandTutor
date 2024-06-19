@@ -1,3 +1,9 @@
+<%-- 
+    Document   : searchTutors
+    Created on : Jun 19, 2024, 3:43:35 PM
+    Author     : ASUS
+--%>
+
 <%@page import="java.util.List"%>
 <%@page import="tutor.TutorDTO"%>
 <%@page import="tutor.TutorDAO"%>
@@ -7,7 +13,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>STUDENT HOME PAGE</title>
+        <title>Giasumienphi.edu.vn</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -343,8 +349,8 @@
             <img src="<%=request.getContextPath()%>/img/logoo.png" alt="Logo">
             <div class="nav-links">
                 <a href="ViewStuInfoController">Thông tin cá nhân</a>
-                <a href="student_timetable.jsp">Lịch học</a>
-                <a href="ScheduleController">Tình trạng đăng ký</a>
+                <a href="studentTimeTable.jsp">Lịch học</a>
+                <a href="#">Tình trạng đăng ký</a>
                 <a href="#">Đánh giá khóa học</a>
             </div>
             <form action="SearchTutorController" method="GET">
@@ -443,11 +449,13 @@
         <div class="teachers-section">
             <div class="teachers-container">
                 <%
-                    TutorDAO dao = new TutorDAO();
-                    List<TutorDTO> tutors = dao.info();
-                    if (tutors.isEmpty()) {
+                    // Lấy danh sách các gia sư từ request
+                    List<TutorDTO> tutors = (List<TutorDTO>) request.getAttribute("tutors");
+                    if (tutors == null || tutors.isEmpty()) {
+                        // Nếu không có gia sư nào được tìm thấy
                         out.println("<p>No tutors found.</p>");
                     } else {
+                        // Duyệt qua danh sách các gia sư và hiển thị
                         for (TutorDTO tutor : tutors) {
                 %>
                 <div class="teacher-card">
@@ -458,7 +466,7 @@
                         <h3><%= tutor.getName()%></h3>
                         <p>Môn: <%= tutor.getSubjectName()%></p>
                         <p>Đánh giá: <%= String.format("%.1f", tutor.getRating())%> ★</p>
-                        <a href="#" class="btn">Xem thêm</a>
+                        <a href="<%= request.getContextPath()%>/tutorDetails?tutorId=<%= tutor.getId() %>" class="btn">Xem thêm</a>
                     </div>
                 </div>
                 <%
