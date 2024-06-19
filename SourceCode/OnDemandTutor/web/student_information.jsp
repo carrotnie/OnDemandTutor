@@ -135,7 +135,7 @@
 </head>
 <body>
     <div class="container">
-        <a href="student.html" class="back-arrow">
+        <a href="student_homepage.jsp" class="back-arrow">
             <i class="bi bi-arrow-left"></i>
         </a>
         <div class="header">
