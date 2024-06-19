@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,27 +21,49 @@ import java.util.List;
  */
 public class TutorDAO {
 
-    public TutorDTO getTeacherByUsername(String username) throws ClassNotFoundException {
+    private static final String GET_TUTOR_BY_ACCOUNT_ID
+            = "SELECT Account.Name, CV.PhoneNumber, CV.Location, CV.Yob "
+            + "FROM CV JOIN Tutor ON Tutor.Id = CV.TutorId "
+            + "JOIN Account ON Account.Id = Tutor.AccountId WHERE Tutor.AccountId = ?";
+
+    private static final Logger LOGGER = Logger.getLogger(TutorDAO.class.getName());
+
+    public TutorDTO getTutorByAccountId(int accountId) throws ClassNotFoundException, SQLException {
         TutorDTO tutor = null;
-        String query = "SELECT Account.Name, CV.PhoneNumber, CV.Location, CV.Yob "
-                + "FROM CV join Tutor on Tutor.Id = CV.TutorId "
-                + "join Account on Account.Id = Tutor.AccountId WHERE AccountId like = ?";
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
 
-        try (Connection connection = DBUtils.getConnection();
-                PreparedStatement statement = connection.prepareStatement(query)) {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GET_TUTOR_BY_ACCOUNT_ID);
+                ptm.setInt(1, accountId);
+                rs = ptm.executeQuery();
 
-            statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
+                if (rs.next()) {
+                    int id = rs.getInt("Id");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String location = rs.getString("Location");
+                    int yob = rs.getInt("Yob");
+                    String name = rs.getString("Name");
+                    tutor = new TutorDTO(phoneNumber, location, yob, id);
+                    tutor.setName(name);
 
-            if (resultSet.next()) {
-                tutor = new TutorDTO();
-                tutor.setName(resultSet.getString("Name"));
-                tutor.setPhoneNumber(resultSet.getString("PhoneNumber"));
-                tutor.setLocation(resultSet.getString("Location"));
-                tutor.setYob(resultSet.getInt("Yob"));
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error at StudentDAO: " + e.toString());
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return tutor;
     }
@@ -83,5 +107,42 @@ public class TutorDAO {
         }
         return tutors;
     }
+    
+    public boolean updateTutor(TutorDTO tutor) throws ClassNotFoundException, SQLException {
+        boolean rowUpdated = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
 
+        // Assuming SQL Server syntax for demonstration
+        String UPDATE_TUTOR_BY_ACCOUNT_ID = "UPDATE CV "
+                + "SET CV.PhoneNumber = ?, CV.Location = ?, CV.Yob = ? "
+                + "FROM CV JOIN Tutor ON Tutor.Id = CV.TutorId "
+                + "JOIN Account ON Account.Id = Tutor.AccountId "
+                + "WHERE Tutor.AccountId = ?; "
+                + "UPDATE Account SET Name = ? "
+                + "WHERE Account.Id IN (SELECT AccountId FROM Tutor WHERE AccountId = ?);";
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_TUTOR_BY_ACCOUNT_ID);
+                ptm.setString(1, tutor.getName());
+                ptm.setString(2, tutor.getPhoneNumber());
+                ptm.setString(3, tutor.getLocation());
+                ptm.setInt(4, tutor.getYob());
+                rowUpdated = ptm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error updating tutor", e);
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return rowUpdated;
+    }
+    
 }

@@ -20,6 +20,13 @@ public class TutorDTO {
 
     public TutorDTO() {
     }
+    
+    public TutorDTO(String phoneNumber, String location, int yob, int Id) {
+        this.phoneNumber = phoneNumber;
+        this.location = location;
+        this.yob = yob;
+        this.Id = Id;
+    }
 
     public TutorDTO(String name, String phoneNumber, String location, int yob) {
         this.name = name;

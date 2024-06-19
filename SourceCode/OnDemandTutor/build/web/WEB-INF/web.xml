@@ -17,8 +17,12 @@
         <servlet-class>controller.UpdateStudentInfoController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TutorhomeController</servlet-name>
-        <servlet-class>controller.TutorhomeController</servlet-class>
+        <servlet-name>UpdateTutorInfoController</servlet-name>
+        <servlet-class>controller.UpdateTutorInfoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTutorInfoController</servlet-name>
+        <servlet-class>controller.ViewTutorInfoController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
@@ -37,8 +41,12 @@
         <url-pattern>/SearchController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TutorhomeController</servlet-name>
-        <url-pattern>/TutorhomeController</url-pattern>
+        <servlet-name>UpdateTutorInfoController</servlet-name>
+        <url-pattern>/UpdateTutorInfoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTutorInfoController</servlet-name>
+        <url-pattern>/ViewTutorInfoController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
