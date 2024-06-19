@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -13,87 +14,97 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            min-height: 100vh;
+            background-color: #f9f9f9;
         }
         .container {
             background-color: #fff;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            width: 800px;
-            text-align: center;
+            width: 90%;
+            max-width: 1200px;
+            text-align: center; /* Center the title */
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .status {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e7f3fe;
-            border: 1px solid #b3d7ff;
-            border-radius: 4px;
-            display: none;
-        }
-        .error {
-            color: #ff0000;
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            text-align: left;
         }
         table, th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
         }
         th {
-            background-color: #4682b4;
+            background-color: #001e54;
             color: white;
-            padding: 8px;
-            text-align: left;
         }
-        td {
-            padding: 8px;
-            text-align: left;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #001e54;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Tình trạng xác nhận đăng ký học</h1>
-        <table border="1">
-            <tr>
-                <th>No</th>
-                <th>Start Day</th>
-                <th>End Day</th>
-                <th>Day of Slot</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Tutor Name</th>
-                <th>Status</th>
-            </tr>
-                <tr>
-                    <td>1</td>
-                    <td>24/07/2003</td>
-                    <td>24/07/2003</td>
-                    <td>thứ hai</td>
-                    <td>04:30</td>
-                    <td>05:30</td>
-                    <td>Linh</td>
-                    <td>đang xử lý</td>
-                </tr>
-        </table>
+        <c:if test="${not empty schedules}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Ngày học</th>
+                        <th>Giờ bắt đầu</th>
+                        <th>Giờ kết thúc</th>
+                        <th>Tên gia sư</th>
+                        <th>Tình trạng</th>
+                        <th>Tên môn học</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="schedule" items="${schedules}" varStatus="status">
+                        <tr>
+                            <td>${status.count}</td>
+                            <td>${schedule.startDay}</td>
+                            <td>${schedule.endDay}</td>
+                            <td>${schedule.dayOfSlot}</td>
+                            <td>${schedule.startTime}</td>
+                            <td>${schedule.endTime}</td>
+                            <td>${schedule.tutorName}</td>
+                            <td>${schedule.status}</td>
+                            <td>${schedule.subjectName}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${empty schedules}">
+            <p>Hiện bạn chưa có lịch học nào</p>
+        </c:if>
+        <a href="student_homepage.jsp" class="back-button">Quay lại trang chủ</a>
     </div>
 </body>
 </html>

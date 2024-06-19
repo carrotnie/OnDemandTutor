@@ -205,7 +205,7 @@
             <div class="nav-links">
                 <a href="ViewStuInfoController">Thông tin cá nhân</a>
                 <a href="studentTimeTable.jsp">Lịch học</a>
-                <a href="#">Tình trạng đăng ký</a>
+                <a href="ScheduleController">Tình trạng đăng ký</a>
                 <a href="#">Đánh giá khóa học</a>
             </div>
             <div class="search-container">
