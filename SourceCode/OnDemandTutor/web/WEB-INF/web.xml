@@ -28,6 +28,10 @@
         <servlet-name>ScheduleController</servlet-name>
         <servlet-class>controller.ScheduleController</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>SearchTutorController</servlet-name>
+        <servlet-class>controller.SearchTutorController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ScheduleController</servlet-name>
         <url-pattern>/schedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchTutorController</servlet-name>
+        <url-pattern>/SearchTutorController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -122,14 +122,14 @@
             display: block;
             width: calc(100% - 140px); /* Align with the rest of the form */
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #001e54;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             height: 40px; /* Đặt chiều cao cho nút lưu */
             font-family: Arial, sans-serif; /* Đảm bảo phông chữ nhất quán */
-            margin: 20px auto 0 auto; /* Center the button */
+            margin: 10px auto 0 auto; /* Center the button */
         }
     </style>
 </head>
