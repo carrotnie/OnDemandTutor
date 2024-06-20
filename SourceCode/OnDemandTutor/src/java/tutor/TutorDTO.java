@@ -10,97 +10,156 @@ package tutor;
  * @author Long Dinh
  */
 public class TutorDTO {
-    private String name;
-    private String phoneNumber;
-    private String location;
-    private int yob;
+
+    private String Personal_Id;
+    private String Gender;
+    private int Experience;
+    private int Grade;
+    private String Name;
+    private String PhoneNumber;
+    private String Location;
+    private int Yob;
+    private int AccountId;
     private int Id;
     private String subjectName;
     private double rating;
 
     public TutorDTO() {
+        this.Personal_Id = "";
+        this.Gender = "";
+        this.Experience = 0;
+        this.Grade = 0;
+        this.PhoneNumber = "";
+        this.Location = "";
+        this.Yob = 0;
+        this.AccountId = 0;
+        this.Id = 0;
+        this.Name = "";
     }
     
-    public TutorDTO(String phoneNumber, String location, int yob, int Id) {
-        this.phoneNumber = phoneNumber;
-        this.location = location;
-        this.yob = yob;
-        this.Id = Id;
+    
+
+    public String getPersonalId() {
+        return Personal_Id;
     }
 
-    public TutorDTO(String name, String phoneNumber, String location, int yob) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.location = location;
-        this.yob = yob;
+    public String getGender() {
+        return Gender;
     }
 
-    public TutorDTO(String name, String phoneNumber, String location, int yob, int Id, String subjectName, double rating) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.location = location;
-        this.yob = yob;
-        this.Id = Id;
-        this.subjectName = subjectName;
-        this.rating = rating;
+    public int getExperience() {
+        return Experience;
+    }
+
+    public int getGrade() {
+        return Grade;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public String getLocation() {
+        return Location;
+    }
+
+    public int getYob() {
+        return Yob;
     }
 
     public int getId() {
         return Id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-
     public String getSubjectName() {
         return subjectName;
-    }
-
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
     }
 
     public double getRating() {
         return rating;
     }
 
+    public void setPersonalId(String Personal_Id) {
+        this.Personal_Id = Personal_Id;
+    }
+
+    public void setGender(String Gender) {
+        this.Gender = Gender;
+    }
+
+    public void setExperience(int Experience) {
+        this.Experience = Experience;
+    }
+
+    public void setGrade(int Grade) {
+        this.Grade = Grade;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public void setPhoneNumber(String PhoneNumber) {
+        this.PhoneNumber = PhoneNumber;
+    }
+
+    public void setLocation(String Location) {
+        this.Location = Location;
+    }
+
+    public void setYob(int Yob) {
+        this.Yob = Yob;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     public void setRating(double rating) {
         this.rating = rating;
     }
 
+    public int getAccountId() {
+        return AccountId;
+    }
+
+    public void setAccountId(int AccountId) {
+        this.AccountId = AccountId;
+    }
+
     
     
-    public String getName() {
-        return name;
+    public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id) {
+        this.Personal_Id = Personal_Id;
+        this.Gender = Gender;
+        this.Experience = Experience;
+        this.Grade = Grade;
+        this.PhoneNumber = PhoneNumber;
+        this.Location = Location;
+        this.Yob = Yob;
+        this.AccountId = AccountId;
+        this.Id = Id;
+        this.Name = Name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
 
-    public String getLocation() {
-        return location;
-    }
 
-    public int getYob() {
-        return yob;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setYob(int yob) {
-        this.yob = yob;
+    public TutorDTO(String Name, String PhoneNumber, String location, int Yob, int Id, String subjectName, double rating) {
+        this.Name = Name;
+        this.PhoneNumber = PhoneNumber;
+        this.Location = Location;
+        this.Yob = Yob;
+        this.Id = Id;
+        this.subjectName = subjectName;
+        this.rating = rating;
     }
 
 }

@@ -21,14 +21,16 @@ import java.util.logging.Logger;
  */
 public class TutorDAO {
 
-    private static final String GET_TUTOR_BY_ACCOUNT_ID
-            = "SELECT Account.Name, CV.PhoneNumber, CV.Location, CV.Yob "
-            + "FROM CV JOIN Tutor ON Tutor.Id = CV.TutorId "
-            + "JOIN Account ON Account.Id = Tutor.AccountId WHERE Tutor.AccountId = ?";
-
     private static final Logger LOGGER = Logger.getLogger(TutorDAO.class.getName());
+    private static final String GET_TUTOR_BY_ACCOUNT_ID
+            = "select Tutor.Id, Tutor.AccountId, Account.Name, CV.PhoneNumber, CV.Yob, "
+            + "CV.Location, CV.Personal_ID, CV.Gender, CV.Experience, CV.Grade "
+            + "from CV "
+            + "join Tutor on Tutor.Id = CV.TutorId "
+            + "join Account on Account.Id = Tutor.AccountId "
+            + "WHERE Tutor.AccountId = ?";
 
-    public TutorDTO getTutorByAccountId(int accountId) throws ClassNotFoundException, SQLException {
+    public TutorDTO getTutorByAccountId(int accountId) throws SQLException {
         TutorDTO tutor = null;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -40,30 +42,28 @@ public class TutorDAO {
                 ptm = conn.prepareStatement(GET_TUTOR_BY_ACCOUNT_ID);
                 ptm.setInt(1, accountId);
                 rs = ptm.executeQuery();
-
                 if (rs.next()) {
                     int id = rs.getInt("Id");
                     String phoneNumber = rs.getString("PhoneNumber");
                     String location = rs.getString("Location");
                     int yob = rs.getInt("Yob");
+                    String personalId = rs.getString("Personal_ID");
+                    String gender = rs.getString("Gender");
+                    int experience = rs.getInt("Experience");
+                    int grade = rs.getInt("Grade");
                     String name = rs.getString("Name");
-                    tutor = new TutorDTO(phoneNumber, location, yob, id);
-                    tutor.setName(name);
-
+                    tutor = new TutorDTO(personalId, gender, experience, grade, phoneNumber, location, yob, accountId, id);
+                    tutor.setName(name); // Set name from Account table
                 }
+            } else {
+                System.out.println("Failed to connect to the database.");
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error at StudentDAO: " + e.toString());
+            LOGGER.log(Level.SEVERE, "Error at TutorDAO: " + e.toString());
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (ptm != null) {
-                ptm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            if (rs != null) rs.close();
+            if (ptm != null) ptm.close();
+            if (conn != null) conn.close();
         }
         return tutor;
     }
@@ -110,36 +110,61 @@ public class TutorDAO {
     
     public boolean updateTutor(TutorDTO tutor) throws ClassNotFoundException, SQLException {
         boolean rowUpdated = false;
-        Connection conn = null;
-        PreparedStatement ptm = null;
+        Connection connection = null;
+        PreparedStatement ptmCV = null;
+        PreparedStatement ptmAccount = null;
 
-        // Assuming SQL Server syntax for demonstration
-        String UPDATE_TUTOR_BY_ACCOUNT_ID = "UPDATE CV "
-                + "SET CV.PhoneNumber = ?, CV.Location = ?, CV.Yob = ? "
+        String UPDATE_CV = "UPDATE CV "
+                + "SET PhoneNumber = ?, Location = ?, Yob = ?, PersonalId = ?, Gender = ?, Experience = ? "
                 + "FROM CV JOIN Tutor ON Tutor.Id = CV.TutorId "
                 + "JOIN Account ON Account.Id = Tutor.AccountId "
-                + "WHERE Tutor.AccountId = ?; "
-                + "UPDATE Account SET Name = ? "
-                + "WHERE Account.Id IN (SELECT AccountId FROM Tutor WHERE AccountId = ?);";
+                + "WHERE Tutor.AccountId = ?";
+
+        String UPDATE_ACCOUNT = "UPDATE Account SET Name = ? "
+                + "WHERE Id = ?";
 
         try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
-                ptm = conn.prepareStatement(UPDATE_TUTOR_BY_ACCOUNT_ID);
-                ptm.setString(1, tutor.getName());
-                ptm.setString(2, tutor.getPhoneNumber());
-                ptm.setString(3, tutor.getLocation());
-                ptm.setInt(4, tutor.getYob());
-                rowUpdated = ptm.executeUpdate() > 0;
+            connection = DBUtils.getConnection();
+            connection.setAutoCommit(false); // Start transaction
+
+            // Update CV
+            ptmCV = connection.prepareStatement(UPDATE_CV);
+            ptmCV.setString(1, tutor.getPhoneNumber());
+            ptmCV.setString(2, tutor.getLocation());
+            ptmCV.setInt(3, tutor.getYob());
+            ptmCV.setString(4, tutor.getPersonalId());
+            ptmCV.setString(5, tutor.getGender());
+            ptmCV.setInt(6, tutor.getExperience());
+            ptmCV.setInt(7, tutor.getAccountId());
+            ptmCV.executeUpdate();
+
+            // Update Account
+            ptmAccount = connection.prepareStatement(UPDATE_ACCOUNT);
+            ptmAccount.setString(1, tutor.getName());
+            ptmAccount.setInt(2, tutor.getAccountId());
+            ptmAccount.executeUpdate();
+
+            connection.commit(); // Commit transaction
+            rowUpdated = true;
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback(); // Rollback transaction on error
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error updating tutor", e);
+            e.printStackTrace();
         } finally {
-            if (ptm != null) {
-                ptm.close();
+            if (ptmCV != null) {
+                ptmCV.close();
             }
-            if (conn != null) {
-                conn.close();
+            if (ptmAccount != null) {
+                ptmAccount.close();
+            }
+            if (connection != null) {
+                connection.setAutoCommit(true); // Reset auto-commit to true
+                connection.close();
             }
         }
         return rowUpdated;
