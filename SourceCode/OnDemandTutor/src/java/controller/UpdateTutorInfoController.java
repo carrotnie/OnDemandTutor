@@ -80,9 +80,15 @@ public class UpdateTutorInfoController extends HttpServlet {
         String location = request.getParameter("location");
         String yobStr = request.getParameter("yob");
         String name = request.getParameter("name");
+        String personalId = request.getParameter("personalId");
+        String gender = request.getParameter("gender");
+        String experienceStr = request.getParameter("experience");
+        String gradeStr = request.getParameter("grade"); // New parameter for Grade
 
         try {
             int yob = Integer.parseInt(yobStr);
+            int experience = Integer.parseInt(experienceStr); // Convert experience to int
+            int grade = Integer.parseInt(gradeStr); // Convert grade to int
 
             // Create TutorDTO object
             TutorDTO tutor = new TutorDTO();
@@ -90,6 +96,10 @@ public class UpdateTutorInfoController extends HttpServlet {
             tutor.setLocation(location);
             tutor.setYob(yob);
             tutor.setName(name);
+            tutor.setPersonalId(personalId);
+            tutor.setGender(gender);
+            tutor.setExperience(experience);
+            tutor.setGrade(grade); // Set grade
 
             // Update tutor
             boolean result = tutorDAO.updateTutor(tutor);
@@ -99,6 +109,9 @@ public class UpdateTutorInfoController extends HttpServlet {
             } else {
                 response.sendRedirect("failed_update_tutor_info.html"); // Redirect or display failure message
             }
+        } catch (NumberFormatException e) {
+            // Handle number format exception for yob and experience
+            throw new ServletException("Error parsing numerical fields", e);
         } catch (Exception e) {
             throw new ServletException("Error updating tutor", e);
         }

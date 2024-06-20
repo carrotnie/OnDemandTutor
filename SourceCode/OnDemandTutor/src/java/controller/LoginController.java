@@ -50,6 +50,8 @@ public class LoginController extends HttpServlet {
                     session.setAttribute("accountId", accountId); // Lưu accountId trong session
                     url = ST_PAGE;
                 } else if (TU.equals(role)) {
+                    int accountId = loginUser.getId();
+                    session.setAttribute("accountId", accountId);
                     url = TU_PAGE;
                 }
             }
