@@ -31,6 +31,12 @@ public class UserDTO {
         this.Password = Password;
         this.Role = Role;
     }
+    public UserDTO(String Name, String Username, String Password, String Role) {
+        this.Name = Name;
+        this.Username = Username;
+        this.Password = Password;
+        this.Role = Role;
+    }
 
     public int getId() {
         return Id;

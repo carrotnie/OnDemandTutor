@@ -1,3 +1,5 @@
+<%@page import="user.UserError"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -89,7 +91,7 @@
 
             .main-content {
                 display: flex;
-/*                padding: 50px;*/
+                /*                padding: 50px;*/
                 padding-left: 50px;
                 padding-right: 50px;
             }
@@ -234,6 +236,12 @@
         </style>
     </head>
     <body>
+        <%
+            UserError userError= (UserError)request.getAttribute("USER_ERROR");
+            if(userError==null) userError= new UserError();
+            String error=(String)request.getAttribute("ERROR");
+            if(error==null) error="";
+        %>
         <div class="nav">
             <img src="img/logoo.png" alt="Logo">
         </div>
@@ -243,27 +251,31 @@
             </div>
             <div class="login-container">
                 <h1>Đăng Ký</h1>
-                <form action="login_process.html" method="POST">
-                    <label for="username">Tên đăng nhập:</label>
-                    <input type="text" id="username" name="username" required>
-                    <label for="password">Mật khẩu:</label>
-                    <input type="password" id="password" name="password" required>
-                    <label for="password">Nhập lại mật khẩu:</label>
-                    <input type="password" id="password" name="password" required>
+                <form action="MainController" method="POST">
+                    <input type="hidden" name="action" value="Register">
+                    <label>Họ và tên:</label>
+                    <input type="text" id="Name" name="Name" required><%= userError.getNameError()%>
+                    <label for="Username">Tên đăng nhập:</label>
+                    <input type="text" id="Username" name="Username" required><%= userError.getUsernameError()%>
+                    <label>Mật khẩu:</label>
+                    <input type="Password" id="Password" name="Password" required><%= userError.getPasswordError()%>
+                    <label>Nhập lại mật khẩu:</label>
+                    <input type="password" id="Confirm" name="Confirm" required><%= userError.getConfirmError()%>
                     <div class="wrapper">
-                        <input type="radio" name="select" id="option-1" checked>
-                        <input type="radio" name="select" id="option-2">
-                        <label for="option-1" class="option option-1">
+                        <input type="radio" name="Role" value="student" id="option-1" checked>
+                        <input type="radio" name="Role" value="tutor" id="option-2">
+                        <label for="student" class="option option-1">
                             <div class="dot"></div>
                             <span>Học Sinh</span>
                         </label>
-                        <label for="option-2" class="option option-2">
+                        <label for="tutor" class="option option-2">
                             <div class="dot"></div>
                             <span>Gia Sư</span>
                         </label>
                     </div>
                     <button type="submit" class="button-login" name="submit">Register</button>
                 </form>
+
                 Đã có tài khoản ! <a href="MainController?action=LoginPage" class="register-link">Đăng Nhập</a> hoặc 
                 <a href="MainController?action=HomePage" class="register-link">Trở về Trang Chủ</a>
             </div>
