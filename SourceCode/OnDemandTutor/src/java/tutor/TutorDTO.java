@@ -23,6 +23,7 @@ public class TutorDTO {
     private int Id;
     private String subjectName;
     private double rating;
+    private String url;
 
     public TutorDTO() {
         this.Personal_Id = "";
@@ -35,9 +36,8 @@ public class TutorDTO {
         this.AccountId = 0;
         this.Id = 0;
         this.Name = "";
+        this.url = "";
     }
-    
-    
 
     public String getPersonalId() {
         return Personal_Id;
@@ -135,8 +135,35 @@ public class TutorDTO {
         this.AccountId = AccountId;
     }
 
-    
-    
+    public String getPersonal_Id() {
+        return Personal_Id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setPersonal_Id(String Personal_Id) {
+        this.Personal_Id = Personal_Id;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, String url) {
+        this.Personal_Id = Personal_Id;
+        this.Gender = Gender;
+        this.Experience = Experience;
+        this.Grade = Grade;
+        this.PhoneNumber = PhoneNumber;
+        this.Location = Location;
+        this.Yob = Yob;
+        this.AccountId = AccountId;
+        this.Id = Id;
+        this.url = url;
+    }
+
     public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id) {
         this.Personal_Id = Personal_Id;
         this.Gender = Gender;
@@ -149,8 +176,6 @@ public class TutorDTO {
         this.Id = Id;
         this.Name = Name;
     }
-
-
 
     public TutorDTO(String Name, String PhoneNumber, String location, int Yob, int Id, String subjectName, double rating) {
         this.Name = Name;
