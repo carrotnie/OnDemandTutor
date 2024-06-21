@@ -149,6 +149,9 @@
                         <label for="grade">Grade:</label>
                         <input type="text" id="grade" name="grade" value="<%= request.getAttribute("grade")%>" required=""/>
 
+                        <label for="url">Link URL:</label>
+                        <input type="text" id="url" name="url" value="<%= request.getAttribute("url")%>" required=""/>
+
                         <!-- Submit Button -->
                         <button type="submit">Lưu thông tin</button>
                     </form>

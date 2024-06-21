@@ -23,12 +23,13 @@ public class TutorDAO {
 
     private static final Logger LOGGER = Logger.getLogger(TutorDAO.class.getName());
     private static final String GET_TUTOR_BY_ACCOUNT_ID
-            = "select Tutor.Id, Tutor.AccountId, Account.Name, CV.PhoneNumber, CV.Yob, "
-            + "CV.Location, CV.Personal_ID, CV.Gender, CV.Experience, CV.Grade "
-            + "from CV "
-            + "join Tutor on Tutor.Id = CV.TutorId "
-            + "join Account on Account.Id = Tutor.AccountId "
-            + "WHERE Tutor.AccountId = ?";
+            = "select a.Id, a.Name, cv.PhoneNumber, cv.Yob, "
+            + "cv.Location, cv.Personal_ID, cv.Gender, cv.Experience, cv.Grade, cv.URL "
+            + "from CV cv "
+            + "join CV_Tutor cvt ON cv.Id = cvt.CVId "
+            + "join Tutor t ON cvt.TutorId = t.Id "
+            + "join Account a ON t.AccountId = a.Id "
+            + "WHERE a.Id = ?";
 
     public TutorDTO getTutorByAccountId(int accountId) throws SQLException {
         TutorDTO tutor = null;
@@ -52,7 +53,8 @@ public class TutorDAO {
                     int experience = rs.getInt("Experience");
                     int grade = rs.getInt("Grade");
                     String name = rs.getString("Name");
-                    tutor = new TutorDTO(personalId, gender, experience, grade, phoneNumber, location, yob, accountId, id);
+                    String url = rs.getString("url");
+                    tutor = new TutorDTO(personalId, gender, experience, grade, phoneNumber, location, yob, accountId, id, url);
                     tutor.setName(name); // Set name from Account table
                 }
             } else {
@@ -61,9 +63,15 @@ public class TutorDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error at TutorDAO: " + e.toString());
         } finally {
-            if (rs != null) rs.close();
-            if (ptm != null) ptm.close();
-            if (conn != null) conn.close();
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return tutor;
     }
@@ -77,7 +85,7 @@ public class TutorDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 System.out.println("Connection successfully.");
-                
+
                 String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, s.[Name] AS SubjectName, "
                         + "AVG(r.Rating) AS AverageRating "
                         + "FROM Tutor t "
@@ -107,7 +115,7 @@ public class TutorDAO {
         }
         return tutors;
     }
-    
+
     public boolean updateTutor(TutorDTO tutor) throws ClassNotFoundException, SQLException {
         boolean rowUpdated = false;
         Connection connection = null;
@@ -169,7 +177,7 @@ public class TutorDAO {
         }
         return rowUpdated;
     }
-    
+
     public List<TutorDTO> searchTutors(String search) throws SQLException, ClassNotFoundException {
         List<TutorDTO> tutors = new ArrayList<>();
         Connection conn = null;
@@ -179,16 +187,16 @@ public class TutorDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
-                         + "STRING_AGG(s.[Name], ', ') AS SubjectName, "
-                         + "COALESCE(AVG(r.Rating), 0) AS AverageRating "
-                         + "FROM Tutor t "
-                         + "JOIN Account a ON t.AccountId = a.Id "
-                         + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
-                         + "JOIN Subject s ON ts.SubjectId = s.Id "
-                         + "LEFT JOIN Rating r ON t.Id = r.TutorId "
-                         + "WHERE a.[Name] LIKE ? "
-                         + "GROUP BY t.Id, a.[Name] "
-                         + "ORDER BY AverageRating DESC";
+                        + "STRING_AGG(s.[Name], ', ') AS SubjectName, "
+                        + "COALESCE(AVG(r.Rating), 0) AS AverageRating "
+                        + "FROM Tutor t "
+                        + "JOIN Account a ON t.AccountId = a.Id "
+                        + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
+                        + "JOIN Subject s ON ts.SubjectId = s.Id "
+                        + "LEFT JOIN Rating r ON t.Id = r.TutorId "
+                        + "WHERE a.[Name] LIKE ? "
+                        + "GROUP BY t.Id, a.[Name] "
+                        + "ORDER BY AverageRating DESC";
 
                 // Chuẩn bị câu lệnh với điều kiện tìm kiếm
                 stm = conn.prepareStatement(query);
@@ -221,5 +229,5 @@ public class TutorDAO {
         // Trả về danh sách các gia sư
         return tutors;
     }
-    
+
 }
