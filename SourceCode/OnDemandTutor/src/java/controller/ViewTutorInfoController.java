@@ -27,7 +27,7 @@ import user.UserDTO;
  */
 public class ViewTutorInfoController extends HttpServlet {
 
-        private static final Logger LOGGER = Logger.getLogger(ViewTutorInfoController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ViewTutorInfoController.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -55,6 +55,7 @@ public class ViewTutorInfoController extends HttpServlet {
                 request.setAttribute("gender", tutor.getGender());
                 request.setAttribute("experience", tutor.getExperience());
                 request.setAttribute("grade", tutor.getGrade());
+                request.setAttribute("url", tutor.getUrl());
             } else {
                 LOGGER.log(Level.WARNING, "Tutor not found for accountId: {0}", accountId);
             }
