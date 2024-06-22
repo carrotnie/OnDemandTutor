@@ -134,7 +134,7 @@
         <%
             UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
             if (loginUser == null || !"admin".equals(loginUser.getRole())) {
-                response.sendRedirect("login.html");
+                response.sendRedirect("login.jsp");
                 return;
             }
             String search = request.getParameter("search");
@@ -175,8 +175,11 @@
                         <td>********</td>
                         <td><%= user.getRole()%></td>
                         <td class="action-buttons">
-                            <button class="edit-btn">Edit</button>
-                            <button class="delete-btn">Delete</button>
+                            <form action="MainController" method="POST">
+                                <input type="hidden" name="action" value="Delete">
+                                <input type="hidden" name="Username" value="<%= user.getUsername()%>"/>
+                                <button class="delete-btn" type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                     <%

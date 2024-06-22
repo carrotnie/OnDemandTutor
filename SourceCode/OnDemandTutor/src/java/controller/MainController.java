@@ -23,11 +23,16 @@ public class MainController extends HttpServlet{
     private static final String LOGIN_CONTROLLER="LoginController";
    
     private static final String REGISTER_PAGE="RegisterPage";
-    private static final String REGISTER_PAGE_VIEW="register.html";
+    private static final String REGISTER_PAGE_VIEW="register.jsp";
     
     private static final String REGISTER="Register";
     private static final String REGISTER_CONTROLLER="RegisterController";
     
+    private static final String SEARCH="Search";
+    private static final String SEARCH_CONTROLLER="SearchController";
+    
+    private static final String DELETE="Delete";
+    private static final String DELETE_CONTROLLER="DeleteController";
     
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -44,6 +49,10 @@ public class MainController extends HttpServlet{
                 url=REGISTER_PAGE_VIEW;
             }else if (REGISTER.equals(action)){
                 url=REGISTER_CONTROLLER;
+            }else if (SEARCH.equals(action)){
+                url=SEARCH_CONTROLLER;
+            }else if (DELETE.equals(action)){
+                url=DELETE_CONTROLLER;
             }
         }catch (Exception e){
             log("Error at MainController: " + e.toString());
