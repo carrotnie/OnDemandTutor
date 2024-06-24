@@ -31,6 +31,19 @@ public class TutorDAO {
             + "join Account a ON t.AccountId = a.Id "
             + "WHERE a.Id = ?";
 
+    private static final String GET_SCHEDULES_BY_ACCOUNT_ID
+            = "SELECT c.StartDay AS startDay, s.StartTime AS startTime, sub.Name AS SubjectName, "
+            + "a_st.Name AS StudentName, sch.Status "
+            + "FROM Schedule sch "
+            + "JOIN Slot s ON sch.SlotId = s.Id "
+            + "JOIN Class c ON s.ClassId = c.Id "
+            + "JOIN Subject sub ON c.SubjectId = sub.Id "
+            + "JOIN Student st ON sch.StudentId = st.Id "
+            + "JOIN Account a_st ON st.AccountId = a_st.Id "
+            + "JOIN Tutor t ON c.TutorId = t.Id "
+            + "JOIN Account a_t ON t.AccountId = a_t.Id "
+            + "WHERE a_t.Id = ?";
+
     public TutorDTO getTutorByAccountId(int accountId) throws SQLException {
         TutorDTO tutor = null;
         Connection conn = null;
@@ -228,6 +241,45 @@ public class TutorDAO {
         }
         // Trả về danh sách các gia sư
         return tutors;
+    }
+
+    public List<ScheduleDTO> getSchedulesByAccountId(int accountId) throws SQLException, ClassNotFoundException {
+        List<ScheduleDTO> schedules = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GET_SCHEDULES_BY_ACCOUNT_ID);
+                ptm.setInt(1, accountId);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String startDay = rs.getString("startDay");
+                    String startTime = rs.getString("startTime");
+                    String subjectName = rs.getString("SubjectName");
+                    String studentName = rs.getString("StudentName");
+                    String status = rs.getString("Status");
+                    schedules.add(new ScheduleDTO(startDay, startTime, subjectName, studentName, status));
+                }
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error at ScheduleDAO: " + e.toString());
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return schedules;
     }
 
 }
