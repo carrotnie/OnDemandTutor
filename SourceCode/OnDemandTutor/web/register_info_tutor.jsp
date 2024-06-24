@@ -112,9 +112,9 @@
             <div class="nav">
                 <img src="img/logo.png" alt="Logo">
                 <a href="tutor_homepage.jsp">Trang Chủ</a>
-                <a href="tutor_homepage.jsp">Thông tin cá nhân</a>
-                <a href="students.html">Học Sinh</a>
-                <a href="schedule.html">Lịch Dạy</a>
+                <a href="">Thông tin cá nhân</a>
+                <a href="">Học Sinh</a>
+                <a href="ViewTutorCalendar">Lịch Dạy</a>
                 <a href="logout.html" class="logout-button">Đăng Xuất</a>
             </div>
             <<div class="container">
