@@ -28,9 +28,13 @@
         <servlet-name>ScheduleController</servlet-name>
         <servlet-class>controller.ScheduleController</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>SearchTutorController</servlet-name>
         <servlet-class>controller.SearchTutorController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTutorCalendar</servlet-name>
+        <servlet-class>controller.ViewTutorCalendar</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>SearchTutorController</servlet-name>
         <url-pattern>/SearchTutorController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTutorCalendar</servlet-name>
+        <url-pattern>/ViewTutorCalendar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -120,10 +120,10 @@
     </div>
     <div class="nav">
         <img src="img/logo.png" alt="Logo">
-        <a href="#">Trang Chủ</a>
+        <a href="tutor_homepage.jsp">Trang Chủ</a>
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
         <a href="#">Học Sinh</a>
-        <a href="#">Lịch Dạy</a>
+        <a href="ViewTutorCalendar">Lịch Dạy</a>
         <a href="#" class="logout-button">Đăng Xuất</a>
     </div>
     <div class="container">
