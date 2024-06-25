@@ -95,25 +95,19 @@
             }
 
             .image-login {
-                flex: 1; /* Phần tử ảnh mở rộng ra theo tỷ lệ so với phần tử form */
-                max-width: 50%; /* Chỉ định chiều rộng tối đa của phần tử ảnh */
-
+                flex: 1; 
+                max-width: 50%; 
             }
 
             .image-login img {
                 width: 100%;
                 margin-top: 50px;
-                
-
             }
 
             .login-container {
-                flex: 1; /* Phần tử form mở rộng ra theo tỷ lệ so với phần tử ảnh */
+                flex: 1; 
                 padding: 50px;
-
             }
-
-
 
             .login-container h1 {
                 text-align: center;
@@ -126,7 +120,6 @@
             }
 
             .login-container label {
-                
                 margin-bottom: 20px;
                 font-weight: bold;
             }
@@ -155,8 +148,8 @@
             }
 
             .register-link:hover {
-                color: #FF725C; /* Màu chữ khi hover */
-                text-decoration: underline; /* Gạch chân khi hover */
+                color: #FF725C; 
+                text-decoration: underline; 
             }
             .footer {
                 text-align: center;
@@ -165,13 +158,19 @@
                 color: white;
             }
 
+            .error-message {
+                color: red;
+                text-align: center;
+                margin-top: -20px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
 
         </style>
     </head>
     <body>
         <div class="nav">
             <img src="img/logoo.png" alt="Logo">
-           
         </div>
         <div class="main-content" >
             <div class="image-login">
@@ -183,18 +182,20 @@
                     <label for="Username">Tên đăng nhập:</label>
                     <input type="text" id="username" name="Username" required>
                     <label for="Password">Mật khẩu:</label>
-                    ${requestScope.ERROR}
                     <input type="password" id="password" name="Password" required>
-                    <button type="submit" name="action" value="Login" class="button-login">Login</button>                   
+                    <button type="submit" name="action" value="Login" class="button-login">Login</button>
+                    <div class="error-message">
+                        <%
+                            String error = (String) request.getAttribute("ERROR");
+                            if (error != null && !error.isEmpty()) {
+                                out.print(error);
+                            }
+                        %>
+                    </div>
                 </form>
-                <%
-                String error=(String) request.getAttribute("ERROR");
-                if(error==null) error="";
-                %>
                 Chưa có tài khoản ? <a href="MainController?action=RegisterPage" class="register-link">Đăng Ký</a> hoặc
                 <a href="MainController?action=HomePage" class="register-link">Quay lại</a>
             </div>
         </div>
     </body>
-    <%= error %>
 </html>
