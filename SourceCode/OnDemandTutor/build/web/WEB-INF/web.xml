@@ -33,10 +33,13 @@
         <servlet-class>controller.SearchTutorController</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>ViewTutorCalendar</servlet-name>
         <servlet-class>controller.ViewTutorCalendar</servlet-class>
     </servlet>
     <servlet>
+=======
+>>>>>>> 091996c87f9d651c090e904181ed7373b8604cd4
         <servlet-name>BanController</servlet-name>
         <servlet-class>controller.BanController</servlet-class>
     </servlet>
@@ -73,10 +76,13 @@
         <url-pattern>/SearchTutorController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>ViewTutorCalendar</servlet-name>
         <url-pattern>/ViewTutorCalendar</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+=======
+>>>>>>> 091996c87f9d651c090e904181ed7373b8604cd4
         <servlet-name>BanController</servlet-name>
         <url-pattern>/BanController</url-pattern>
     </servlet-mapping>
