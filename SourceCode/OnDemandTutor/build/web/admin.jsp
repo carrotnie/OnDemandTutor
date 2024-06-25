@@ -19,7 +19,7 @@
                 align-items: center;
                 padding: 10px 20px;
                 border-bottom: 1px solid #ddd;
-                justify-content: space-between; /* Thêm dòng này */
+                justify-content: space-between; 
             }
             .nav a, .nav .dropbtn {
                 text-decoration: none;
@@ -32,10 +32,9 @@
             .nav h1 {
                 color: red;
                 text-align: center;
-                margin-left: auto; /* Thêm dòng này */
-                margin-right: auto; /* Thêm dòng này */
+                margin-left: auto; 
+                margin-right: auto; 
             }
-
 
             .statistics {
                 background-color: #001F3F;
@@ -88,45 +87,63 @@
             table tbody tr:nth-child(even) {
                 background-color: #f3f3f3;
             }
-            .action-buttons button {
-                padding: 8px 12px;
-                margin: 0 5px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            .edit-btn {
-                background-color: #4CAF50;
-                color: white;
-            }
-            .delete-btn {
-                background-color: #f44336;
-                color: white;
-            }
             .account h2 {
                 text-align: center;
             }
 
-            /* CSS for Search button */
             .search-button {
-                background-color: #4CAF50; /* Màu nền xanh lá cây */
-                color: white; /* Màu chữ trắng */
-                padding: 10px 20px; /* Đệm bên trong nút */
-                border: none; /* Không có viền */
-                border-radius: 4px; /* Đường viền cong */
-                cursor: pointer; /* Con trỏ chuột thành bàn tay khi rê chuột qua nút */
-                transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
             }
 
-            /* CSS khi hover vào nút */
             .search-button:hover {
-                background-color: #45a049; /* Màu nền xanh lá cây nhạt hơn khi hover */
+                background-color: #45a049;
             }
 
-            /* CSS khi nhấn vào nút */
             .search-button:active {
-                background-color: #367c39; /* Màu nền xanh lá cây sậm hơn khi nhấn */
+                background-color: #367c39;
             }
+            .action-buttons button {
+                padding: 8px 12px; 
+                margin: 0 5px; 
+                border: none; 
+                border-radius: 4px; 
+                cursor: pointer; 
+                font-size: 16px; 
+                transition: background-color 0.3s ease; 
+            }
+
+            .ban-btn {
+                background-color: #f44336; 
+                color: white; 
+            }
+
+            .ban-btn:hover {
+                background-color: #e53935; 
+            }
+
+            .ban-btn:active {
+                background-color: #d32f2f; 
+            }
+
+            .unban-btn {
+                background-color: #4CAF50; 
+                color: white; 
+            }
+
+            .unban-btn:hover {
+                background-color: #45a049; 
+            }
+
+            .unban-btn:active {
+                background-color: #367c39; 
+            }
+
 
         </style>
     </head>
@@ -159,7 +176,9 @@
                         <th>Username</th>
                         <th>Password</th>
                         <th>Role</th>
-                        <th>Update</th>
+                        <th>Status</th>
+                        <th>Amount of Report</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -174,18 +193,38 @@
                         <td><%= user.getUsername()%></td>
                         <td>********</td>
                         <td><%= user.getRole()%></td>
+                        <td><%= user.getStatus()%></td>
+                        <td><%= user.getAmountOfReport()%></td>
                         <td class="action-buttons">
+                            <%
+                                if ("active".equals(user.getStatus())) {
+                            %>
                             <form action="MainController" method="POST">
-                                <input type="hidden" name="action" value="Delete">
-                                <input type="hidden" name="Username" value="<%= user.getUsername()%>"/>
-                                <button class="delete-btn" type="submit">Delete</button>
+                                <input type="hidden" name="action" value="Ban"/>
+                                <input type="hidden" name="actionType" value="Ban"/>
+                                <input type="hidden" name="AccountId" value="<%= user.getId()%>"/>
+                                <input type="hidden" name="search" value="<%= request.getAttribute("search")%>"/>
+                                <button class="ban-btn" type="submit">Ban</button>
                             </form>
+                            <%
+                            } else if ("lock".equals(user.getStatus())) {
+                            %>
+                            <form action="MainController" method="POST">
+                                <input type="hidden" name="action" value="Ban"/>
+                                <input type="hidden" name="actionType" value="UnBan"/>
+                                <input type="hidden" name="AccountId" value="<%= user.getId()%>"/>
+                                <input type="hidden" name="search" value="<%= request.getAttribute("search")%>"/>
+                                <button class="unban-btn" type="submit">UnBan</button>
+                            </form>
+                            <%
+                                }
+                            %>
                         </td>
                     </tr>
                     <%
                             }
                         } else {
-                            out.println("<tr><td colspan='6'>Who you wanna find ?</td></tr>");
+                            out.println("<tr><td colspan='8'>Who you wanna find ?</td></tr>");
                         }
                     %>
                 </tbody>
