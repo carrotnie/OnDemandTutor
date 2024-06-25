@@ -11,11 +11,17 @@
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/UserDTO.java</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/web/register_info_student.html</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/web/register.jsp</file>
+            <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/database/DBUtils.java</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/BookSlot.java</file>
+            <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/SearchController.java</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/MainController.java</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/RegisterController.java</file>
+            <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/LoginController.java</file>
+            <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/BanController.java</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/web/classes.jsp</file>
             <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/web/login.html</file>
+            <file>file:/C:/Users/MSI/Desktop/Ky5/LastMainFlow/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/ListClasses.java</file>
         </group>
     </open-files>
 </project-private>
