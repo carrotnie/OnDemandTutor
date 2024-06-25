@@ -36,6 +36,10 @@
         <servlet-name>ViewTutorCalendar</servlet-name>
         <servlet-class>controller.ViewTutorCalendar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BanController</servlet-name>
+        <servlet-class>controller.BanController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>ViewTutorCalendar</servlet-name>
         <url-pattern>/ViewTutorCalendar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BanController</servlet-name>
+        <url-pattern>/BanController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

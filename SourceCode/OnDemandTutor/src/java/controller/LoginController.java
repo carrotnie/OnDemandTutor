@@ -10,9 +10,6 @@ import javax.servlet.http.HttpSession;
 import user.UserDAO;
 import user.UserDTO;
 
-/**
- * Servlet implementation class LoginController
- */
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
@@ -45,9 +42,8 @@ public class LoginController extends HttpServlet {
                 } else if (MOD.equals(role)) {
                     url = MOD_PAGE;
                 } else if (ST.equals(role)) {
-                    // Lấy Id từ UserDTO
                     int accountId = loginUser.getId();
-                    session.setAttribute("accountId", accountId); // Lưu accountId trong session
+                    session.setAttribute("accountId", accountId);
                     url = ST_PAGE;
                 } else if (TU.equals(role)) {
                     int accountId = loginUser.getId();
@@ -56,9 +52,9 @@ public class LoginController extends HttpServlet {
                 }
             }
         } catch (Exception e) {
-            log("Error at LoginController" + e.toString());
+            log("Error at LoginController: " + e.toString());
         } finally {
-            response.sendRedirect(url); // Sử dụng sendRedirect thay vì forward để chuyển hướng đúng cách
+            request.getRequestDispatcher(url).forward(request, response); 
         }
     }
 

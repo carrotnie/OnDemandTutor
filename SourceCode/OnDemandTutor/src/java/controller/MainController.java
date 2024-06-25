@@ -31,8 +31,8 @@ public class MainController extends HttpServlet{
     private static final String SEARCH="Search";
     private static final String SEARCH_CONTROLLER="SearchController";
     
-    private static final String DELETE="Delete";
-    private static final String DELETE_CONTROLLER="DeleteController";
+    private static final String BAN="Ban";
+    private static final String BAN_CONTROLLER="BanController";
     
     protected void processRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,8 +51,8 @@ public class MainController extends HttpServlet{
                 url=REGISTER_CONTROLLER;
             }else if (SEARCH.equals(action)){
                 url=SEARCH_CONTROLLER;
-            }else if (DELETE.equals(action)){
-                url=DELETE_CONTROLLER;
+            }else if (BAN.equals(action)){
+                url=BAN_CONTROLLER;
             }
         }catch (Exception e){
             log("Error at MainController: " + e.toString());

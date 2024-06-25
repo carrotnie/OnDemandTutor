@@ -11,45 +11,90 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDAO {
+
     private static final String LOGIN = "SELECT Id, Name, Role FROM Account WHERE Username=? AND Password=?";
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
-    private static final String SEARCH = "SELECT Id, Name, Username, Password, Role FROM Account WHERE Name LIKE ? OR Role LIKE ?";
-    private static final String CHECK_DUPLICATE = "SELECT Name FROM Account WHERE Username=?";
-    private static final String INSERT="INSERT INTO Account(Name,Username,Password,Role) VALUES (?,?,?,?)";
-    public UserDTO checkLogin(String Username, String Password) throws SQLException {
-        UserDTO user = null;
-        Connection conn = null;
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
+    private static final String SEARCH = "SELECT a.Id, a.Name, a.Username, a.Password, a.Role, b.Status, b.AmountOfReport "
+            + "FROM Account a LEFT JOIN BanAccount b ON a.Id = b.AccountId "
+            + "WHERE a.Username LIKE ? OR a.Role LIKE ?";
 
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
-                System.out.println("Connected to the database");
-                ptm = conn.prepareStatement(LOGIN);
-                ptm.setString(1, Username);
-                ptm.setString(2, Password);                
-                rs = ptm.executeQuery();
-                if (rs.next()) {
+    private static final String CHECK_DUPLICATE = "SELECT Name FROM Account WHERE Username=?";
+    private static final String INSERT = "INSERT INTO Account(Name,Username,Password,Role) VALUES (?,?,?,?)";
+    private static final String CHECK_BAN = "SELECT Status FROM BanAccount WHERE AccountId=?";
+    private static final String UPDATE_ACCOUNT_STATUS = "UPDATE BanAccount SET Status = 'lock' WHERE AccountId = ?";
+    private static final String UNBAN_ACCOUNT_STATUS = "UPDATE BanAccount SET Status = 'active' WHERE AccountId = ?";
+
+    public UserDTO checkLogin(String Username, String Password) throws SQLException {
+    UserDTO user = null;
+    Connection conn = null;
+    PreparedStatement ptm = null;
+    PreparedStatement ptmBan = null;
+    ResultSet rs = null;
+    ResultSet rsBan = null;
+
+    try {
+        conn = DBUtils.getConnection();
+        if (conn != null) {
+            System.out.println("Connected to the database");
+            // Sử dụng LOWER hoặc UPPER để chuyển đổi về cùng một dạng
+            ptm = conn.prepareStatement("SELECT Id, Name, Username, Password, Role FROM Account WHERE LOWER(Username) = LOWER(?)");
+            ptm.setString(1, Username);
+            rs = ptm.executeQuery();
+            if (rs.next()) {
+                String dbPassword = rs.getString("Password");
+                String dbUsername = rs.getString("Username");
+                // So sánh tên đăng nhập và mật khẩu phân biệt chữ hoa chữ thường trong mã Java
+                if (Username.equals(dbUsername) && Password.equals(dbPassword)) {
                     int Id = rs.getInt("Id");
                     String Name = rs.getString("Name");
                     String Role = rs.getString("Role");
-                    user = new UserDTO(Id, Name, Username, "***", Role);                   
+
+                    // Kiểm tra xem tài khoản có trong bảng BanAccount và trạng thái của nó
+                    ptmBan = conn.prepareStatement(CHECK_BAN);
+                    ptmBan.setInt(1, Id);
+                    rsBan = ptmBan.executeQuery();
+                    if (rsBan.next()) {
+                        String status = rsBan.getString("Status");
+                        if ("lock".equals(status)) {
+                            // Tài khoản bị khóa
+                            System.out.println("Account is locked.");
+                            return null;
+                        }
+                    }
+
+                    // Tài khoản không bị khóa
+                    user = new UserDTO(Id, Name, Username, "***", Role);
                 } else {
-                    System.out.println("No user found with the provided credentials.");
+                    System.out.println("Incorrect username or password.");
                 }
             } else {
-                System.out.println("Failed to connect to the database.");
+                System.out.println("No user found with the provided username.");
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error at UserDAO: " + e.toString());
-        } finally {
-            if (rs != null) rs.close();
-            if (ptm != null) ptm.close();
-            if (conn != null) conn.close();
+        } else {
+            System.out.println("Failed to connect to the database.");
         }
-        return user;
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error at UserDAO: " + e.toString());
+    } finally {
+        if (rsBan != null) {
+            rsBan.close();
+        }
+        if (rs != null) {
+            rs.close();
+        }
+        if (ptmBan != null) {
+            ptmBan.close();
+        }
+        if (ptm != null) {
+            ptm.close();
+        }
+        if (conn != null) {
+            conn.close();
+        }
     }
+    return user;
+}
+
 
     public List<UserDTO> getAllUsers(String search) throws SQLException {
         List<UserDTO> users = new ArrayList<>();
@@ -70,21 +115,27 @@ public class UserDAO {
                     String Username = rs.getString("Username");
                     String Password = rs.getString("Password");
                     String Role = rs.getString("Role");
-                    users.add(new UserDTO(Id, Name, Username, Password, Role));
+                    String Status = rs.getString("Status");
+                    int AmountOfReport = rs.getInt("AmountOfReport");
+                    users.add(new UserDTO(Id, Name, Username, Password, Role, AmountOfReport, Status));
                 }
-            } else {
-                System.out.println("Failed to connect to the database.");
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error at UserDAO: " + e.toString());
         } finally {
-            if (rs != null) rs.close();
-            if (ptm != null) ptm.close();
-            if (conn != null) conn.close();
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return users;
     }
-    
+
     public boolean checkDuplicate(String Username) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -115,7 +166,7 @@ public class UserDAO {
         }
         return check;
     }
-    
+
     public boolean insert(UserDTO user) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -124,7 +175,7 @@ public class UserDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(INSERT);
-                ptm.setString(1, user.getName());
+                ptm.setNString(1, user.getName());
                 ptm.setString(2, user.getUsername());
                 ptm.setString(3, user.getPassword());
                 ptm.setString(4, user.getRole());
@@ -137,11 +188,69 @@ public class UserDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error at insert: ", e);
         } finally {
-            if (ptm != null) ptm.close();
-            if (conn != null) conn.close();
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return check;
     }
     
+    public boolean updateAccountStatus(int accountId) throws SQLException {
+    boolean check = false;
+    Connection conn = null;
+    PreparedStatement ptm = null;
+
+    try {
+        conn = DBUtils.getConnection();
+        if (conn != null) {
+            ptm = conn.prepareStatement(UPDATE_ACCOUNT_STATUS);
+            ptm.setInt(1, accountId);
+            int result = ptm.executeUpdate();
+            if (result > 0) {
+                check = true;
+            }
+        }
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error at UserDAO: " + e.toString());
+    } finally {
+        if (ptm != null) {
+            ptm.close();
+        }
+        if (conn != null) {
+            conn.close();
+        }
+    }
+    return check;
+}
     
+    public boolean updateAccountStatusToActive(int accountId) throws SQLException {
+    boolean check = false;
+    Connection conn = null;
+    PreparedStatement ptm = null;
+
+    try {
+        conn = DBUtils.getConnection();
+        if (conn != null) {
+            ptm = conn.prepareStatement(UNBAN_ACCOUNT_STATUS);
+            ptm.setInt(1, accountId);
+            int result = ptm.executeUpdate();
+            if (result > 0) {
+                check = true;
+            }
+        }
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error at UserDAO: " + e.toString());
+    } finally {
+        if (ptm != null) {
+            ptm.close();
+        }
+        if (conn != null) {
+            conn.close();
+        }
+    }
+    return check;
+}
 }
