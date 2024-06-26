@@ -22,7 +22,7 @@
                 background-color: #001e54;
                 display: flex;
                 align-items: center;
-                padding: 10px 20px;
+                padding: 5px 20px;
                 border-bottom: 1px solid #ddd;
                 color: #000;
             }
@@ -34,7 +34,7 @@
                 text-decoration: none;
                 color: #ddd;
                 font-weight: bold;
-                padding: 14px 20px;
+                padding: 20px 8px;
                 margin: 0 5px;
                 display: inline-block;
             }
@@ -352,7 +352,7 @@
                 <div class="search-container">
                     <input type="text" class="search-input" name="txtSearchTutor" placeholder="Tìm giáo viên...">
                     <button type="submit" class="search-button">Tìm</button>
-                    <button class="logout-button">Logout</button>
+                    <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
                 </div>
             </form>
 
@@ -457,9 +457,9 @@
                     </div>
                     <div class="teacher-info">
                         <h3><%= tutor.getName()%></h3>
-                        <p>Môn: <%= tutor.getSubjectName()%></p>
+                        <p>Môn: <%= String.join(", ", tutor.getSubjects())%></p>
                         <p>Đánh giá: <%= String.format("%.1f", tutor.getRating())%> ★</p>
-                        <a href="#" class="btn">Xem thêm</a>
+                        <a href="student_ViewTutorDetail.jsp?id=<%= tutor.getId()%>" class="btn">Xem thêm</a>
                     </div>
                 </div>
                 <%

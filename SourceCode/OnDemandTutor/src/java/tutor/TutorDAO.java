@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -89,6 +91,7 @@ public class TutorDAO {
         return tutor;
     }
 
+    //Trang Student_Homepage
     public List<TutorDTO> info() {
         List<TutorDTO> tutors = new ArrayList<>();
         Connection conn = null;
@@ -112,19 +115,28 @@ public class TutorDAO {
                         "ORDER BY AverageRating DESC";
                 stm = conn.prepareStatement(query);
                 rs = stm.executeQuery();
+                Map<Integer, TutorDTO> tutorMap = new LinkedHashMap<>();
                 while (rs.next()) {
-                    TutorDTO tutor = new TutorDTO();
-                    tutor.setId(rs.getInt("TutorId"));
-                    tutor.setName(rs.getString("TutorName"));
-                    tutor.setSubjectName(rs.getString("SubjectName"));
-                    tutor.setRating(rs.getDouble("AverageRating"));
-                    tutors.add(tutor);
-                    // Debugging: Print out each tutor to verify data
-                    System.out.println("Loaded Tutor: " + tutor.getName() + " with rating: " + tutor.getRating());
+                    int tutorId = rs.getInt("TutorId");
+                    TutorDTO tutor = tutorMap.get(tutorId);
+                    if (tutor == null) {
+                        tutor = new TutorDTO();
+                        tutor.setId(tutorId);
+                        tutor.setName(rs.getString("TutorName"));
+                        tutor.setRating(rs.getDouble("AverageRating"));
+                        tutor.setSubjects(new ArrayList<>());
+                        tutorMap.put(tutorId, tutor);
+                    }
+                    tutor.getSubjects().add(rs.getString("SubjectName"));
                 }
+                tutors.addAll(tutorMap.values());
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (stm != null) try { stm.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
         return tutors;
     }
@@ -191,6 +203,7 @@ public class TutorDAO {
         return rowUpdated;
     }
 
+    //Trang Student_HomePage (search tutor)
     public List<TutorDTO> searchTutors(String search) throws SQLException, ClassNotFoundException {
         List<TutorDTO> tutors = new ArrayList<>();
         Connection conn = null;
@@ -241,6 +254,59 @@ public class TutorDAO {
         }
         // Trả về danh sách các gia sư
         return tutors;
+    }
+
+     //Trang Student_HomePage(detail)
+    public TutorDTO getTutorById(String id) throws ClassNotFoundException, SQLException {
+        TutorDTO tutor = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
+                        + "STRING_AGG(s.[Name], ', ') AS SubjectName, "
+                        + "COALESCE(AVG(r.Rating), 0) AS AverageRating, "
+                        + "cv.[Location] AS Location, "
+                        + "cv.[Url] AS YoutubeUrl "
+                        + "FROM Tutor t "
+                        + "JOIN Account a ON t.AccountId = a.Id "
+                        + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
+                        + "JOIN Subject s ON ts.SubjectId = s.Id "
+                        + "LEFT JOIN Rating r ON t.Id = r.TutorId "
+                        + "LEFT JOIN CV cv ON t.Id = cv.Id " // Assuming TutorId matches CV Id
+                        + "WHERE t.Id = ? "
+                        + "GROUP BY t.Id, a.[Name], cv.[Location], cv.[Url]";
+
+                stm = conn.prepareStatement(query);
+                stm.setString(1, id);
+                rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    tutor = new TutorDTO();
+                    tutor.setId(rs.getInt("TutorId"));
+                    tutor.setName(rs.getString("TutorName"));
+                    tutor.setSubjectName(rs.getString("SubjectName"));
+                    tutor.setRating(rs.getDouble("AverageRating"));
+                    tutor.setYoutubeUrl(rs.getString("YoutubeUrl"));
+                    tutor.setLocation(rs.getString("Location"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return tutor;
     }
 
     public List<ScheduleDTO> getSchedulesByAccountId(int accountId) throws SQLException, ClassNotFoundException {
