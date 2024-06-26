@@ -5,6 +5,8 @@
  */
 package tutor;
 
+import java.util.List;
+
 /**
  *
  * @author Long Dinh
@@ -24,6 +26,8 @@ public class TutorDTO {
     private String subjectName;
     private double rating;
     private String url;
+    private String youtubeUrl;
+    private List<String> subjects;
 
     public TutorDTO() {
         this.Personal_Id = "";
@@ -151,6 +155,21 @@ public class TutorDTO {
         this.url = url;
     }
 
+    public String getYoutubeUrl() {
+        return youtubeUrl;
+    }
+
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
+    }
+    
+    public List<String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<String> subjects) {
+        this.subjects = subjects;
+    }
     public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, String url) {
         this.Personal_Id = Personal_Id;
         this.Gender = Gender;
@@ -177,7 +196,7 @@ public class TutorDTO {
         this.Name = Name;
     }
 
-    public TutorDTO(String Name, String PhoneNumber, String location, int Yob, int Id, String subjectName, double rating) {
+    public TutorDTO(String Name, String PhoneNumber, String location, int Yob, int Id, String subjectName, double rating, String youtubeUrl, String Location) {
         this.Name = Name;
         this.PhoneNumber = PhoneNumber;
         this.Location = Location;
@@ -185,6 +204,8 @@ public class TutorDTO {
         this.Id = Id;
         this.subjectName = subjectName;
         this.rating = rating;
+        this.youtubeUrl = youtubeUrl;
+        this.Location = Location;
     }
 
 }
