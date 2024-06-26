@@ -349,15 +349,15 @@
             <img src="<%=request.getContextPath()%>/img/logoo.png" alt="Logo">
             <div class="nav-links">
                 <a href="ViewStuInfoController">Thông tin cá nhân</a>
-                <a href="studentTimeTable.jsp">Lịch học</a>
-                <a href="#">Tình trạng đăng ký</a>
+                <a href="student_timetable.jsp">Lịch học</a>
+                <a href="ScheduleController">Tình trạng đăng ký</a>
                 <a href="#">Đánh giá khóa học</a>
             </div>
             <form action="SearchTutorController" method="GET">
                 <div class="search-container">
                     <input type="text" class="search-input" name="txtSearchTutor" placeholder="Tìm giáo viên...">
                     <button type="submit" class="search-button">Tìm</button>
-                    <button class="logout-button">Logout</button>
+                    <<button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
                 </div>
             </form>
 
@@ -466,7 +466,7 @@
                         <h3><%= tutor.getName()%></h3>
                         <p>Môn: <%= tutor.getSubjectName()%></p>
                         <p>Đánh giá: <%= String.format("%.1f", tutor.getRating())%> ★</p>
-                        <a href="<%= request.getContextPath()%>/tutorDetails?tutorId=<%= tutor.getId() %>" class="btn">Xem thêm</a>
+                        <a href="student_ViewTutorDetail.jsp?id=<%= tutor.getId()%>" class="btn">Xem thêm</a>
                     </div>
                 </div>
                 <%
