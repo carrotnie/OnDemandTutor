@@ -16,16 +16,20 @@ public class ScheduleDTO {
     private String subjectName;
     private String studentName;
     private String status;
+    private int studentAccountId;
+    private int slotId;
 
     public ScheduleDTO() {
     }
 
-    public ScheduleDTO(String startDay, String startTime, String subjectName, String studentName, String status) {
+    public ScheduleDTO(String startDay, String startTime, String subjectName, String studentName, String status, int studentAccountId, int slotId) {
         this.startDay = startDay;
         this.startTime = startTime;
         this.subjectName = subjectName;
         this.studentName = studentName;
         this.status = status;
+        this.studentAccountId = studentAccountId;
+        this.slotId = slotId;
     }
 
     public String getStartDay() {
@@ -68,4 +72,20 @@ public class ScheduleDTO {
         this.status = status;
     }
 
+    public int getStudentAccountId() {
+        return studentAccountId;
+    }
+
+    public void setStudentAccountId(int studentAccountId) {
+        this.studentAccountId = studentAccountId;
+    }
+
+    public int getSlotId() {
+        return slotId;
+    }
+
+    public void setSlotId(int slotId) {
+        this.slotId = slotId;
+    }
+    
 }

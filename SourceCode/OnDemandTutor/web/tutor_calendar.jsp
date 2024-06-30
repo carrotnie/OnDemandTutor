@@ -92,6 +92,20 @@
                 padding: 20px;
                 color: #999;
             }
+            button{
+                background-color: #007BFF; /* Màu nền */
+                border: none;
+                color: white; /* Màu chữ */
+                padding: 10px 20px; /* Đệm */
+                text-align: center; /* Căn giữa chữ */
+                text-decoration: none; /* Bỏ gạch chân */
+                display: inline-block; /* Hiển thị dạng khối */
+                font-size: 16px; /* Kích thước chữ */
+                margin: 4px 2px; /* Khoảng cách */
+                cursor: pointer; /* Con trỏ chuột */
+                border-radius: 12px; /* Bo góc */
+
+            }
         </style>
     </head>
     <body>
@@ -131,6 +145,7 @@
                             <th>Môn Học</th>
                             <th>Học Sinh</th>
                             <th>Trạng Thái</th>
+                            <th>Xử lý</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -139,8 +154,23 @@
                             <td><%= schedule.getStartDay()%></td>
                             <td><%= schedule.getStartTime()%></td>
                             <td><%= schedule.getSubjectName()%></td>
-                            <td><%= schedule.getStudentName()%></td>
+                            <td><a href="ViewStuInfoFromScheduleController?accountId=<%=schedule.getStudentAccountId()%>"><%= schedule.getStudentName()%></a></td>
                             <td><%= schedule.getStatus()%></td>
+
+                            <td>
+                                <% if ("đang xử lý".equals(schedule.getStatus())) {%>
+                                <form action="AcceptScheduleController" method="POST" style="display:inline;">
+                                    <input type="hidden" name="slotId" value="<%= schedule.getSlotId()%>">
+                                    <button type="submit">Chấp Nhận</button>
+                                </form>
+                                <form action="RejectScheduleController" method="POST" style="display:inline;">
+                                    <input type="hidden" name="slotId" value="<%= schedule.getSlotId()%>">
+                                    <button type="submit">Từ Chối</button>
+                                </form>
+                                <% } %>
+                            </td>   
+
+
                         </tr>
                         <% } %>
                     </tbody>
