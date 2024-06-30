@@ -14,7 +14,16 @@ public class StudentDAO {
         "FROM Student s " +
         "JOIN Account a ON s.AccountId = a.Id " +
         "WHERE s.AccountId=?";
+    
+    
+     //View stu info from schedule
+    private static String VIEW_INFO_STU_FROM_SCHEDULE
+            = "SELECT Account.Name, Student.PhoneNumber, Student.Location, Student.Gender, Student.Id "
+            + "FROM Student "
+            + "JOIN Account ON Student.AccountId = Account.Id "
+            + "WHERE Student.AccountId = ?";
 
+    
     private static final Logger LOGGER = Logger.getLogger(StudentDAO.class.getName());
 
     public StudentDTO getStudentByAccountId(int accountId) throws SQLException {
@@ -99,4 +108,45 @@ public class StudentDAO {
             if (conn != null) conn.close();
         }
     }
+    
+     //View stu info from schedule
+    public StudentDTO viewStuInfoFromSchedule(int accountId) throws SQLException {
+        StudentDTO student = null;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(VIEW_INFO_STU_FROM_SCHEDULE);
+                ptm.setInt(1, accountId);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String location = rs.getString("Location");
+                    String name = rs.getString("Name");
+                    student = new StudentDTO(accountId, location, phoneNumber, name);
+                    student.setName(name);
+                }
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error at StudentDAO: " + e.toString());
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return student;
+    }
+    
 }

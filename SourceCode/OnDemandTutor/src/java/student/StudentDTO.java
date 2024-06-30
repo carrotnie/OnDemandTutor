@@ -35,6 +35,19 @@ public class StudentDTO {
         this.PhoneNumber = PhoneNumber;
         this.Name = "";
     }
+    
+     //View stu info from schedule
+    public StudentDTO(int AccountId, String Location, String PhoneNumber, String Name) {
+        this.AccountId = AccountId;
+        this.Location = Location;
+        this.PhoneNumber = PhoneNumber;
+        this.Name = Name;
+    }
+
+    public StudentDTO(int Id, int AccountId) {
+        this.Id = Id;
+        this.AccountId = AccountId;
+    }
 
     public int getId() {
         return Id;

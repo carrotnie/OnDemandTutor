@@ -35,7 +35,7 @@ public class TutorDAO {
 
     private static final String GET_SCHEDULES_BY_ACCOUNT_ID
             = "SELECT c.StartDay AS startDay, s.StartTime AS startTime, sub.Name AS SubjectName, "
-            + "a_st.Name AS StudentName, sch.Status "
+            + "a_st.Name AS StudentName, sch.Status, st.AccountId, sch.SlotId "
             + "FROM Schedule sch "
             + "JOIN Slot s ON sch.SlotId = s.Id "
             + "JOIN Class c ON s.ClassId = c.Id "
@@ -44,7 +44,7 @@ public class TutorDAO {
             + "JOIN Account a_st ON st.AccountId = a_st.Id "
             + "JOIN Tutor t ON c.TutorId = t.Id "
             + "JOIN Account a_t ON t.AccountId = a_t.Id "
-            + "WHERE a_t.Id = ?";
+            + "WHERE a_t.Id = ? ";
 
     public TutorDTO getTutorByAccountId(int accountId) throws SQLException {
         TutorDTO tutor = null;
@@ -327,7 +327,9 @@ public class TutorDAO {
                     String subjectName = rs.getString("SubjectName");
                     String studentName = rs.getString("StudentName");
                     String status = rs.getString("Status");
-                    schedules.add(new ScheduleDTO(startDay, startTime, subjectName, studentName, status));
+                    int studentAccountId = rs.getInt("AccountID");
+                    int slotId = rs.getInt("SlotId");
+                    schedules.add(new ScheduleDTO(startDay, startTime, subjectName, studentName, status, studentAccountId, slotId));
                 }
             } else {
                 System.out.println("Failed to connect to the database.");
@@ -347,5 +349,29 @@ public class TutorDAO {
         }
         return schedules;
     }
-
+    
+    public boolean updateScheduleStatus(int slotId, String status) throws SQLException, ClassNotFoundException {
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Schedule SET Status= ? WHERE SlotId= ? ";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, status);
+                ps.setInt(2, slotId);
+                result = ps.executeUpdate() > 0;
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return result;
+    }
+    
 }

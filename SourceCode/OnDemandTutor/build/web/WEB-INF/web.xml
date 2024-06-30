@@ -40,6 +40,18 @@
         <servlet-name>BanController</servlet-name>
         <servlet-class>controller.BanController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewStuInfoFromScheduleController</servlet-name>
+        <servlet-class>controller.ViewStuInfoFromScheduleController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RejectScheduleController</servlet-name>
+        <servlet-class>controller.RejectScheduleController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AcceptScheduleController</servlet-name>
+        <servlet-class>controller.AcceptScheduleController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -79,6 +91,18 @@
     <servlet-mapping>
         <servlet-name>BanController</servlet-name>
         <url-pattern>/BanController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewStuInfoFromScheduleController</servlet-name>
+        <url-pattern>/ViewStuInfoFromScheduleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RejectScheduleController</servlet-name>
+        <url-pattern>/RejectScheduleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AcceptScheduleController</servlet-name>
+        <url-pattern>/AcceptScheduleController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
