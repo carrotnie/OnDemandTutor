@@ -25,13 +25,11 @@ public class TutorDAO {
 
     private static final Logger LOGGER = Logger.getLogger(TutorDAO.class.getName());
     private static final String GET_TUTOR_BY_ACCOUNT_ID
-            = "select a.Id, a.Name, cv.PhoneNumber, cv.Yob, "
-            + "cv.Location, cv.Personal_ID, cv.Gender, cv.Experience, cv.Grade, cv.URL "
-            + "from CV cv "
-            + "join CV_Tutor cvt ON cv.Id = cvt.CVId "
-            + "join Tutor t ON cvt.TutorId = t.Id "
-            + "join Account a ON t.AccountId = a.Id "
-            + "WHERE a.Id = ?";
+            =  "select Account.Id, Account.Name, CV.PhoneNumber, CV.Location, CV.Yob, CV.Personal_ID, CV.Gender,CV.Experience,CV.Grade, CV.Url "
+            + "from CV "
+            + "join Tutor  ON Tutor.Id = CV.TutorId "
+            + "join Account ON Account.Id = Tutor.AccountId "
+            + "WHERE Tutor.AccountId = ? ";
 
     private static final String GET_SCHEDULES_BY_ACCOUNT_ID
             = "SELECT c.StartDay AS startDay, s.StartTime AS startTime, sub.Name AS SubjectName, "

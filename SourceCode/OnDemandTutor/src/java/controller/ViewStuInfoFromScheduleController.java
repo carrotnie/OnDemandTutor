@@ -20,7 +20,8 @@ import student.StudentDTO;
  * @author Lam Le
  */
 public class ViewStuInfoFromScheduleController extends HttpServlet {
-private static final String STUDENT_DETAILS_PAGE = "student_info_schedule.jsp";
+
+    private static final String STUDENT_DETAILS_PAGE = "student_info_schedule.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,7 +40,7 @@ private static final String STUDENT_DETAILS_PAGE = "student_info_schedule.jsp";
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewStuInfoFromScheduleController</title>");            
+            out.println("<title>Servlet ViewStuInfoFromScheduleController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ViewStuInfoFromScheduleController at " + request.getContextPath() + "</h1>");
@@ -60,17 +61,8 @@ private static final String STUDENT_DETAILS_PAGE = "student_info_schedule.jsp";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            int accountId = Integer.parseInt(request.getParameter("accountId"));
-            StudentDAO studentDAO = new StudentDAO();
-            StudentDTO student = studentDAO.getStudentByAccountId(accountId);
-            
-            HttpSession session = request.getSession();
-            session.setAttribute("STUDENT", student);
-            request.getRequestDispatcher(STUDENT_DETAILS_PAGE).forward(request, response);
-        } catch (Exception e) {
-            log("Error at ViewStudentDetailsServlet: " + e.toString());
-        }
+        doPost(request, response);
+
     }
 
     /**
@@ -84,7 +76,17 @@ private static final String STUDENT_DETAILS_PAGE = "student_info_schedule.jsp";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            int accountId = Integer.parseInt(request.getParameter("accountId"));
+            StudentDAO studentDAO = new StudentDAO();
+            StudentDTO student = studentDAO.getStudentByAccountId(accountId);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("STUDENT", student);
+            request.getRequestDispatcher(STUDENT_DETAILS_PAGE).forward(request, response);
+        } catch (Exception e) {
+            log("Error at ViewStudentDetailsServlet: " + e.toString());
+        }
     }
 
     /**
