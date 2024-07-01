@@ -107,79 +107,93 @@
 
             }
         </style>
-    </head>
-    <body>
-        <div class="header">
-            <h5>Lịch Dạy</h5>
-        </div>
-        <div class="nav">
-            <img src="img/logo.png" alt="Logo">
-            <a href="tutor_homepage.jsp">Trang Chủ</a>
-            <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
-            <a href="">Học Sinh</a>
-            <a href="">Lịch Dạy</a>
-            <a href="logout.html" class="logout-button">Đăng Xuất</a>
-        </div>
-        <div class="container">
-            <div class="schedule-section">
-                <h2>Lịch Dạy Của Bạn</h2>
-                <div id="statusMessage">
-                    <%
-                        String status = (String) request.getAttribute("status");
-                        if ("đang xử lý".equals(status)) {
-                    %>
-                    <p class="status-message">Chờ xác nhận đăng ký</p>
-                    <% } else if ("thất bại".equals(status)) { %>
-                    <p class="status-message">Không thể tải lịch dạy. Vui lòng thử lại sau.</p>
-                    <% } %>
-                </div>
-                <% if ("thành công".equals(status)) {
-                        List<ScheduleDTO> schedules = (List<ScheduleDTO>) request.getAttribute("schedules");
-                        if (schedules != null && !schedules.isEmpty()) {
+        <!-- Ẩn form để gửi yêu cầu POST -->
+    <form id="studentForm" action="ViewStuInfoFromScheduleController" method="post" style="display:none;">
+        <input type="hidden" name="accountId" id="accountId">
+    </form>
+
+    <!-- JavaScript để gửi form -->
+    <script type="text/javascript">
+        function viewStudentDetails(accountId) {
+            document.getElementById('accountId').value = accountId;
+            document.getElementById('studentForm').submit();
+        }
+    </script>
+</head>
+<body> 
+    <div class="header">
+        <h5>Lịch Dạy</h5>
+    </div>
+    <div class="nav">
+        <img src="img/logo.png" alt="Logo">
+        <a href="tutor_homepage.jsp">Trang Chủ</a>
+        <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
+        <a href="">Học Sinh</a>
+        <a href="">Lịch Dạy</a>
+        <a href="logout.html" class="logout-button">Đăng Xuất</a>
+    </div>
+    <div class="container">
+        <div class="schedule-section">
+            <h2>Lịch Dạy Của Bạn</h2>
+            <div id="statusMessage">
+                <%
+                    String status = (String) request.getAttribute("status");
+                    if ("đang xử lý".equals(status)) {
                 %>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Ngày</th>
-                            <th>Giờ Bắt Đầu</th>
-                            <th>Môn Học</th>
-                            <th>Học Sinh</th>
-                            <th>Trạng Thái</th>
-                            <th>Xử lý</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (ScheduleDTO schedule : schedules) {%>
-                        <tr>
-                            <td><%= schedule.getStartDay()%></td>
-                            <td><%= schedule.getStartTime()%></td>
-                            <td><%= schedule.getSubjectName()%></td>
-                            <td><a href="ViewStuInfoFromScheduleController?accountId=<%=schedule.getStudentAccountId()%>"><%= schedule.getStudentName()%></a></td>
-                            <td><%= schedule.getStatus()%></td>
-
-                            <td>
-                                <% if ("đang xử lý".equals(schedule.getStatus())) {%>
-                                <form action="AcceptScheduleController" method="POST" style="display:inline;">
-                                    <input type="hidden" name="slotId" value="<%= schedule.getSlotId()%>">
-                                    <button type="submit">Chấp Nhận</button>
-                                </form>
-                                <form action="RejectScheduleController" method="POST" style="display:inline;">
-                                    <input type="hidden" name="slotId" value="<%= schedule.getSlotId()%>">
-                                    <button type="submit">Từ Chối</button>
-                                </form>
-                                <% } %>
-                            </td>   
-
-
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                <p class="no-schedule">Không có lịch dạy nào được tìm thấy.</p>
-                <% }
-                    }%>
+                <p class="status-message">Chờ xác nhận đăng ký</p>
+                <% } else if ("thất bại".equals(status)) { %>
+                <p class="status-message">Không thể tải lịch dạy. Vui lòng thử lại sau.</p>
+                <% } %>
             </div>
+            <% if ("thành công".equals(status)) {
+                    List<ScheduleDTO> schedules = (List<ScheduleDTO>) request.getAttribute("schedules");
+                    if (schedules != null && !schedules.isEmpty()) {
+            %>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Giờ Bắt Đầu</th>
+                        <th>Môn Học</th>
+                        <th>Học Sinh</th>
+                        <th>Trạng Thái</th>
+                        <th>Xử lý</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (ScheduleDTO schedule : schedules) {%>
+                    <tr>
+                        <td><%= schedule.getStartDay()%></td>
+                        <td><%= schedule.getStartTime()%></td>
+                        <td><%= schedule.getSubjectName()%></td>
+                        <td><a href="#" onclick="viewStudentDetails(<%=schedule.getStudentAccountId()%>);">
+                                <%= schedule.getStudentName()%>
+                            </a></td>
+                        <td><%= schedule.getStatus()%></td>
+
+                        <td>
+                            <% if ("đang xử lý".equals(schedule.getStatus())) {%>
+                            <form action="AcceptScheduleController" method="POST" style="display:inline;">
+                                <input type="hidden" name="slotId" value="<%= schedule.getSlotId()%>">
+                                <button type="submit">Chấp Nhận</button>
+                            </form>
+                            <form action="RejectScheduleController" method="POST" style="display:inline;">
+                                <input type="hidden" name="slotId" value="<%= schedule.getSlotId()%>">
+                                <button type="submit">Từ Chối</button>
+                            </form>
+                            <% } %>
+                        </td>   
+
+
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <p class="no-schedule">Không có lịch dạy nào được tìm thấy.</p>
+            <% }
+                    }%>
         </div>
-    </body>
+    </div>
+</body>
 </html>
