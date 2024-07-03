@@ -52,6 +52,14 @@
         <servlet-name>AcceptScheduleController</servlet-name>
         <servlet-class>controller.AcceptScheduleController</servlet-class>
     </servlet>
+        <servlet>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <servlet-class>controller.FeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>submitFeedbackController</servlet-name>
+        <servlet-class>controller.submitFeedbackController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -103,6 +111,14 @@
     <servlet-mapping>
         <servlet-name>AcceptScheduleController</servlet-name>
         <url-pattern>/AcceptScheduleController</url-pattern>
+    </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <url-pattern>/FeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>submitFeedbackController</servlet-name>
+        <url-pattern>/submitFeedbackController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
