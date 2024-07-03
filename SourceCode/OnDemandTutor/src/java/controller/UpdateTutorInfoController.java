@@ -74,46 +74,27 @@ public class UpdateTutorInfoController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Extract tutor information from request parameters
-        String phoneNumber = request.getParameter("phonenumber");
-        String location = request.getParameter("location");
-        String yobStr = request.getParameter("yob");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        
         String name = request.getParameter("name");
+        String phoneNumber = request.getParameter("phonenumber");
+        int yob = Integer.parseInt(request.getParameter("yob"));
+        String location = request.getParameter("location");
         String personalId = request.getParameter("personalId");
         String gender = request.getParameter("gender");
-        String experienceStr = request.getParameter("experience");
-        String gradeStr = request.getParameter("grade"); // New parameter for Grade
+        int experience = Integer.parseInt(request.getParameter("experience"));
+        int grade = Integer.parseInt(request.getParameter("grade"));
+        int accountId = Integer.parseInt(request.getParameter("accountId"));
 
-        try {
-            int yob = Integer.parseInt(yobStr);
-            int experience = Integer.parseInt(experienceStr); // Convert experience to int
-            int grade = Integer.parseInt(gradeStr); // Convert grade to int
+        TutorDAO tutorDAO = new TutorDAO();
+        boolean result = tutorDAO.updateTutorInfo(name, phoneNumber, yob, location, personalId, gender, experience, grade, accountId);
 
-            // Create TutorDTO object
-            TutorDTO tutor = new TutorDTO();
-            tutor.setPhoneNumber(phoneNumber);
-            tutor.setLocation(location);
-            tutor.setYob(yob);
-            tutor.setName(name);
-            tutor.setPersonalId(personalId);
-            tutor.setGender(gender);
-            tutor.setExperience(experience);
-            tutor.setGrade(grade); // Set grade
-
-            // Update tutor
-            boolean result = tutorDAO.updateTutor(tutor);
-
-            if (result) {
-                response.sendRedirect("success_update_tutor_info.html"); // Redirect or display success message
-            } else {
-                response.sendRedirect("failed_update_tutor_info.html"); // Redirect or display failure message
-            }
-        } catch (NumberFormatException e) {
-            // Handle number format exception for yob and experience
-            throw new ServletException("Error parsing numerical fields", e);
-        } catch (Exception e) {
-            throw new ServletException("Error updating tutor", e);
+        if (result) {
+            response.sendRedirect("success_update_tutor_info.html");
+        } else {
+            response.sendRedirect("failed_update_tutor_info.html");
         }
     }
 
