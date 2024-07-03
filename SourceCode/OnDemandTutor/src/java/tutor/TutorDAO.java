@@ -43,6 +43,16 @@ public class TutorDAO {
             + "JOIN Tutor t ON c.TutorId = t.Id "
             + "JOIN Account a_t ON t.AccountId = a_t.Id "
             + "WHERE a_t.Id = ? ";
+    
+     private static final String UPDATE_TUTOR_INFO = "UPDATE CV "
+            + "SET PhoneNumber = ?, Yob = ?, Location = ?, Personal_ID = ?, Gender = ?, Experience = ?, Grade = ? "
+            + "FROM CV "
+            + "JOIN Tutor ON Tutor.Id = CV.TutorId "
+            + "WHERE Tutor.AccountId = ?";
+
+    private static final String UPDATE_ACCOUNT_NAME = "UPDATE Account "
+            + "SET Name = ? "
+            + "WHERE Id = ?";
 
     public TutorDTO getTutorByAccountId(int accountId) throws SQLException {
         TutorDTO tutor = null;
@@ -139,66 +149,63 @@ public class TutorDAO {
         return tutors;
     }
 
-    public boolean updateTutor(TutorDTO tutor) throws ClassNotFoundException, SQLException {
-        boolean rowUpdated = false;
-        Connection connection = null;
-        PreparedStatement ptmCV = null;
-        PreparedStatement ptmAccount = null;
-
-        String UPDATE_CV = "UPDATE CV "
-                + "SET PhoneNumber = ?, Location = ?, Yob = ?, PersonalId = ?, Gender = ?, Experience = ? "
-                + "FROM CV JOIN Tutor ON Tutor.Id = CV.TutorId "
-                + "JOIN Account ON Account.Id = Tutor.AccountId "
-                + "WHERE Tutor.AccountId = ?";
-
-        String UPDATE_ACCOUNT = "UPDATE Account SET Name = ? "
-                + "WHERE Id = ?";
+    public boolean updateTutorInfo(String name, String phoneNumber, int yob, String location, String personalId, String gender, int experience, int grade, int accountId) {
+        Connection conn = null;
+        PreparedStatement ptm1 = null;
+        PreparedStatement ptm2 = null;
+        boolean isUpdated = false;
 
         try {
-            connection = DBUtils.getConnection();
-            connection.setAutoCommit(false); // Start transaction
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                // Update CV table
+                ptm1 = conn.prepareStatement(UPDATE_TUTOR_INFO);
+                ptm1.setString(1, phoneNumber);
+                ptm1.setInt(2, yob);
+                ptm1.setString(3, location);
+                ptm1.setString(4, personalId);
+                ptm1.setString(5, gender);
+                ptm1.setInt(6, experience);
+                ptm1.setInt(7, grade);
+                ptm1.setInt(8, accountId);
+                
+                // Update Account table
+                ptm2 = conn.prepareStatement(UPDATE_ACCOUNT_NAME);
+                ptm2.setString(1, name);
+                ptm2.setInt(2, accountId);
 
-            // Update CV
-            ptmCV = connection.prepareStatement(UPDATE_CV);
-            ptmCV.setString(1, tutor.getPhoneNumber());
-            ptmCV.setString(2, tutor.getLocation());
-            ptmCV.setInt(3, tutor.getYob());
-            ptmCV.setString(4, tutor.getPersonalId());
-            ptmCV.setString(5, tutor.getGender());
-            ptmCV.setInt(6, tutor.getExperience());
-            ptmCV.setInt(7, tutor.getAccountId());
-            ptmCV.executeUpdate();
+                int rowsUpdated1 = ptm1.executeUpdate();
+                int rowsUpdated2 = ptm2.executeUpdate();
 
-            // Update Account
-            ptmAccount = connection.prepareStatement(UPDATE_ACCOUNT);
-            ptmAccount.setString(1, tutor.getName());
-            ptmAccount.setInt(2, tutor.getAccountId());
-            ptmAccount.executeUpdate();
-
-            connection.commit(); // Commit transaction
-            rowUpdated = true;
-        } catch (SQLException e) {
-            if (connection != null) {
+                isUpdated = (rowsUpdated1 > 0) && (rowsUpdated2 > 0);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error at TutorDAO: " + e.toString());
+        } finally {
+            if (ptm1 != null) {
                 try {
-                    connection.rollback(); // Rollback transaction on error
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    ptm1.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error at TutorDAO: " + e.toString());
                 }
             }
-            e.printStackTrace();
-        } finally {
-            if (ptmCV != null) {
-                ptmCV.close();
+            if (ptm2 != null) {
+                try {
+                    ptm2.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error at TutorDAO: " + e.toString());
+                }
             }
-            if (ptmAccount != null) {
-                ptmAccount.close();
-            }
-            if (connection != null) {
-                connection.setAutoCommit(true); // Reset auto-commit to true
-                connection.close();
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error at TutorDAO: " + e.toString());
+                }
             }
         }
-        return rowUpdated;
+
+        return isUpdated;
     }
 
     //Trang Student_HomePage (search tutor)

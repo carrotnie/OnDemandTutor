@@ -124,6 +124,7 @@
                         <img src="<%= request.getAttribute("photoPath")%>" alt="Ảnh giáo viên">
                     </div>
                     <form action="UpdateTutorInfoController" method="post" >
+                        <input type="hidden" name="accountId" value="<%= (Integer) request.getSession().getAttribute("accountId")%>">
 
                         <label for="name">Tên:</label>
                         <input type="text" id="name" name="name" value="<%= request.getAttribute("name")%>" required=""/>
