@@ -1,5 +1,6 @@
 package timetable;
 
+import database.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TimeTableDAO {
+
     private final Connection connection;
     private static final Logger LOGGER = Logger.getLogger(TimeTableDAO.class.getName());
 
@@ -20,24 +22,26 @@ public class TimeTableDAO {
     public List<TimeTableDTO> getTimeTablesByStudentId(int studentId) throws SQLException {
         List<TimeTableDTO> timeTables = new ArrayList<>();
 
-        String query = "SELECT " +
-                       "st.AccountId, " +
-                       "sc.StudentId, " +
-                       "sl.StartTime, " +
-                       "sl.EndTime, " +
-                       "sl.DayOfSlot, " +
-                       "c.StartDay, " +
-                       "c.EndDay, " +
-                       "a.[Name] AS TutorName, " +
-                       "sub.[Name] AS SubjectName " +
-                       "FROM Schedule sc " +
-                       "JOIN Slot sl ON sc.SlotId = sl.Id " +
-                       "JOIN Class c ON sl.ClassId = c.Id " +
-                       "JOIN Tutor t ON c.TutorId = t.Id " +
-                       "JOIN Account a ON t.AccountId = a.Id " +
-                       "JOIN Subject sub ON c.SubjectId = sub.Id " +
-                       "JOIN Student st ON sc.StudentId = st.Id " +
-                       "WHERE sc.StudentId = ? AND sc.status ='thành công'";
+        String query = "SELECT "
+                + "st.AccountId, "
+                + "sc.StudentId, "
+                + "sl.Id AS SlotId, " // Ensure SlotId is selected
+                + "sl.StartTime, "
+                + "sl.EndTime, "
+                + "sl.DayOfSlot, "
+                + "c.StartDay, "
+                + "c.EndDay, "
+                + "t.Id AS TutorId, " // Ensure TutorId is selected
+                + "a.[Name] AS TutorName, "
+                + "sub.[Name] AS SubjectName "
+                + "FROM Schedule sc "
+                + "JOIN Slot sl ON sc.SlotId = sl.Id "
+                + "JOIN Class c ON sl.ClassId = c.Id "
+                + "JOIN Tutor t ON c.TutorId = t.Id "
+                + "JOIN Account a ON t.AccountId = a.Id "
+                + "JOIN Subject sub ON c.SubjectId = sub.Id "
+                + "JOIN Student st ON sc.StudentId = st.Id "
+                + "WHERE sc.StudentId = ? AND sc.status ='thành công'";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, studentId);
@@ -47,6 +51,8 @@ public class TimeTableDAO {
                     TimeTableDTO timeTable = new TimeTableDTO();
                     timeTable.setAccountId(rs.getInt("AccountId"));
                     timeTable.setStudentId(rs.getInt("StudentId"));
+                    timeTable.setSlotId(rs.getInt("SlotId")); // Set SlotId
+                    timeTable.setTutorId(rs.getInt("TutorId")); // Set TutorId
                     timeTable.setStartDay(rs.getDate("StartDay"));
                     timeTable.setEndDay(rs.getDate("EndDay"));
                     timeTable.setStartTime(rs.getTime("StartTime"));
@@ -73,6 +79,43 @@ public class TimeTableDAO {
                     LOGGER.log(Level.WARNING, "No student found for AccountId: {0}", accountId);
                     return null;
                 }
+            }
+        }
+    }
+
+    public static void insertComplaint(TimeTableDTO complaint) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "INSERT INTO Complaint (StudentId, SlotId, TutorId, ModId, Content) VALUES (?, ?, ?, ?, ?)";
+                stm = conn.prepareStatement(query);
+
+                // Debugging statements
+                System.out.println("Inserting complaint with StudentId: " + complaint.getStudentId());
+                System.out.println("SlotId: " + complaint.getSlotId());
+                System.out.println("TutorId: " + complaint.getTutorId());
+                System.out.println("ModId: " + complaint.getModId());
+                System.out.println("Content: " + complaint.getContent());
+
+                stm.setInt(1, complaint.getStudentId());
+                stm.setInt(2, complaint.getSlotId());
+                stm.setInt(3, complaint.getTutorId());
+                stm.setInt(4, complaint.getModId());
+                stm.setString(5, complaint.getContent());
+
+                stm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException("Error inserting complaint: " + e.getMessage(), e);
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
             }
         }
     }
