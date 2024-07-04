@@ -30,8 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     reportButtons.forEach(button => {
-        const startDate = new Date(button.nextElementSibling.value);
-        const reportEndDate = new Date(button.nextElementSibling.nextElementSibling.value);
+        const form = button.closest('form');
+        const startDate = new Date(form.querySelector('.report-start').value);
+        const reportEndDate = new Date(form.querySelector('.report-end').value);
 
         // Tính toán reportStartDate là ngày StartDay lùi lại 14 ngày
         const reportStartDate = new Date(startDate);
@@ -44,14 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             button.style.display = 'none';
         }
-    });
-
-    // Thêm sự kiện click cho nút report để chuyển hướng trang
-    reportButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const url = button.getAttribute('data-url');
-            window.location.href = url;
-        });
     });
 });
 
