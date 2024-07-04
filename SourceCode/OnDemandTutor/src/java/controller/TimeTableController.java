@@ -66,6 +66,7 @@ public class TimeTableController extends HttpServlet {
                 if (timeTables.isEmpty()) {
                     request.setAttribute("errorMessage", "Không tìm thấy thời khóa biểu cho tuần được chọn.");
                 }
+                request.setAttribute("studentId", studentId); // Đặt studentId làm thuộc tính yêu cầu
             } else {
                 request.setAttribute("errorMessage", "Không tìm thấy học sinh cho tài khoản này.");
             }
@@ -88,3 +89,4 @@ public class TimeTableController extends HttpServlet {
         return filteredTimeTables;
     }
 }
+

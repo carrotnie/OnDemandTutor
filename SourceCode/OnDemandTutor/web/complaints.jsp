@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODO supply a title</title>
+    <title>Báo cáo giáo viên</title>
     <style>
         .container {
             max-width: 600px;
@@ -40,14 +40,14 @@
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 3px;
             cursor: pointer;
         }
         .btn:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
         .windows-activation {
             margin-top: 20px;
@@ -59,22 +59,27 @@
 <body>
     <div class="container">
         <h1>Báo cáo giáo viên</h1>
-        <form action="submitForm.jsp" method="post">
-            <div class="form-group">
-                <label for="name">Tên</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+        <form action="SubmitComplaintController" method="post">
+            <input type="hidden" id="studentId" name="studentId" value="${param.studentId}">
+            <input type="hidden" id="slotId" name="slotId" value="${param.slotId}">
+            <input type="hidden" id="tutorId" name="tutorId" value="${param.tutorId}">
+            <input type="hidden" id="modId" name="modId" value="${param.modId}">
+
             <div class="form-group">
                 <label for="teacherName">Tên giáo viên</label>
-                <input type="text" id="teacherName" name="teacherName" required>
+                <input type="text" id="teacherName" name="tutorName" value="${param.tutorName}" readonly>
             </div>
             <div class="form-group">
-                <label for="slot">Slot học - môn học</label>
-                <input type="text" id="slot" name="slot" required>
+                <label for="slot">Slot học</label>
+                <input type="text" id="slot" name="timeRange" value="${param.timeRange}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="subjectName">Môn học</label>
+                <input type="text" id="subjectName" name="subjectName" value="${param.subjectName}" readonly>
             </div>
             <div class="form-group">
                 <label for="message">Mô tả vấn đề của bạn:</label>
-                <textarea id="message" name="message" required></textarea>
+                <textarea id="message" name="content" required></textarea>
             </div>
             <button type="submit" class="btn">Gửi đơn</button>
         </form>

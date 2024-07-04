@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Thank You</title>
+    <title>Error</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,9 +49,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Thank You!</h1>
-        <p>Phản hồi của bạn đã được gửi thành công.</p> 
-        <p>Chúng tôi rất trân trọng ý kiến của bạn và sẽ sử dụng nó để cải thiện dịch vụ của chúng tôi.</p>
+        <h1>Error</h1>
+        <p>Đã xảy ra lỗi trong quá trình xử lý yêu cầu của bạn</p>
         <a href="student_homepage.jsp">Quay lại trang chủ</a>
     </div>
 </body>
