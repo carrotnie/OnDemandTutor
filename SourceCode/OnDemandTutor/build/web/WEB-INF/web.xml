@@ -64,6 +64,14 @@
         <servlet-name>SubmitComplaintController</servlet-name>
         <servlet-class>controller.SubmitComplaintController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsertClassServlet</servlet-name>
+        <servlet-class>controller.InsertClassServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertSlotServlet</servlet-name>
+        <servlet-class>controller.InsertSlotServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -127,6 +135,14 @@
     <servlet-mapping>
         <servlet-name>SubmitComplaintController</servlet-name>
         <url-pattern>/SubmitComplaintController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertClassServlet</servlet-name>
+        <url-pattern>/InsertClassServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertSlotServlet</servlet-name>
+        <url-pattern>/InsertSlotServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
