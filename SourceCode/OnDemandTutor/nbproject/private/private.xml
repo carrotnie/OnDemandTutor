@@ -3,16 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/src/java/timetable/TimeTableDTO.java</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/web/script.js</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/src/java/timetable/Moderator.java</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/src/java/timetable/TimeTableDAO.java</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/SubmitComplaintController.java</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/web/error.jsp</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/web/thankYou.jsp</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/TimeTableController.java</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/web/complaints.jsp</file>
-            <file>file:/D:/SWP_1/OnDemandTutor/SourceCode/OnDemandTutor/web/student_timetable.jsp</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/errorClass.jsp</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/InsertSlotServlet.java</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/successClass.jsp</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/SlotDAO.java</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/InsertClassServlet.java</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/registerSlot.jsp</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/ClassDAO.java</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/SlotDTO.java</file>
+            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/errorSlot.jsp</file>
         </group>
     </open-files>
 </project-private>
