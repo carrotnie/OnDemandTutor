@@ -45,8 +45,10 @@ public class ViewTutorInfoController extends HttpServlet {
             TutorDTO tutor = tutorDAO.getTutorByAccountId(accountId);
             if (tutor != null) {
                 LOGGER.log(Level.INFO, "Tutor: {0}", tutor.toString());
-                String photoPath = "/img/tutor/ " + accountId + ".jpg"; // Tạo đường dẫn ảnh dựa trên accountId
+                String photoPath = "/img/tutor/" + tutor.getTutorId() + ".jpg"; // Tạo đường dẫn ảnh dựa trên accountId
                 request.setAttribute("photoPath", request.getContextPath() + photoPath);
+                String certificatePath = "/img/certificate/" + tutor.getTutorId() + ".png"; // Path for tutor certificate
+                request.setAttribute("certificatePath", request.getContextPath() + certificatePath);
                 request.setAttribute("name", tutor.getName());
                 request.setAttribute("phonenumber", tutor.getPhoneNumber());
                 request.setAttribute("location", tutor.getLocation());
