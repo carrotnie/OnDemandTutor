@@ -91,7 +91,6 @@
 
             .main-content {
                 display: flex;
-                /*                padding: 50px;*/
                 padding-left: 50px;
                 padding-right: 50px;
             }
@@ -219,8 +218,8 @@
             #option-2:checked ~ .option-2 .dot {
                 background: #fff;
             }
-            #option-1:checked ~ .option-1 .dot::before,
-            #option-2:checked ~ .option-2 .dot::before {
+            #option-1:checked ~ .option-1 .dot:before,
+            #option-2:checked ~ .option-2 .dot:before {
                 opacity: 1;
                 transform: scale(1);
             }
@@ -264,11 +263,11 @@
                     <div class="wrapper">
                         <input type="radio" name="Role" value="student" id="option-1" checked>
                         <input type="radio" name="Role" value="tutor" id="option-2">
-                        <label for="student" class="option option-1">
+                        <label for="option-1" class="option option-1">
                             <div class="dot"></div>
                             <span>Học Sinh</span>
                         </label>
-                        <label for="tutor" class="option option-2">
+                        <label for="option-2" class="option option-2">
                             <div class="dot"></div>
                             <span>Gia Sư</span>
                         </label>

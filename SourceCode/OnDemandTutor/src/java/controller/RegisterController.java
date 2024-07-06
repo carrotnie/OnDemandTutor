@@ -24,7 +24,8 @@ import user.UserError;
 public class RegisterController extends HttpServlet {
 
     private static final String ERROR = "register.jsp";
-    private static final String SUCCESS = "login.jsp";
+    private static final String SUCCESS_STUDENT = "register_info_student.jsp";
+    private static final String SUCCESS_TUTOR = "register_info_tutor.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,7 +55,7 @@ public class RegisterController extends HttpServlet {
                 checkValidation = false;
             }
             if (!isValidPassword(Password)) {
-                userError.setPasswordError("Mật khẩu phải có ít nhất 1 chữ cái viết hoa, 1 chữ số và không có khoảng trắng.");
+                userError.setPasswordError("Mật khẩu phải có ít nhất 1 chữ cái viết hoa, 1 chữ số với 1 kí tự đặc biệt và không có khoảng trắng.");
                 checkValidation = false;
             }
             if (!Password.equals(Confirm)) {
@@ -65,9 +66,13 @@ public class RegisterController extends HttpServlet {
                 UserDTO user = new UserDTO(Name, Username, Password, Role);
                 boolean checkInsert = dao.insert(user);
                 if (checkInsert) {
-                    url = SUCCESS;
+                    if ("student".equals(Role)) {
+                        url = SUCCESS_STUDENT;
+                    } else if ("tutor".equals(Role)) {
+                        url = SUCCESS_TUTOR;
+                    }
                 } else {
-                    request.setAttribute("USER_ERROR", "Unknow error!");
+                    request.setAttribute("USER_ERROR", "Unknown error!");
                 }
             } else {
                 request.setAttribute("USER_ERROR", userError);
