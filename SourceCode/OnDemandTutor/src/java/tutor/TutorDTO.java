@@ -28,6 +28,7 @@ public class TutorDTO {
     private String url;
     private String youtubeUrl;
     private List<String> subjects;
+    private int tutorId;
 
     public TutorDTO() {
         this.Personal_Id = "";
@@ -162,7 +163,7 @@ public class TutorDTO {
     public void setYoutubeUrl(String youtubeUrl) {
         this.youtubeUrl = youtubeUrl;
     }
-    
+
     public List<String> getSubjects() {
         return subjects;
     }
@@ -170,6 +171,15 @@ public class TutorDTO {
     public void setSubjects(List<String> subjects) {
         this.subjects = subjects;
     }
+
+    public int getTutorId() {
+        return tutorId;
+    }
+
+    public void setTutorId(int tutorId) {
+        this.tutorId = tutorId;
+    }
+
     public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, String url) {
         this.Personal_Id = Personal_Id;
         this.Gender = Gender;
@@ -183,7 +193,7 @@ public class TutorDTO {
         this.url = url;
     }
 
-    public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id) {
+    public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, int tutorId) {
         this.Personal_Id = Personal_Id;
         this.Gender = Gender;
         this.Experience = Experience;
@@ -194,6 +204,7 @@ public class TutorDTO {
         this.AccountId = AccountId;
         this.Id = Id;
         this.Name = Name;
+        this.tutorId = tutorId;
     }
 
     public TutorDTO(String Name, String PhoneNumber, String location, int Yob, int Id, String subjectName, double rating, String youtubeUrl, String Location) {

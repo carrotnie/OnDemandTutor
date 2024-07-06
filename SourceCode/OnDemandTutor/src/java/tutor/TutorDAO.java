@@ -25,11 +25,12 @@ public class TutorDAO {
 
     private static final Logger LOGGER = Logger.getLogger(TutorDAO.class.getName());
     private static final String GET_TUTOR_BY_ACCOUNT_ID
-            =  "select Account.Id, Account.Name, CV.PhoneNumber, CV.Location, CV.Yob, CV.Personal_ID, CV.Gender,CV.Experience,CV.Grade, CV.Url "
-            + "from CV "
-            + "join Tutor  ON Tutor.Id = CV.TutorId "
-            + "join Account ON Account.Id = Tutor.AccountId "
-            + "WHERE Tutor.AccountId = ? ";
+            =  "SELECT Account.Id, Account.Name, CV.PhoneNumber, CV.Location, CV.Yob, " +
+             "CV.Personal_ID, CV.Gender, CV.Experience, CV.Grade, CV.Url, Tutor.Id AS TutorId " +
+             "FROM CV " +
+             "JOIN Tutor ON Tutor.Id = CV.TutorId " +
+             "JOIN Account ON Account.Id = Tutor.AccountId " +
+             "WHERE Tutor.AccountId = ?";
 
     private static final String GET_SCHEDULES_BY_ACCOUNT_ID
             = "SELECT c.StartDay AS startDay, s.StartTime AS startTime, sub.Name AS SubjectName, "
@@ -77,8 +78,10 @@ public class TutorDAO {
                     int grade = rs.getInt("Grade");
                     String name = rs.getString("Name");
                     String url = rs.getString("url");
+                    int tutorId = rs.getInt("TutorId");
                     tutor = new TutorDTO(personalId, gender, experience, grade, phoneNumber, location, yob, accountId, id, url);
                     tutor.setName(name); // Set name from Account table
+                    tutor.setTutorId(tutorId);
                 }
             } else {
                 System.out.println("Failed to connect to the database.");
