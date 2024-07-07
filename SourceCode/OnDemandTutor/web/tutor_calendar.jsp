@@ -128,7 +128,7 @@
         <img src="img/logo.png" alt="Logo">
         <a href="tutor_homepage.jsp">Trang Chủ</a>
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
-        <a href="">Học Sinh</a>
+        <a href="registerMenu.html">Đăng ký Class&Slot</a>
         <a href="">Lịch Dạy</a>
         <a href="logout.html" class="logout-button">Đăng Xuất</a>
     </div>
