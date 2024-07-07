@@ -13,14 +13,18 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
             }
             .container {
                 width: 50%;
                 margin: auto;
                 padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                margin-top: 50px;
             }
             .form-group {
                 margin-bottom: 15px;
@@ -28,28 +32,55 @@
             .form-group label {
                 display: block;
                 margin-bottom: 5px;
+                font-weight: bold;
             }
-            .form-group input {
+            .form-group input, .form-group select {
                 width: 100%;
-                padding: 8px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
                 box-sizing: border-box;
+                margin-bottom: 10px;
+                font-size: 16px;
             }
-            .form-group button {
-                padding: 10px 15px;
-                background-color: #007bff;
+            .form-group button, .form-group .button-back {
+                padding: 10px 20px;
+                font-size: 16px;
                 color: white;
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+                margin-right: 10px;
+            }
+            .form-group button {
+                background-color: #007bff;
             }
             .form-group button:hover {
                 background-color: #0056b3;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(0, 91, 187, 0.2);
+            }
+            .form-group .button-back {
+                background-color: #6c757d;
+                text-decoration: none;
+                display: inline-block;
+                text-align: center;
+            }
+            .form-group .button-back:hover {
+                background-color: #5a6268;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(90, 98, 104, 0.2);
+            }
+            .alert {
+                color: red;
+                margin-bottom: 15px;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <h2>Register Class</h2>
+            <h2>Insert Slot</h2>
             <form action="MainController" method="post">
                 <div class="form-group">
                     <label for="dayOfSlot">Ngày trong tuần:</label>
@@ -64,17 +95,22 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="startTime">Giờ bắt đầu:</label>
+                    <label for="startTime">Start Time (HH:mm):</label>
                     <input type="time" id="startTime" name="startTime" required>
                 </div>
                 <div class="form-group">
-                    <label for="endTime">Giờ kết thúc:</label>
+                    <label for="endTime">End Time (HH:mm):</label>
                     <input type="time" id="endTime" name="endTime" required>
                 </div>
+                <c:if test="${not empty errorMessage}">
+                    <div class="alert">${errorMessage}</div>
+                </c:if>
                 <div class="form-group">
                     <button type="submit" name="action" value="RegisterSlot">Register</button>
+                    <a href="registerMenu.html" class="button-back">Back to Register Menu</a>
                 </div>
             </form>
         </div>
     </body>
 </html>
+

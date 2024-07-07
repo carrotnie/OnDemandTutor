@@ -8,8 +8,11 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +39,7 @@ public class InsertSlotServlet extends HttpServlet {
                 response.sendRedirect("login.jsp");
                 return;
             }
-            
+
             String dayOfSlotParam = request.getParameter("dayOfSlot");
             String startTimeParam = request.getParameter("startTime");
             String endTimeParam = request.getParameter("endTime");
@@ -54,6 +57,21 @@ public class InsertSlotServlet extends HttpServlet {
             String startTime = startTimeParam;
             String endTime = endTimeParam;
 
+            // Kiểm tra ràng buộc thời gian
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            java.util.Date start = format.parse(startTime);
+            java.util.Date end = format.parse(endTime);
+
+            long differenceInMilliSeconds = end.getTime() - start.getTime();
+            long differenceInHours = differenceInMilliSeconds / (60 * 60 * 1000);
+
+            if (differenceInHours != 2) {
+                request.setAttribute("errorMessage", "Thời gian kết thúc phải cách thời gian bắt đầu đúng 2 giờ.");
+                RequestDispatcher rd = request.getRequestDispatcher("registerSlot.jsp");
+                rd.forward(request, response);
+                return;
+            }
+
             SlotDTO slotDTO = new SlotDTO();
             slotDTO.setClassId(tutorId);
             slotDTO.setDayOfSlot(dayOfSlot);
@@ -63,13 +81,18 @@ public class InsertSlotServlet extends HttpServlet {
             SlotDAO slotDAO = new SlotDAO();
             try {
                 slotDAO.addSlot(slotDTO);
-                response.sendRedirect("tutor_homepage.jsp");
+                response.sendRedirect("successSlot.jsp");
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.sendRedirect("errorSlot.jsp");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Thời gian không hợp lệ.");
+            RequestDispatcher rd = request.getRequestDispatcher("insertSlot.jsp");
+            rd.forward(request, response);
         } finally {
             // Close resources if needed
         }

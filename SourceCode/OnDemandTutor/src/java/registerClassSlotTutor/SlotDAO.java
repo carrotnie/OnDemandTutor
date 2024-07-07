@@ -21,7 +21,8 @@ public class SlotDAO {
             + "(SELECT TOP 1 Class.Id "
             + "FROM Class "
             + "join Tutor on Tutor.Id = Class.TutorId "
-            + "WHERE Tutor.AccountId = ?), "
+            + "WHERE Tutor.AccountId = ? "
+            + "order by Class.Id desc), "
             + "? , ?, ?) ";
 
     public void addSlot(SlotDTO slotDTO) throws SQLException, ClassNotFoundException {

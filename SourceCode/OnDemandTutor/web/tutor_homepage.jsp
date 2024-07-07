@@ -22,7 +22,7 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            margin: -25px;
+            margin: -22px;
         }
         .header h1 {
             margin: 0;
@@ -122,7 +122,7 @@
         <img src="img/logo.png" alt="Logo">
         <a href="tutor_homepage.jsp">Trang Chủ</a>
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
-        <a href="registerMenu.html">Đăng ký Class & Slot</a>
+        <a href="registerMenu.html">Đăng ký Class&Slot</a>
         <a href="ViewTutorCalendar">Lịch Dạy</a>
         <a href="#" class="logout-button">Đăng Xuất</a>
     </div>

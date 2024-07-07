@@ -9,8 +9,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import registerClassSlotTutor.ClassDAO;
 import registerClassSlotTutor.ClassDTO;
+import registerClassSlotTutor.SubjectDAO;
+import registerClassSlotTutor.SubjectDTO;
 
 /**
  *
@@ -38,27 +44,46 @@ public class InsertClassServlet extends HttpServlet {
                 return;
             }
 
-            // Ensure parameters are correctly named
+            // Truy vấn danh sách các môn học mà giáo viên đang dạy
+            List<SubjectDTO> subjectList = new ArrayList<>();
+            SubjectDAO subjectDAO = new SubjectDAO();
+            try {
+                subjectList = subjectDAO.getSubjectsByTutorId(tutorId);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(InsertClassServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             String subjectIdParam = request.getParameter("subjectId");
             String amountOfSlotParam = request.getParameter("amountOfSlot");
             String startDayParam = request.getParameter("startDay");
             String endDayParam = request.getParameter("endDay");
 
-            // Log the parameter values
-            Logger.getLogger(InsertClassServlet.class.getName()).log(Level.INFO, "subjectId: " + subjectIdParam);
-            Logger.getLogger(InsertClassServlet.class.getName()).log(Level.INFO, "amountOfSlot: " + amountOfSlotParam);
-            Logger.getLogger(InsertClassServlet.class.getName()).log(Level.INFO, "startDay: " + startDayParam);
-            Logger.getLogger(InsertClassServlet.class.getName()).log(Level.INFO, "endDay: " + endDayParam);
-
-            // Validate parameters
             if (subjectIdParam == null || amountOfSlotParam == null || startDayParam == null || endDayParam == null) {
-                throw new ServletException("Missing required parameters.");
+                request.setAttribute("errorMessage", "Missing required parameters.");
+                request.setAttribute("subjectList", subjectList);
+                RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+                rd.forward(request, response);
+                return;
             }
 
             int subjectId = Integer.parseInt(subjectIdParam);
             int amountOfSlot = Integer.parseInt(amountOfSlotParam);
             Date startDay = Date.valueOf(startDayParam);
             Date endDay = Date.valueOf(endDayParam);
+
+            // Kiểm tra ràng buộc ngày
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDay);
+            cal.add(Calendar.MONTH, 2);
+            Date expectedEndDay = new Date(cal.getTimeInMillis());
+
+            if (!endDay.equals(expectedEndDay)) {
+                request.setAttribute("errorMessage", "Ngày kết thúc phải cách ngày bắt đầu đúng 2 tháng.");
+                request.setAttribute("subjectList", subjectList);
+                RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+                rd.forward(request, response);
+                return;
+            }
 
             ClassDTO classDTO = new ClassDTO();
             classDTO.setTutorId(tutorId);
