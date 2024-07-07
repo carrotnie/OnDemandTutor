@@ -6,32 +6,159 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Register Menu</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            .header {
+                background-color: #001F3F;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+            }
+            .header h5 {
+                margin: 0;
+            }
+            .nav {
+                background-color: #F8F9FA;
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                border-bottom: 1px solid #ddd;
+            }
+            .nav img {
+                height: 50px;
+                margin-right: 20px;
+            }
+            .nav a {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                padding: 10px 20px;
+                margin: 0 5px;
+                display: inline-block;
+            }
+            .nav .logout-button {
+                background-color: #FF4136;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 5px;
+                margin-left: auto;
+            }
+            .container {
+                padding: 20px;
+            }
+            .welcome-message {
+                background-color: #007BFF;
+                color: white;
+                text-align: center;
+                padding: 20px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+            .info-section {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+            .info-section h2 {
+                margin-top: 0;
+            }
+            .info-section p {
+                margin: 5px 0;
+            }
+            .students-list {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .students-list h2 {
+                margin-top: 0;
+            }
+            .students-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
+            .students-list ul li {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            .students-list ul li:last-child {
+                border-bottom: none;
+            }
+            .actions {
+                margin-top: 20px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .actions a {
+                background-color: #28a745;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+            .container {
+                width: 80%;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                text-align: center;
+            }
+            .content {
+                margin-top: 20px;
+            }
             .button-link {
                 display: inline-block;
-                padding: 10px 20px;
-                font-size: 16px;
+                padding: 15px 30px;
+                font-size: 18px;
                 color: white;
                 background-color: #007bff;
                 text-align: center;
                 text-decoration: none;
-                border-radius: 4px;
-                margin: 5px;
+                border-radius: 5px;
+                margin: 10px;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
-
             .button-link:hover {
                 background-color: #0056b3;
+                transform: translateY(-5px);
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
             }
         </style>
     </head>
     <body>
-        <!-- Liên kết được tạo kiểu thành nút nhấn để chuyển sang trang đăng ký Class -->
-        <a href="registerClass.jsp" class="button-link">Register Class</a>
-
-        <!-- Liên kết được tạo kiểu thành nút nhấn để chuyển sang trang đăng ký Slot -->
-        <a href="registerSlot.jsp" class="button-link">Register Slot</a>
+        <div class="header">
+            <h5>Trang đăng ký Class & Slot</h5>
+        </div>
+        <div class="nav">
+            <img src="img/logo.png" alt="Logo">
+            <a href="tutor_homepage.jsp">Trang Chủ</a>
+            <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
+            <a href="">Đăng ký Class&Slot</a>
+            <a href="ViewTutorCalendar">Lịch Dạy</a>
+            <a href="#" class="logout-button">Đăng Xuất</a>
+        </div>
+        <div class="container">
+            <div class="content">
+                <a href="registerClass.jsp" class="button-link">Đăng Ký Lớp Học</a>
+                <a href="registerSlot.jsp" class="button-link">Đăng Ký Slot</a>
+            </div>
+        </div>
     </body>
 </html>
