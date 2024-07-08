@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/errorClass.jsp</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/InsertSlotServlet.java</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/successClass.jsp</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/SlotDAO.java</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/InsertClassServlet.java</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/registerSlot.jsp</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/ClassDAO.java</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/SlotDTO.java</file>
-            <file>file:/D:/SWP/insert/OnDemandTutor/SourceCode/OnDemandTutor/web/errorSlot.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

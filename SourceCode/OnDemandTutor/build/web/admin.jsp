@@ -197,7 +197,7 @@
                         <td><%= user.getAmountOfReport()%></td>
                         <td class="action-buttons">
                             <%
-                                if ("active".equals(user.getStatus())) {
+                                if ("active".equals(user.getStatus()) && user.getAmountOfReport() == 3) {
                             %>
                             <form action="MainController" method="POST">
                                 <input type="hidden" name="action" value="Ban"/>
