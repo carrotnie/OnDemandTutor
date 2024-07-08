@@ -72,6 +72,14 @@
         <servlet-name>InsertSlotServlet</servlet-name>
         <servlet-class>controller.InsertSlotServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewReportController</servlet-name>
+        <servlet-class>controller.ViewReportController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfirmReportController</servlet-name>
+        <servlet-class>controller.ConfirmReportController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -143,6 +151,14 @@
     <servlet-mapping>
         <servlet-name>InsertSlotServlet</servlet-name>
         <url-pattern>/InsertSlotServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewReportController</servlet-name>
+        <url-pattern>/ViewReportController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmReportController</servlet-name>
+        <url-pattern>/ConfirmReportController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
