@@ -37,7 +37,7 @@ public class ViewStuInfoController extends HttpServlet {
             StudentDTO student = studentDAO.getStudentByAccountId(accountId);
             if (student != null) {
                 LOGGER.log(Level.INFO, "Student: {0}", student.toString());
-                String photoPath = "/img/student/s" + accountId + ".jpg"; // Tạo đường dẫn ảnh dựa trên accountId
+                String photoPath = "/img/student/s" + student.getId() + ".jpg"; // Tạo đường dẫn ảnh dựa trên accountId
                 request.setAttribute("photoPath", request.getContextPath() + photoPath);
                 request.setAttribute("name", student.getName());
                 request.setAttribute("gender", student.getGender());

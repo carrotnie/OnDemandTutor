@@ -351,7 +351,7 @@
                 <a href="ViewStuInfoController">Thông tin cá nhân</a>
                 <a href="student_timetable.jsp">Lịch học</a>
                 <a href="ScheduleController">Tình trạng đăng ký</a>
-                <a href="#">Đánh giá khóa học</a>
+                <a href="FeedbackServlet">Đánh giá khóa học</a>
             </div>
             <form action="SearchTutorController" method="GET">
                 <div class="search-container">

@@ -19,6 +19,70 @@ public class UserDTO {
     private int AmountOfReport;
     private String Status;
 
+    private int accountId;
+    private String gender;
+    private int yob;
+    private String location;
+    private String phoneNumber;
+    private int grade;
+
+    public UserDTO(int accountId, String gender, int yob, String location, String phoneNumber, int grade) {
+        this.accountId = accountId;
+        this.gender = gender;
+        this.yob = yob;
+        this.location = location;
+        this.phoneNumber = phoneNumber;
+        this.grade = grade;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public int getYob() {
+        return yob;
+    }
+
+    public void setYob(int yob) {
+        this.yob = yob;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
     public UserDTO() {
         this.Id = 0;
         this.Name = "";
