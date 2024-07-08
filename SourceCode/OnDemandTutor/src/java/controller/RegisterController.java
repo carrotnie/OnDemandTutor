@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import user.UserDAO;
 import user.UserDTO;
 import user.UserError;
@@ -66,6 +67,9 @@ public class RegisterController extends HttpServlet {
                 UserDTO user = new UserDTO(Name, Username, Password, Role);
                 boolean checkInsert = dao.insert(user);
                 if (checkInsert) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("USER_NAME", Name);
+                    session.setAttribute("USER_ID", user.getId());
                     if ("student".equals(Role)) {
                         url = SUCCESS_STUDENT;
                     } else if ("tutor".equals(Role)) {
@@ -90,7 +94,7 @@ public class RegisterController extends HttpServlet {
 
     }
 
-     private boolean isValidPassword(String password) {
+    private boolean isValidPassword(String password) {
         String pattern = "^(?=.*[A-Z])(?=.*\\d)[^\\s]{6,15}$";
         return password.matches(pattern);
     }

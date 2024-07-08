@@ -80,6 +80,10 @@
         <servlet-name>ConfirmReportController</servlet-name>
         <servlet-class>controller.ConfirmReportController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsertInfoStudentController</servlet-name>
+        <servlet-class>controller.InsertInfoStudentController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>ConfirmReportController</servlet-name>
         <url-pattern>/ConfirmReportController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertInfoStudentController</servlet-name>
+        <url-pattern>/InsertInfoStudentController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
