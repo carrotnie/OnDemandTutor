@@ -347,6 +347,7 @@
                 <a href="ListClasses">Đăng ký khóa học</a>
                 <a href="ScheduleController">Tình trạng đăng ký</a>
                 <a href="FeedbackServlet">Đánh giá khóa học</a>
+                <a href="ChatController">Chat</a> <!-- Nút Chat -->
             </div>
             <form action="SearchTutorController" method="GET">
                 <div class="search-container">

@@ -124,6 +124,7 @@
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
         <a href="registerMenu.html">Đăng ký Class&Slot</a>
         <a href="ViewTutorCalendar">Lịch Dạy</a>
+        <a href="ChatController">Chat</a> <!-- Nút Chat -->
         <a href="#" class="logout-button">Đăng Xuất</a>
     </div>
     <div class="container">
