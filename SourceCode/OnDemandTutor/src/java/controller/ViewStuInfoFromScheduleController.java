@@ -79,7 +79,7 @@ public class ViewStuInfoFromScheduleController extends HttpServlet {
         try {
             int accountId = Integer.parseInt(request.getParameter("accountId"));
             StudentDAO studentDAO = new StudentDAO();
-            StudentDTO student = studentDAO.getStudentByAccountId(accountId);
+            StudentDTO student = studentDAO.viewStuInfoFromSchedule(accountId);
 
             HttpSession session = request.getSession();
             session.setAttribute("STUDENT", student);

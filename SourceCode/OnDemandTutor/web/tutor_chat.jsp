@@ -161,6 +161,15 @@
                         return; // Không gửi tin nhắn rỗng
                     }
                     console.log("Message input value:", message); // In ra giá trị của message
+
+                    // Hiển thị tin nhắn vừa gửi lên khung chat
+                    var chatWindow = document.getElementById("chatWindow");
+                    var messageElement = document.createElement("div");
+                    messageElement.classList.add("message");
+                    messageElement.textContent = message;
+                    chatWindow.appendChild(messageElement);
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+
                     ws.send(message);
 
                     document.getElementById('message').value = '';
