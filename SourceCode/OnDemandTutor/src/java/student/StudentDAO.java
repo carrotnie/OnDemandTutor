@@ -9,21 +9,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StudentDAO {
-    private static final String GET_STUDENT_BY_ACCOUNT_ID = 
-        "SELECT s.Id, s.AccountId, s.Yob, s.Location, s.Gender, s.Grade, s.PhoneNumber, a.Name " +
-        "FROM Student s " +
-        "JOIN Account a ON s.AccountId = a.Id " +
-        "WHERE s.AccountId=?";
-    
-    
-     //View stu info from schedule
+
+    private static final String GET_STUDENT_BY_ACCOUNT_ID
+            = "SELECT s.Id, s.AccountId, s.Yob, s.Location, s.Gender, s.Grade, s.PhoneNumber, a.Name "
+            + "FROM Student s "
+            + "JOIN Account a ON s.AccountId = a.Id "
+            + "WHERE s.AccountId=?";
+
+    //View stu info from schedule
     private static String VIEW_INFO_STU_FROM_SCHEDULE
-            = "SELECT Account.Name, Student.PhoneNumber, Student.Location, Student.Gender, Student.Id "
+            = "SELECT Account.Name, Account.Username, Student.PhoneNumber, Student.Location, Student.Gender, Student.Id "
             + "FROM Student "
             + "JOIN Account ON Student.AccountId = Account.Id "
             + "WHERE Student.AccountId = ?";
 
-    
     private static final Logger LOGGER = Logger.getLogger(StudentDAO.class.getName());
 
     public StudentDTO getStudentByAccountId(int accountId) throws SQLException {
@@ -55,9 +54,15 @@ public class StudentDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error at StudentDAO: " + e.toString());
         } finally {
-            if (rs != null) rs.close();
-            if (ptm != null) ptm.close();
-            if (conn != null) conn.close();
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return student;
     }
@@ -73,12 +78,16 @@ public class StudentDAO {
             needComma = true;
         }
         if (phone != null && !phone.isEmpty()) {
-            if (needComma) query.append(", ");
+            if (needComma) {
+                query.append(", ");
+            }
             query.append("PhoneNumber=?");
             needComma = true;
         }
         if (grade != null) {
-            if (needComma) query.append(", ");
+            if (needComma) {
+                query.append(", ");
+            }
             query.append("Grade=?");
         }
         query.append(" WHERE AccountId=?");
@@ -104,12 +113,16 @@ public class StudentDAO {
             LOGGER.log(Level.SEVERE, "Error updating student info", e);
             throw e;
         } finally {
-            if (ptm != null) ptm.close();
-            if (conn != null) conn.close();
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
-    
-     //View stu info from schedule
+
+    //View stu info from schedule
     public StudentDTO viewStuInfoFromSchedule(int accountId) throws SQLException {
         StudentDTO student = null;
         Connection conn = null;
@@ -126,7 +139,8 @@ public class StudentDAO {
                     String phoneNumber = rs.getString("PhoneNumber");
                     String location = rs.getString("Location");
                     String name = rs.getString("Name");
-                    student = new StudentDTO(accountId, location, phoneNumber, name);
+                    String username = rs.getString("Username");
+                    student = new StudentDTO(accountId, location, phoneNumber, name, username);
                     student.setName(name);
                 }
             } else {
@@ -148,5 +162,5 @@ public class StudentDAO {
 
         return student;
     }
-    
+
 }

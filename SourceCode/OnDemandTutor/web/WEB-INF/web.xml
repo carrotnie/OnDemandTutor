@@ -84,6 +84,10 @@
         <servlet-name>InsertInfoStudentController</servlet-name>
         <servlet-class>controller.InsertInfoStudentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChatController</servlet-name>
+        <servlet-class>controller.ChatController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -167,6 +171,10 @@
     <servlet-mapping>
         <servlet-name>InsertInfoStudentController</servlet-name>
         <url-pattern>/InsertInfoStudentController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatController</servlet-name>
+        <url-pattern>/ChatController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

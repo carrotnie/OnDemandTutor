@@ -5,6 +5,7 @@ package student;
  * @author ADMIN
  */
 public class StudentDTO {
+
     private int Id;
     private int AccountId;
     private int Yob; // năm sinh
@@ -13,6 +14,7 @@ public class StudentDTO {
     private int Grade;
     private String PhoneNumber;
     private String Name; // Tên của học sinh từ bảng Account
+    private String Username;
 
     public StudentDTO() {
         this.Id = 0;
@@ -35,14 +37,19 @@ public class StudentDTO {
         this.PhoneNumber = PhoneNumber;
         this.Name = "";
     }
-    
-     //View stu info from schedule
-    public StudentDTO(int AccountId, String Location, String PhoneNumber, String Name) {
+
+    //View stu info from schedule
+
+    public StudentDTO(int AccountId, String Location, String PhoneNumber, String Name, String Username) {
         this.AccountId = AccountId;
         this.Location = Location;
         this.PhoneNumber = PhoneNumber;
         this.Name = Name;
+        this.Username = Username;
     }
+
+    
+    
 
     public StudentDTO(int Id, int AccountId) {
         this.Id = Id;
@@ -112,4 +119,13 @@ public class StudentDTO {
     public void setName(String Name) {
         this.Name = Name;
     }
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String Username) {
+        this.Username = Username;
+    }
+    
 }
