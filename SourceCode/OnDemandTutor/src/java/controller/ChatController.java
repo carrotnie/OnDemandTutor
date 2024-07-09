@@ -12,16 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import student.StudentDAO;
-import student.StudentDTO;
+import user.UserDTO;
 
 /**
  *
  * @author Lam Le
  */
-public class ViewStuInfoFromScheduleController extends HttpServlet {
-
-    private static final String STUDENT_DETAILS_PAGE = "student_info_schedule.jsp";
+public class ChatController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,21 +29,24 @@ public class ViewStuInfoFromScheduleController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewStuInfoFromScheduleController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewStuInfoFromScheduleController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
+
+        String url = "login.jsp"; // Redirect to login if not logged in
+
+        if (loginUser != null) {
+            String role = loginUser.getRole();
+            if ("tutor".equals(role)) {
+                url = "tutor_chat.jsp";
+            } else if ("student".equals(role)) {
+                url = "student_chat.jsp";
+            }
         }
+
+        // Chuyển tiếp yêu cầu đến trang tương ứng
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,8 +61,7 @@ public class ViewStuInfoFromScheduleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
-
+        processRequest(request, response);
     }
 
     /**
@@ -76,17 +75,7 @@ public class ViewStuInfoFromScheduleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            int accountId = Integer.parseInt(request.getParameter("accountId"));
-            StudentDAO studentDAO = new StudentDAO();
-            StudentDTO student = studentDAO.viewStuInfoFromSchedule(accountId);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("STUDENT", student);
-            request.getRequestDispatcher(STUDENT_DETAILS_PAGE).forward(request, response);
-        } catch (Exception e) {
-            log("Error at ViewStudentDetailsServlet: " + e.toString());
-        }
+        processRequest(request, response);
     }
 
     /**

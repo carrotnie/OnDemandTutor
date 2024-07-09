@@ -65,23 +65,24 @@
     </head>
     <body>
         <div class ="container"
-        <h1>Student Details</h1>
-        <%
-            StudentDTO student = (StudentDTO) session.getAttribute("STUDENT");
-            if (student != null) {
-        %>
-        <p><span class="info-label">Tên:</span> <%= student.getName()%></p>
-        <p><span class="info-label">Số Điện Thoại:</span> <%= student.getPhoneNumber()%></p>
-        <p><span class="info-label">Địa chỉ:</span> <%= student.getLocation()%></p>
-        <%
-        } else {
-        %>
-        <p>No student information available.</p>
-        <%
-            }
-        %>
+             <h1>Student Details</h1>
+            <%
+                StudentDTO student = (StudentDTO) session.getAttribute("STUDENT");
+                if (student != null) {
+            %>
+            <p><span class="info-label">Tên:</span> <%= student.getName()%></p>
+            <p><span class="info-label">User Name:</span> <%= student.getUsername()%></p>
+            <p><span class="info-label">Số Điện Thoại:</span> <%= student.getPhoneNumber()%></p>
+            <p><span class="info-label">Địa chỉ:</span> <%= student.getLocation()%></p>
+            <%
+            } else {
+            %>
+            <p>No student information available.</p>
+            <%
+                }
+            %>
 
-        <a href="ViewTutorCalendar" class="button-back"><button>Quay về</button></a>
+            <a href="ViewTutorCalendar" class="button-back"><button>Quay về</button></a>
         </div>
     </body>
 </html>
