@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,15 +26,15 @@ public class TutorDAO {
 
     private static final Logger LOGGER = Logger.getLogger(TutorDAO.class.getName());
     private static final String GET_TUTOR_BY_ACCOUNT_ID
-            =  "SELECT Account.Id, Account.Name, CV.PhoneNumber, CV.Location, CV.Yob, " +
-             "CV.Personal_ID, CV.Gender, CV.Experience, CV.Grade, CV.Url, Tutor.Id AS TutorId " +
-             "FROM CV " +
-             "JOIN Tutor ON Tutor.Id = CV.TutorId " +
-             "JOIN Account ON Account.Id = Tutor.AccountId " +
-             "WHERE Tutor.AccountId = ?";
+            = "SELECT Account.Id, Account.Name, CV.PhoneNumber, CV.Location, CV.Yob, "
+            + "CV.Personal_ID, CV.Gender, CV.Experience, CV.Grade, CV.Url, Tutor.Id AS TutorId "
+            + "FROM CV "
+            + "JOIN Tutor ON Tutor.Id = CV.TutorId "
+            + "JOIN Account ON Account.Id = Tutor.AccountId "
+            + "WHERE Tutor.AccountId = ?";
 
     private static final String GET_SCHEDULES_BY_ACCOUNT_ID
-            = "SELECT c.StartDay AS startDay, s.StartTime AS startTime, sub.Name AS SubjectName, "
+            = "SELECT c.StartDay AS startDay, c.EndDay AS endDay , s.StartTime AS startTime, s.EndTime AS endTime , sub.Name AS SubjectName, "
             + "a_st.Name AS StudentName, sch.Status, st.AccountId, sch.SlotId "
             + "FROM Schedule sch "
             + "JOIN Slot s ON sch.SlotId = s.Id "
@@ -44,8 +45,8 @@ public class TutorDAO {
             + "JOIN Tutor t ON c.TutorId = t.Id "
             + "JOIN Account a_t ON t.AccountId = a_t.Id "
             + "WHERE a_t.Id = ? ";
-    
-     private static final String UPDATE_TUTOR_INFO = "UPDATE CV "
+
+    private static final String UPDATE_TUTOR_INFO = "UPDATE CV "
             + "SET PhoneNumber = ?, Yob = ?, Location = ?, Personal_ID = ?, Gender = ?, Experience = ?, Grade = ? "
             + "FROM CV "
             + "JOIN Tutor ON Tutor.Id = CV.TutorId "
@@ -144,10 +145,28 @@ public class TutorDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-            if (stm != null) try { stm.close(); } catch (SQLException e) { e.printStackTrace(); }
-            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return tutors;
     }
@@ -171,7 +190,7 @@ public class TutorDAO {
                 ptm1.setInt(6, experience);
                 ptm1.setInt(7, grade);
                 ptm1.setInt(8, accountId);
-                
+
                 // Update Account table
                 ptm2 = conn.prepareStatement(UPDATE_ACCOUNT_NAME);
                 ptm2.setString(1, name);
@@ -264,7 +283,7 @@ public class TutorDAO {
         return tutors;
     }
 
-     //Trang Student_HomePage(detail)
+    //Trang Student_HomePage(detail)
     public TutorDTO getTutorById(String id) throws ClassNotFoundException, SQLException {
         TutorDTO tutor = null;
         Connection conn = null;
@@ -331,13 +350,15 @@ public class TutorDAO {
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String startDay = rs.getString("startDay");
-                    String startTime = rs.getString("startTime");
+                    String endDay = rs.getString("endDay");
+                    Time startTime = rs.getTime("startTime");
+                    Time endTime = rs.getTime("endTime");
                     String subjectName = rs.getString("SubjectName");
                     String studentName = rs.getString("StudentName");
                     String status = rs.getString("Status");
                     int studentAccountId = rs.getInt("AccountID");
                     int slotId = rs.getInt("SlotId");
-                    schedules.add(new ScheduleDTO(startDay, startTime, subjectName, studentName, status, studentAccountId, slotId));
+                    schedules.add(new ScheduleDTO(startDay, endDay, startTime, endTime, subjectName, studentName, status, studentAccountId, slotId));
                 }
             } else {
                 System.out.println("Failed to connect to the database.");
@@ -357,7 +378,7 @@ public class TutorDAO {
         }
         return schedules;
     }
-    
+
     public boolean updateScheduleStatus(int slotId, String status) throws SQLException, ClassNotFoundException {
         boolean result = false;
         Connection conn = null;
@@ -381,5 +402,5 @@ public class TutorDAO {
         }
         return result;
     }
-    
+
 }
