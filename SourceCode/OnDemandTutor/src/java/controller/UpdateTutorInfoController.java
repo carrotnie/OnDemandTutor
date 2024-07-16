@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import tutor.TutorDAO;
 import tutor.TutorDTO;
 
@@ -78,23 +79,53 @@ public class UpdateTutorInfoController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         
+        HttpSession session = request.getSession();
+        int accountId = (int) session.getAttribute("accountId");
+
         String name = request.getParameter("name");
         String phoneNumber = request.getParameter("phonenumber");
-        int yob = Integer.parseInt(request.getParameter("yob"));
         String location = request.getParameter("location");
         String personalId = request.getParameter("personalId");
         String gender = request.getParameter("gender");
-        int experience = Integer.parseInt(request.getParameter("experience"));
-        int grade = Integer.parseInt(request.getParameter("grade"));
-        int accountId = Integer.parseInt(request.getParameter("accountId"));
+        String yobStr = request.getParameter("yob");
+        String experienceStr = request.getParameter("experience");
+        String gradeStr = request.getParameter("grade");
 
-        TutorDAO tutorDAO = new TutorDAO();
-        boolean result = tutorDAO.updateTutorInfo(name, phoneNumber, yob, location, personalId, gender, experience, grade, accountId);
+        String errorMsg = null;
 
-        if (result) {
-            response.sendRedirect("success_update_tutor_info.html");
+        if (name == null || name.trim().isEmpty()) {
+            errorMsg = "Tên không được để trống.";
+        } else if (!phoneNumber.matches("^\\d{10}$")) {
+            errorMsg = "Số điện thoại phải là một số có 10 chữ số.";
+        } else if (yobStr == null || !yobStr.matches("^\\d+$")) {
+            errorMsg = "Năm sinh phải là một số.";
+        } else if (location == null || location.trim().isEmpty()) {
+            errorMsg = "Địa chỉ không được để trống.";
+        } else if (!personalId.matches("^\\d{12}$")) {
+            errorMsg = "Personal Id phải là một số có 12 chữ số.";
+        } else if (!gender.equals("Nam") && !gender.equals("Nữ")) {
+            errorMsg = "Giới tính phải là Nam hoặc Nữ.";
+        } else if (experienceStr == null || !experienceStr.matches("^\\d+$") || Integer.parseInt(experienceStr) < 0) {
+            errorMsg = "Kinh nghiệm phải là một số nguyên không âm.";
+        } else if (gradeStr == null || !gradeStr.matches("^\\d+$") || Integer.parseInt(gradeStr) < 1 || Integer.parseInt(gradeStr) > 12) {
+            errorMsg = "Lớp phải là một số từ 1 đến 12.";
+        }
+
+        if (errorMsg != null) {
+            request.setAttribute("errorMsg", errorMsg);
+            request.getRequestDispatcher("register_info_tutor.jsp").forward(request, response);
         } else {
-            response.sendRedirect("failed_update_tutor_info.html");
+            int yob = Integer.parseInt(yobStr);
+            int experience = Integer.parseInt(experienceStr);
+            int grade = Integer.parseInt(gradeStr);
+
+            boolean result = tutorDAO.updateTutorInfo(name, phoneNumber, yob, location, personalId, gender, experience, grade, accountId);
+
+            if (result) {
+                response.sendRedirect("success_update_tutor_info.html");
+            } else {
+                response.sendRedirect("failed_update_tutor_info.html");
+            }
         }
     }
 

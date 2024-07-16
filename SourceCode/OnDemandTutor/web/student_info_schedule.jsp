@@ -31,7 +31,7 @@
                 margin: 10px 0;
             }
             .button-back {
-                background-color: #007BFF; /* Màu nền */
+                background-color: #001F3F; /* Màu nền */
                 border: none;
                 color: white; /* Màu chữ */
                 padding: 10px 20px; /* Đệm */
@@ -44,7 +44,7 @@
                 border-radius: 12px; /* Bo góc */
             }
             .button-back button {
-                background-color: #007BFF; /* Màu nền */
+                background-color: #001F3F; /* Màu nền */
                 border: none;
                 color: white; /* Màu chữ */
                 padding: 10px 20px; /* Đệm */
