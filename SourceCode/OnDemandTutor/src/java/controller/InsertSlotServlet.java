@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import registerClassSlotTutor.ClassDAO;
 import registerClassSlotTutor.SlotDAO;
 import registerClassSlotTutor.SlotDTO;
 
@@ -28,7 +30,7 @@ import registerClassSlotTutor.SlotDTO;
 public class InsertSlotServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
@@ -44,16 +46,12 @@ public class InsertSlotServlet extends HttpServlet {
             String startTimeParam = request.getParameter("startTime");
             String endTimeParam = request.getParameter("endTime");
 
-            Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.INFO, "dayOfSlot: " + dayOfSlotParam);
-            Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.INFO, "startTime: " + startTimeParam);
-            Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.INFO, "endTime: " + endTimeParam);
-
             // Validate parameters
             if (dayOfSlotParam == null || startTimeParam == null || endTimeParam == null) {
                 throw new ServletException("Missing required parameters.");
             }
 
-            String dayOfSlot = dayOfSlotParam;
+            String dayOfSlot = new String(dayOfSlotParam.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
             String startTime = startTimeParam;
             String endTime = endTimeParam;
 
@@ -72,26 +70,39 @@ public class InsertSlotServlet extends HttpServlet {
                 return;
             }
 
+            // Kiểm tra số lượng Slot hiện tại
+            SlotDAO slotDAO = new SlotDAO();
+            ClassDAO classDAO = new ClassDAO();
+            int classId = slotDAO.getClassIdByTutorAccountId(tutorId);
+            int currentSlotCount = slotDAO.countSlotsByClassId(classId);
+            int amountOfSlot = classDAO.getAmountOfSlotByClassId(classId);
+
+            if (currentSlotCount >= amountOfSlot) {
+                request.setAttribute("errorMessage", "Số lượng Slot đã đạt tối đa.");
+                RequestDispatcher rd = request.getRequestDispatcher("registerSlot.jsp");
+                rd.forward(request, response);
+                return;
+            }
+
             SlotDTO slotDTO = new SlotDTO();
-            slotDTO.setClassId(tutorId);
+            slotDTO.setClassId(classId);
             slotDTO.setDayOfSlot(dayOfSlot);
             slotDTO.setStartTime(startTime);
             slotDTO.setEndTime(endTime);
 
-            SlotDAO slotDAO = new SlotDAO();
             try {
                 slotDAO.addSlot(slotDTO);
                 response.sendRedirect("successSlot.jsp");
             } catch (SQLException e) {
                 e.printStackTrace();
-                response.sendRedirect("errorSlot.jsp");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("errorMessage", "Đã xảy ra lỗi khi thêm Slot.");
+                RequestDispatcher rd = request.getRequestDispatcher("registerSlot.jsp");
+                rd.forward(request, response);
             }
         } catch (ParseException e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Thời gian không hợp lệ.");
-            RequestDispatcher rd = request.getRequestDispatcher("insertSlot.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("registerSlot.jsp");
             rd.forward(request, response);
         } finally {
             // Close resources if needed
@@ -114,6 +125,8 @@ public class InsertSlotServlet extends HttpServlet {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -131,6 +144,8 @@ public class InsertSlotServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(InsertSlotServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

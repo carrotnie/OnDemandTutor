@@ -5,6 +5,9 @@
  */
 package tutor;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author Long Dinh
@@ -12,7 +15,9 @@ package tutor;
 public class ScheduleDTO {
 
     private String startDay;
-    private String startTime;
+    private String endDay;
+    private Time startTime;
+    private Time endTime;
     private String subjectName;
     private String studentName;
     private String status;
@@ -22,9 +27,11 @@ public class ScheduleDTO {
     public ScheduleDTO() {
     }
 
-    public ScheduleDTO(String startDay, String startTime, String subjectName, String studentName, String status, int studentAccountId, int slotId) {
+    public ScheduleDTO(String startDay, String endDay, Time startTime, Time endTime, String subjectName, String studentName, String status, int studentAccountId, int slotId) {
         this.startDay = startDay;
+        this.endDay = endDay;
         this.startTime = startTime;
+        this.endTime = endTime;
         this.subjectName = subjectName;
         this.studentName = studentName;
         this.status = status;
@@ -32,11 +39,27 @@ public class ScheduleDTO {
         this.slotId = slotId;
     }
 
+    public String getEndDay() {
+        return endDay;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndDay(String endDay) {
+        this.endDay = endDay;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
     public String getStartDay() {
         return startDay;
     }
 
-    public String getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
@@ -56,7 +79,7 @@ public class ScheduleDTO {
         this.startDay = startDay;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
@@ -87,5 +110,13 @@ public class ScheduleDTO {
     public void setSlotId(int slotId) {
         this.slotId = slotId;
     }
-    
+
+    public String getFormattedStartTime() {
+        return new SimpleDateFormat("HH:mm").format(this.startTime);
+    }
+
+    public String getFormattedEndTime() {
+        return new SimpleDateFormat("HH:mm").format(this.endTime);
+    }
+
 }
