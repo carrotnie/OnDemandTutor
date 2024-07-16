@@ -19,21 +19,22 @@
                 background-color: #f4f4f4;
             }
             .header {
-                background-color: #001F3F;
-                color: white;
+                background-color: #ffffff;
+                color: #001F3F;
                 text-align: center;
-                padding: 10px 0;
-                margin: -25px;
+                padding: 5px 0;
+                margin: 0;
             }
             .header h5 {
                 margin: 0;
             }
             .nav {
-                background-color: #F8F9FA;
+                background-color: #001e54;
                 display: flex;
                 align-items: center;
                 padding: 10px 20px;
                 border-bottom: 1px solid #ddd;
+                color: white;
             }
             .nav img {
                 height: 50px;
@@ -41,7 +42,7 @@
             }
             .nav a {
                 text-decoration: none;
-                color: black;
+                color: white;
                 font-weight: bold;
                 padding: 10px 20px;
                 margin: 0 5px;
@@ -57,16 +58,27 @@
                 margin-left: auto;
             }
             .container {
+                background-color: #001e54;
+                color: white;
                 padding: 20px;
+                display: flex;
+                justify-content: center;
+                border-radius: 10px;
+                max-width: 1000px;
+                margin: 20px auto;
             }
             .chat-section {
                 background-color: white;
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 100%;
             }
             .chat-section h2 {
                 margin-top: 0;
+                color: #001F3F;
+                text-align: center;
+                font-size: 24px;
             }
             #chatWindow {
                 border: 1px solid #ddd;
@@ -75,14 +87,16 @@
                 padding: 10px;
                 background-color: #fff;
                 border-radius: 5px;
+                color: black; /* Đổi màu chữ thành đen */
             }
             .message {
                 padding: 5px;
                 margin: 5px 0;
                 border-bottom: 1px solid #eee;
+                color: black; /* Đổi màu chữ thành đen */
             }
             button {
-                background-color: #007BFF;
+                background-color: #001F3F;
                 border: none;
                 color: white;
                 padding: 10px 20px;
@@ -107,7 +121,7 @@
             <h5>Chào mừng, Giáo Viên ${sessionScope.LOGIN_USER.name}!</h5>
         </div>
         <div class="nav">
-            <img src="img/logo.png" alt="Logo">
+            <img src="img/logoo.png" alt="Logo">
             <a href="tutor_homepage.jsp">Trang Chủ</a>
             <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
             <a href="#">Học Sinh</a>

@@ -21,21 +21,22 @@
                 background-color: #f4f4f4;
             }
             .header {
-                background-color: #001F3F;
-                color: white;
+                background-color: #ffffff;
+                color: #001F3F;
                 text-align: center;
-                padding: 10px 0;
+                padding: 5px 0;
                 margin: 0;
             }
             .header h5 {
                 margin: 0;
             }
             .nav {
-                background-color: #F8F9FA;
+                background-color: #001e54;
                 display: flex;
                 align-items: center;
                 padding: 10px 20px;
                 border-bottom: 1px solid #ddd;
+                color: white;
             }
             .nav img {
                 height: 50px;
@@ -43,7 +44,7 @@
             }
             .nav a {
                 text-decoration: none;
-                color: black;
+                color: white;
                 font-weight: bold;
                 padding: 10px 20px;
                 margin: 0 5px;
@@ -60,28 +61,35 @@
             }
             .container {
                 padding: 20px;
+                display: flex;
+                justify-content: center;
             }
             .schedule-section {
                 background-color: white;
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                max-width: 1200px; /* Increase the max-width */
+                width: 100%;
             }
             .schedule-section h2 {
                 margin-top: 0;
+                text-align: center;
+                font-size: 24px; /* Increase the font size */
             }
             .schedule-table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
+                font-size: 18px; /* Increase the font size */
             }
             .schedule-table th, .schedule-table td {
                 border: 1px solid #ddd;
-                padding: 12px;
+                padding: 15px; /* Increase the padding */
                 text-align: left;
             }
             .schedule-table th {
-                background-color: #007BFF;
+                background-color: #001e54;
                 color: white;
             }
             .schedule-table tr:nth-child(even) {
@@ -91,9 +99,10 @@
                 text-align: center;
                 padding: 20px;
                 color: #999;
+                font-size: 18px; /* Increase the font size */
             }
-            button{
-                background-color: #007BFF; /* Màu nền */
+            button {
+                background-color: #001F3F; /* Màu nền */
                 border: none;
                 color: white; /* Màu chữ */
                 padding: 10px 20px; /* Đệm */
@@ -104,7 +113,6 @@
                 margin: 4px 2px; /* Khoảng cách */
                 cursor: pointer; /* Con trỏ chuột */
                 border-radius: 12px; /* Bo góc */
-
             }
         </style>
         <!-- Ẩn form để gửi yêu cầu POST -->
@@ -125,7 +133,7 @@
         <h5>Lịch Dạy</h5>
     </div>
     <div class="nav">
-        <img src="img/logo.png" alt="Logo">
+        <img src="img/logoo.png" alt="Logo">
         <a href="tutor_homepage.jsp">Trang Chủ</a>
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
         <a href="registerMenu.html">Đăng ký Class&Slot</a>
