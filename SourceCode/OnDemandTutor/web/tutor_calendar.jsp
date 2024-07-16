@@ -138,7 +138,8 @@
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
         <a href="registerMenu.html">Đăng ký Class&Slot</a>
         <a href="">Lịch Dạy</a>
-        <a href="logout.html" class="logout-button">Đăng Xuất</a>
+        <a href="ChatController">Chat</a>
+        <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
     </div>
     <div class="container">
         <div class="schedule-section">
@@ -160,8 +161,10 @@
             <table class="schedule-table">
                 <thead>
                     <tr>
-                        <th>Ngày</th>
+                        <th>Ngày Bắt Đầu</th>
+                        <th>Ngày Kết Thúc</th>
                         <th>Giờ Bắt Đầu</th>
+                        <th>Giờ Kết Thúc</th>
                         <th>Môn Học</th>
                         <th>Học Sinh</th>
                         <th>Trạng Thái</th>
@@ -172,7 +175,9 @@
                     <% for (ScheduleDTO schedule : schedules) {%>
                     <tr>
                         <td><%= schedule.getStartDay()%></td>
-                        <td><%= schedule.getStartTime()%></td>
+                        <td><%= schedule.getEndDay()%></td>
+                        <td><%= schedule.getFormattedStartTime()%></td>
+                        <td><%= schedule.getFormattedEndTime()%></td>
                         <td><%= schedule.getSubjectName()%></td>
                         <td><a href="#" onclick="viewStudentDetails(<%=schedule.getStudentAccountId()%>);">
                                 <%= schedule.getStudentName()%>
