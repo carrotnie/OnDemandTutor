@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author ASUS
  */
-public class FeedbackServlet extends HttpServlet {
+public class FeedbackController extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

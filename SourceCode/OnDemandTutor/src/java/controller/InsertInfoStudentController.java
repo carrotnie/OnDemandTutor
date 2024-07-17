@@ -5,11 +5,14 @@
  */
 package controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
+import java.util.Iterator;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import user.StudentError;
 import user.UserDAO;
 import user.UserDTO;
 
@@ -36,7 +40,7 @@ public class InsertInfoStudentController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8"); // Thiết lập mã hóa UTF-8 cho yêu cầu
-    response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
         String message = null;
@@ -48,54 +52,100 @@ public class InsertInfoStudentController extends HttpServlet {
                 throw new Exception("Account ID not found in session.");
             }
             Integer accountId = (Integer) session.getAttribute("USER_ID");
+            String name = request.getParameter("Name");
             String gender = request.getParameter("gender");
-            int yob = Integer.parseInt(request.getParameter("yob"));
+            String yobString = request.getParameter("yob");
             String location = request.getParameter("location");
             String phoneNumber = request.getParameter("phoneNumber");
-            int grade = Integer.parseInt(request.getParameter("grade"));
+            String gradeString = request.getParameter("grade");
 
-            // Xử lý việc upload tệp
+            StudentError errors = new StudentError();
+
+            if (name == null || name.trim().isEmpty()) {
+                errors.setNameError("Tên không được để trống.");
+            } else {
+                errors.setNameError(""); // Đảm bảo lỗi không phải null
+            }
+            errors.checkGender(gender);
+            errors.checkYob(yobString);
+            errors.checkLocation(location);
+            errors.checkPhoneNumber(phoneNumber);
+            errors.checkGrade(gradeString);
+
             Part filePart = request.getPart("picture");
             if (filePart == null || filePart.getSize() == 0) {
-                throw new Exception("File upload failed. No file received.");
+                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
+            } else {
+                errors.checkPicture(filePart.getSubmittedFileName());
             }
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Sửa lỗi cho MSIE.
 
-            // Đường dẫn tuyệt đối đến thư mục lưu trữ tệp
-            String savePath = SAVE_DIR;
+            if (!errors.isValid()) {
+                request.setAttribute("nameError", errors.getNameError());
+                request.setAttribute("genderError", errors.getGenderError());
+                request.setAttribute("yobError", errors.getYobError());
+                request.setAttribute("locationError", errors.getLocationError());
+                request.setAttribute("phoneNumberError", errors.getPhoneNumberError());
+                request.setAttribute("gradeError", errors.getGradeError());
+                request.setAttribute("pictureError", errors.getPictureError());
+                request.getRequestDispatcher("register_info_student.jsp").forward(request, response);
+            } else {
+                int yob = Integer.parseInt(yobString);
+                int grade = Integer.parseInt(gradeString);
 
-            File fileSaveDir = new File(savePath);
-            if (!fileSaveDir.exists()) {
-                boolean dirCreated = fileSaveDir.mkdirs();
-                if (!dirCreated) {
-                    throw new IOException("Failed to create directory: " + savePath);
+                // Cập nhật tên 
+                UserDAO userDAO = new UserDAO();
+                userDAO.updateAccountName(accountId, name);
+
+                // chèn thông tin 
+                UserDTO student = new UserDTO(accountId, gender, yob, location, phoneNumber, grade);
+                int studentId = userDAO.insertStudent(student);
+
+                // Xử lý việc upload tệp
+                if (filePart != null && filePart.getSize() > 0) {
+                    String picturePath = saveAndConvertFile(filePart, studentId, SAVE_DIR, "jpg", "student");
                 }
             }
-            String filePath = savePath + File.separator + fileName;
-
-            try (InputStream fileContent = filePart.getInputStream();
-                    FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                int read;
-                final byte[] bytes = new byte[1024];
-                while ((read = fileContent.read(bytes)) != -1) {
-                    outputStream.write(bytes, 0, read);
-                }
-            }
-
-            UserDTO student = new UserDTO(accountId, gender, yob, location, phoneNumber, grade);
-            UserDAO userDAO = new UserDAO();
-            userDAO.insertStudent(student);
-
         } catch (Exception e) {
             e.printStackTrace();
             message = "Error: " + e.getClass().getName() + ": " + e.getMessage();
-            forwardPage = "error11.jsp"; // Trang lỗi chuyển tiếp
+            forwardPage = "error11.jsp"; 
         } finally {
             request.setAttribute("message", message);
             request.getRequestDispatcher(forwardPage).forward(request, response);
         }
     }
 
+    private String saveAndConvertFile(Part filePart, int studentId, String saveDir, String targetFormat, String fileType) throws IOException {
+        if (filePart != null && filePart.getSize() > 0) {
+            BufferedImage image = ImageIO.read(filePart.getInputStream());
+            if (image == null) {
+                throw new IOException("Failed to read image file: " + filePart.getSubmittedFileName());
+            }
+
+            String newFileName = "s" + studentId + "." + targetFormat;  // Sử dụng Id của student làm tên file
+            String filePath = saveDir + File.separator + newFileName;
+
+            File uploadDir = new File(saveDir);
+            if (!uploadDir.exists()) {
+                boolean dirCreated = uploadDir.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + saveDir);
+                }
+            }
+
+            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(targetFormat);
+            if (!writers.hasNext()) {
+                throw new IOException("No writer found for format: " + targetFormat);
+            }
+            ImageWriter writer = writers.next();
+            try (ImageOutputStream ios = ImageIO.createImageOutputStream(new File(filePath))) {
+                writer.setOutput(ios);
+                writer.write(image);
+            }
+            return "img/" + fileType + "/" + newFileName;
+        }
+        return null;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
