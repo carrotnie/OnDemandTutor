@@ -26,7 +26,7 @@ public class RegisterController extends HttpServlet {
 
     private static final String ERROR = "register.jsp";
     private static final String SUCCESS_STUDENT = "register_info_student.jsp";
-    private static final String SUCCESS_TUTOR = "register_info_tutor.jsp";
+    private static final String SUCCESS_TUTOR = "register_insertInfo_tutor.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

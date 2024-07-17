@@ -25,6 +25,15 @@ public class UserDTO {
     private String location;
     private String phoneNumber;
     private int grade;
+    
+    private String personalId;
+    private int subject;
+    private String url;
+    private String content;
+    private int experience;
+    private String active;
+    private int modId;
+    private int tutorId;
 
     public UserDTO(int accountId, String gender, int yob, String location, String phoneNumber, int grade) {
         this.accountId = accountId;
@@ -33,6 +42,84 @@ public class UserDTO {
         this.location = location;
         this.phoneNumber = phoneNumber;
         this.grade = grade;
+    }
+
+    public UserDTO(int tutorId, int modId, String phoneNumber, int yob, String location, String personalId, String gender, int experience, int grade, String content, String url) {
+        this.tutorId = tutorId;
+        this.modId = modId;
+        this.phoneNumber = phoneNumber;
+        this.yob = yob;
+        this.location = location;
+        this.personalId = personalId;
+        this.gender = gender;
+        this.experience = experience;
+        this.grade = grade;
+        this.content = content;
+        this.url = url;
+    }
+
+    public int getTutorId() {
+        return tutorId;
+    }
+
+    public void setTutorId(int tutorId) {
+        this.tutorId = tutorId;
+    }
+
+    public int getModId() {
+        return modId;
+    }
+
+    public void setModId(int modId) {
+        this.modId = modId;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+
+    public String getPersonalId() {
+        return personalId;
+    }
+
+    public void setPersonalId(String personalId) {
+        this.personalId = personalId;
+    }
+
+    public int getSubject() {
+        return subject;
+    }
+
+    public void setSubject(int subject) {
+        this.subject = subject;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public int getAccountId() {

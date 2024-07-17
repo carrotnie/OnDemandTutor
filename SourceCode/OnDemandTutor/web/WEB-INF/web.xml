@@ -53,8 +53,8 @@
         <servlet-class>controller.AcceptScheduleController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FeedbackServlet</servlet-name>
-        <servlet-class>controller.FeedbackServlet</servlet-class>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>controller.FeedbackController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>submitFeedbackController</servlet-name>
@@ -83,6 +83,10 @@
     <servlet>
         <servlet-name>InsertInfoStudentController</servlet-name>
         <servlet-class>controller.InsertInfoStudentController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertInfoTutorController</servlet-name>
+        <servlet-class>controller.InsertInfoTutorController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChatController</servlet-name>
@@ -141,8 +145,8 @@
         <url-pattern>/AcceptScheduleController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FeedbackServlet</servlet-name>
-        <url-pattern>/FeedbackServlet</url-pattern>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/FeedbackController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>submitFeedbackController</servlet-name>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>InsertInfoStudentController</servlet-name>
         <url-pattern>/InsertInfoStudentController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertInfoTutorController</servlet-name>
+        <url-pattern>/InsertInfoTutorController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ChatController</servlet-name>
