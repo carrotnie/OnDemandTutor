@@ -1,6 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,16 +23,16 @@
             border-bottom: 1px solid #ddd;
         }
         .nav .home-icon {
-            font-size: 1.5rem; /* Increase icon size */
+            font-size: 1.5rem;
             color: white;
-            margin-right: 10px; /* Adjust margin to align properly */
+            margin-right: 10px;
         }
         .nav .home-icon:hover {
             color: #007BFF;
         }
         .nav h2 {
             color: white;
-            margin: 0 auto; /* Center the text */
+            margin: 0 auto;
         }
         .container {
             padding: 20px;
@@ -73,13 +75,20 @@
             border-radius: 5px;
         }
         .class-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             height: 100%;
+        }
+        .class-content {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        .class-content {
-            flex-grow: 1;
+        .class-content h4, .class-content h5, .class-content p {
+            text-align: center;
+            margin: 0;
         }
         .btn-center {
             display: flex;
@@ -106,7 +115,7 @@
     <div class="container">
         <div class="row">
             <div style="margin: 10px 0px;" class="col-md-12">
-                <form method="ListClasses">
+                <form method="GET" action="ListClasses">
                     <select class="form-select" onchange="this.form.submit()" name="suId">
                         <option value="">All</option>
                         <c:forEach var="s" items="${sl}">
@@ -115,20 +124,24 @@
                     </select>
                 </form>
             </div>
+            <c:set var="currentDate" value="<%= new java.util.Date() %>" />
             <c:forEach var="c" items="${cl}">
-                <div class="col-md-4 mb-3">
-                    <div class="class-box" style="margin: 10px; box-shadow: 0 0 5px 5px #8cbbff; padding: 15px;">
-                        <div class="class-content">
-                            <h4 style="text-align: center;">Giáo viên: ${c.name}</h4>
-                            <h5 style="text-align: center;">Môn: ${c.subjectName}</h5>
-                            <p>Số lượng slot: ${c.amountSlot}</p>
-                            <p>Thời gian: ${c.fromDate} 	&rarr; ${c.fromDate}</p>
-                        </div>
-                        <div class="btn-center">
-                            <a class="btn btn-info mt-2" href="ListSlot?cId=${c.id}">Chi Tiết Giờ Học</a>
+                <fmt:parseDate var="fromDate" value="${c.startDay}" pattern="yyyy-MM-dd" />
+                <c:if test="${fromDate.after(currentDate) || fromDate.equals(currentDate)}">
+                    <div class="col-md-4 mb-3">
+                        <div class="class-box" style="margin: 10px; box-shadow: 0 0 5px 5px #8cbbff; padding: 15px;">
+                            <div class="class-content">
+                                <h4>Giáo viên: ${c.name}</h4>
+                                <h5>Môn: ${c.subjectName}</h5>
+                                <p>Số lượng slot còn: ${c.availableSlots}</p>
+                                <p>Thời gian: ${c.startDay} &rarr; ${c.endDay}</p>
+                            </div>
+                            <div class="btn-center">
+                                <a class="btn btn-info mt-2" href="ListSlot?cId=${c.id}">Chi Tiết Giờ Học</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
             </c:forEach>
         </div>
     </div>
