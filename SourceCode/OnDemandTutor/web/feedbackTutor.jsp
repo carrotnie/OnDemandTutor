@@ -105,6 +105,17 @@
             function showFeedbackForm() {
                 document.getElementById("feedbackForm").style.display = "block";
             }
+
+            function fillStars() {
+                const stars = document.querySelectorAll('.rating label');
+                stars.forEach((star, index) => {
+                    star.style.color = '#ffd700';
+                    if (index === stars.length - 1) {
+                        star.previousElementSibling.checked = true;
+                    }
+                });
+            }
+
             document.addEventListener('DOMContentLoaded', function () {
                 const stars = document.querySelectorAll('.rating label');
                 stars.forEach((star, index) => {
@@ -220,7 +231,7 @@
                 </div>
                 <div class="feedback-container">
                     <label for="feedback">Feedback</label>
-                    <textarea class="feedback" id="feedback" name="feedback" placeholder="Nhập phản hồi của bạn vào đây..." style="width: 100%;"></textarea>
+                    <textarea class="feedback" id="feedback" name="feedback" placeholder="Nhập phản hồi của bạn vào đây..." style="width: 100%;" required></textarea>
                 </div>
                 <br>
                 <button type="submit" class="submit-btn btn btn-primary">Gửi đánh giá</button>
@@ -235,7 +246,49 @@
                 document.getElementById('subjectId').value = subjectId;
                 document.getElementById('modId').value = modId;
                 document.getElementById('feedbackForm').style.display = 'block';
+                fillStars();
             }
+
+            function fillStars() {
+                const stars = document.querySelectorAll('.rating label');
+                stars.forEach((star, index) => {
+                    star.style.color = '#ffd700';
+                    if (index === stars.length - 1) {
+                        star.previousElementSibling.checked = true;
+                    }
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const stars = document.querySelectorAll('.rating label');
+                stars.forEach((star, index) => {
+                    star.addEventListener('mouseover', () => {
+                        stars.forEach((s, i) => {
+                            if (i <= index) {
+                                s.style.color = '#ffd700';
+                            } else {
+                                s.style.color = '#ddd';
+                            }
+                        });
+                    });
+                    star.addEventListener('mouseout', () => {
+                        stars.forEach((s) => {
+                            s.style.color = '#ddd';
+                        });
+                        const checkedStar = document.querySelector('.rating input:checked');
+                        if (checkedStar) {
+                            const checkedIndex = Array.from(stars).indexOf(checkedStar.nextElementSibling);
+                            stars.forEach((s, i) => {
+                                if (i <= checkedIndex) {
+                                    s.style.color = '#ffd700';
+                                } else {
+                                    s.style.color = '#ddd';
+                                }
+                            });
+                        }
+                    });
+                });
+            });
         </script>
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
