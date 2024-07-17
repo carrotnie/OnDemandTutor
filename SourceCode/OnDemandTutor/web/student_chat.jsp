@@ -150,8 +150,9 @@
                     chatWindow.appendChild(messageElement);
                     chatWindow.scrollTop = chatWindow.scrollHeight;
 
-                    // Send the username (in this case, the student's name) to the server
-                    ws.send("${sessionScope.LOGIN_USER.name}");
+                    var username = "${sessionScope.LOGIN_USER.username}";
+                    var name = "${sessionScope.LOGIN_USER.name}";
+                    ws.send(username + "|" + name);
                 };
 
                 ws.onmessage = function (event) {
