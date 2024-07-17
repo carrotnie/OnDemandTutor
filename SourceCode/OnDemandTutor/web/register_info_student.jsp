@@ -3,11 +3,11 @@
 <%@page import="javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Điền Thông Tin Giáo Viên - Giasumienphi.edu.vn</title>
+        <title>Điền Thông Tin</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <!-- Bootstrap Icons -->
@@ -64,6 +64,9 @@
             .back-link {
                 font-size: 1.5rem;
             }
+            .error{
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -87,7 +90,10 @@
                 <form action="InsertInfoStudentController" method="post" enctype="multipart/form-data">
                     <!-- Personal Information -->
                     <label for="name">Họ và Tên:</label>
-                    <input type="text" id="name" name="Name" value="<%= Name%>" required>
+                    <input type="text" id="name" name="Name" value="<%= request.getParameter("Name")%>" required>
+                    <span class="error">
+                        <%= (request.getAttribute("nameError") != null) ? request.getAttribute("nameError") : ""%>
+                    </span>
 
                     <label for="gender">Giới tính:</label>
                     <select id="gender" name="gender" required>
@@ -95,15 +101,27 @@
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
                     </select>
+                    <span class="error">
+                        <%= (request.getAttribute("genderError") != null) ? request.getAttribute("genderError") : ""%>
+                    </span>
 
                     <label for="yob">Năm Sinh:</label>
                     <input type="number" id="yob" name="yob" min="2004" max="2023" required>
+                    <span class="error">
+                        <%= (request.getAttribute("yobError") != null) ? request.getAttribute("yobError") : ""%>
+                    </span>
 
                     <label for="location">Địa Chỉ:</label>
                     <input type="text" id="location" name="location" required>
+                    <span class="error">
+                        <%= (request.getAttribute("locationError") != null) ? request.getAttribute("locationError") : ""%>
+                    </span>
 
                     <label for="phoneNumber">Số Điện Thoại:</label>
                     <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                    <span class="error">
+                        <%= (request.getAttribute("phoneNumberError") != null) ? request.getAttribute("phoneNumberError") : ""%>
+                    </span>
 
                     <label for="grade">Chọn Lớp:</label>
                     <select id="grade" name="grade" required>
@@ -121,15 +139,22 @@
                         <option value="11">Lớp 11</option>
                         <option value="12">Lớp 12</option>
                     </select>
+                    <span class="error">
+                        <%= (request.getAttribute("gradeError") != null) ? request.getAttribute("gradeError") : ""%>
+                    </span>
 
                     <!-- Profile Picture Upload -->
                     <label for="profile_picture">Ảnh Đại Diện:</label>
-                    <input type="file" id="profile_picture" name="picture" accept=".jpg">
+                    <input type="file" id="profile_picture" name="picture" accept=".jpg" required>
+                    <span class="error">
+                        <%= (request.getAttribute("pictureError") != null) ? request.getAttribute("pictureError") : ""%>
+                    </span>
 
                     <!-- Submit Button -->
                     <button type="submit">Lưu Thông Tin</button>
                 </form>
             </div>
         </div>
+
     </body>
 </html>

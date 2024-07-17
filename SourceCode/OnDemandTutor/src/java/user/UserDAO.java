@@ -293,14 +293,40 @@ public class UserDAO {
         return name;
     }
 
-    public void insertStudent(UserDTO student) throws SQLException, ClassNotFoundException {
+    public void updateAccountName(Integer accountId, String name) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stm = null;
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String query = "INSERT INTO Student (AccountId, Yob, [Location], Gender, PhoneNumber, Grade) VALUES (?, ?, ?, ?, ?, ?)";
+                String query = "UPDATE Account SET Name = ? WHERE Id = ?";
                 stm = conn.prepareStatement(query);
+                stm.setString(1, name);
+                stm.setInt(2, accountId);
+                stm.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+
+    public int insertStudent(UserDTO student) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet generatedKeys = null;
+        int studentId = 0;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "INSERT INTO Student (AccountId, Yob, [Location], Gender, PhoneNumber, Grade) VALUES (?, ?, ?, ?, ?, ?)";
+                stm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 stm.setInt(1, student.getAccountId());
                 stm.setInt(2, student.getYob());
                 stm.setString(3, student.getLocation());
@@ -308,12 +334,114 @@ public class UserDAO {
                 stm.setString(5, student.getPhoneNumber());
                 stm.setInt(6, student.getGrade());
                 stm.executeUpdate();
-                
+
+                generatedKeys = stm.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    studentId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Inserting student failed, no ID obtained.");
+                }
             }
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e.getMessage());
             e.printStackTrace();
             throw e;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return studentId;
+    }
+
+    public int insertTutor(Integer accountId, String active) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "INSERT INTO Tutor (AccountId, Active) VALUES (?, ?)";
+                stm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                stm.setInt(1, accountId);
+                if (active == null || active.trim().isEmpty()) {
+                    active = "chưa kiểm duyệt";
+                }
+                stm.setString(2, active);
+                stm.executeUpdate();
+
+                try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);
+                    } else {
+                        throw new SQLException("Creating tutor failed, no ID obtained.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return 0;
+    }
+
+    public void insertCV(UserDTO tutor) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "INSERT INTO CV (TutorId, ModId, PhoneNumber, Yob, Location, Personal_ID, Gender, Experience, Grade, Content, Url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                stm = conn.prepareStatement(query);
+                stm.setInt(1, tutor.getTutorId());
+                stm.setInt(2, tutor.getModId());
+                stm.setString(3, tutor.getPhoneNumber());
+                stm.setInt(4, tutor.getYob());
+                stm.setString(5, tutor.getLocation());
+                stm.setString(6, tutor.getPersonalId());
+                stm.setString(7, tutor.getGender());
+                stm.setInt(8, tutor.getExperience());
+                stm.setInt(9, tutor.getGrade());
+                stm.setString(10, tutor.getContent());
+                stm.setString(11, tutor.getUrl());
+                stm.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+
+    public void insertTutorSubject(int tutorId, int subjectId) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "INSERT INTO TutorSubject (TutorId, SubjectId) VALUES (?, ?)";
+                stm = conn.prepareStatement(query);
+                stm.setInt(1, tutorId);
+                stm.setInt(2, subjectId);
+                stm.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             if (stm != null) {
                 stm.close();
