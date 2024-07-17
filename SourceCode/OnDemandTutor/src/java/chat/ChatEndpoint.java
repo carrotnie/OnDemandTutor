@@ -36,35 +36,51 @@ public class ChatEndpoint {
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        System.out.println("Received message: " + message); // Kiểm tra xem tin nhắn đã nhận đúng chưa
+        System.out.println("Received message: " + message);
         String username = (String) session.getUserProperties().get("username");
+        String name = (String) session.getUserProperties().get("name");
 
-        if (username == null) {
-            session.getUserProperties().put("username", message);
-            session.getBasicRemote().sendText("System: you are connected as " + message);
+        if (username == null && name == null) {
+            // Expected format: username|name
+            String[] userDetails = message.split("\\|");
+            if (userDetails.length == 2) {
+                session.getUserProperties().put("username", userDetails[0]);
+                session.getUserProperties().put("name", userDetails[1]);
+                session.getBasicRemote().sendText("System: you are connected as " + userDetails[1]);
+            } else {
+                session.getBasicRemote().sendText("System: Invalid connection details.");
+            }
         } else {
-            // Check if the message is intended for a specific user
+            // Check if the message is intended for a specific user by username
             if (message.startsWith("@")) {
                 String[] parts = message.split(":", 2);
                 if (parts.length == 2) {
                     String recipientUsername = parts[0].substring(1).trim();
                     String userMessage = parts[1].trim();
 
+                    boolean foundRecipient = false;
                     synchronized (clients) {
                         for (Session client : clients) {
                             String clientUsername = (String) client.getUserProperties().get("username");
                             if (clientUsername != null && clientUsername.equals(recipientUsername)) {
-                                client.getBasicRemote().sendText(username + ": " + userMessage);
+                                client.getBasicRemote().sendText(name + ": " + userMessage);
+                                foundRecipient = true;
                                 break;
                             }
                         }
                     }
+
+                    if (!foundRecipient) {
+                        session.getBasicRemote().sendText("System: user " + recipientUsername + " not found.");
+                    }
+                } else {
+                    session.getBasicRemote().sendText("System: Invalid message format. Use @username:message.");
                 }
             } else {
                 synchronized (clients) {
                     for (Session client : clients) {
                         if (!client.equals(session)) {
-                            client.getBasicRemote().sendText(username + ": " + message);
+                            client.getBasicRemote().sendText(name + ": " + message);
                         }
                     }
                 }
