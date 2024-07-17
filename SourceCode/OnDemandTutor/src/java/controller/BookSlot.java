@@ -24,12 +24,20 @@ public class BookSlot extends HttpServlet {
             } else {
                 UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
                 String slotId = request.getParameter("slotId") == null ? "" : request.getParameter("slotId");
-                new SlotDAO().bookingSlot(slotId, loginUser.getId());
-                response.sendRedirect("booking_slot_successful.html");
+                SlotDAO slotDAO = new SlotDAO();
+
+                if (slotDAO.checkSlotConflict(slotId, loginUser.getId())) {
+                    request.setAttribute("errorMessage", "Lịch học bị trùng, không thể đăng ký.");
+                    request.getRequestDispatcher("error_page.jsp").forward(request, response);
+                } else {
+                    slotDAO.bookingSlot(slotId, loginUser.getId());
+                    response.sendRedirect("booking_slot_successful.html");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Optional: you can add error handling logic here if needed
+            request.setAttribute("errorMessage", "Có lỗi xảy ra, vui lòng thử lại sau.");
+            request.getRequestDispatcher("error_page.jsp").forward(request, response);
         }
     }
 
