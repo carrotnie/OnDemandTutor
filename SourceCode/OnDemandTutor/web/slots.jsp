@@ -108,8 +108,8 @@
 </head>
 <body>
     <div class="nav">
-        <a href="student_homepage.jsp" class="home-icon">
-            <i class="bi bi-house-fill"></i>
+        <a href="ListClasses" class="home-icon">
+            <i class="bi bi-arrow-left-circle"></i>
         </a>
         <h2>Danh Sách Slot ${sl.size()}</h2>
     </div>
@@ -121,7 +121,10 @@
                         <div class="class-content">
                             <h5 style="text-align: center;">Môn: ${c.subjectName}</h5>
                             <p>Ngày: ${c.day}</p>
-                            <p>Thời gian: ${c.startTime} → ${c.endTime}</p>
+                            <p>Thời gian: 
+                                <c:out value="${c.startTime.substring(0, 5)}" /> → 
+                                <c:out value="${c.endTime.substring(0, 5)}" />
+                            </p>
                         </div>
                         <div class="btn-center">
                             <a class="btn btn-info mt-2" href="BookSlot?slotId=${c.id}">Đăng ký</a>

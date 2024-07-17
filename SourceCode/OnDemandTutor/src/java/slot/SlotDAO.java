@@ -67,9 +67,11 @@ public class SlotDAO {
         }
         return users;
     }
+
     public static void main(String[] args) throws SQLException {
         System.out.println(new SlotDAO().getAllBookedList(1));
     }
+
     public List<BookedDTO> getAllBookedList(int id) throws SQLException {
         List<BookedDTO> users = new ArrayList<>();
         Connection conn = null;
@@ -110,21 +112,32 @@ public class SlotDAO {
         return users;
     }
 
-
-
-    public void bookingSlot(String slotId, int StudentId) throws SQLException {
+    public boolean checkSlotConflict(String slotId, int studentId) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
+        boolean conflict = false;
+
+        String query = "SELECT 1 "
+                + "FROM Schedule sc "
+                + "JOIN Slot sl ON sc.SlotId = sl.Id "
+                + "JOIN Slot slNew ON slNew.Id = ? "
+                + "JOIN Class c ON sl.ClassId = c.Id "
+                + "JOIN Class cNew ON slNew.ClassId = cNew.Id "
+                + "WHERE sc.StudentId = ? "
+                + "AND sl.DayOfSlot = slNew.DayOfSlot "
+                + "AND c.StartDay <= cNew.EndDay "
+                + "AND c.EndDay >= cNew.StartDay "
+                + "AND (sl.StartTime < slNew.EndTime AND sl.EndTime > slNew.StartTime)";
 
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(BOOKINGSLOT);
-                ptm.setInt(1, StudentId);
-                ptm.setString(2, slotId);
-                ptm.executeUpdate();
-
+                ptm = conn.prepareStatement(query);
+                ptm.setString(1, slotId);
+                ptm.setInt(2, studentId);
+                rs = ptm.executeQuery();
+                conflict = rs.next();
             } else {
                 System.out.println("Failed to connect to the database.");
             }
@@ -141,5 +154,38 @@ public class SlotDAO {
                 conn.close();
             }
         }
+        return conflict;
     }
+
+    public void bookingSlot(String slotId, int studentId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+
+        try {
+            if (checkSlotConflict(slotId, studentId)) {
+                System.out.println("Lịch học bị trùng, không thể đăng ký.");
+                return; // Exit if conflict exists
+            }
+
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(BOOKINGSLOT);
+                ptm.setInt(1, studentId);
+                ptm.setString(2, slotId);
+                ptm.executeUpdate();
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+
 }

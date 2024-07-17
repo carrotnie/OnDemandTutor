@@ -10,23 +10,25 @@ package classes;
  * @author Admin
  */
 public class ClassesDTO {
+    private String subjectName;
+    private int id;
+    private String name;
+    private int amountOfSlot;
+    private String startDay;
+    private String endDay;
+    private int availableSlots;
 
-    String subjectName;
-    int id;
-    String name;
-    int amountSlot;
-    String fromDate;
-    String toDate;
-
-    public ClassesDTO(String subjectName, int id, String name, int amountSlot, String fromDate, String toDate) {
+    public ClassesDTO(String subjectName, int id, String name, int amountOfSlot, String startDay, String endDay, int availableSlots) {
         this.subjectName = subjectName;
         this.id = id;
         this.name = name;
-        this.amountSlot = amountSlot;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
+        this.amountOfSlot = amountOfSlot;
+        this.startDay = startDay;
+        this.endDay = endDay;
+        this.availableSlots = availableSlots;
     }
 
+    // Các getter và setter tương ứng
     public String getSubjectName() {
         return subjectName;
     }
@@ -51,28 +53,35 @@ public class ClassesDTO {
         this.name = name;
     }
 
-    public int getAmountSlot() {
-        return amountSlot;
+    public int getAmountOfSlot() {
+        return amountOfSlot;
     }
 
-    public void setAmountSlot(int amountSlot) {
-        this.amountSlot = amountSlot;
+    public void setAmountOfSlot(int amountOfSlot) {
+        this.amountOfSlot = amountOfSlot;
     }
 
-    public String getFromDate() {
-        return fromDate;
+    public String getStartDay() {
+        return startDay;
     }
 
-    public void setFromDate(String fromDate) {
-        this.fromDate = fromDate;
+    public void setStartDay(String startDay) {
+        this.startDay = startDay;
     }
 
-    public String getToDate() {
-        return toDate;
+    public String getEndDay() {
+        return endDay;
     }
 
-    public void setToDate(String toDate) {
-        this.toDate = toDate;
+    public void setEndDay(String endDay) {
+        this.endDay = endDay;
     }
-    
+
+    public int getAvailableSlots() {
+        return availableSlots;
+    }
+
+    public void setAvailableSlots(int availableSlots) {
+        this.availableSlots = availableSlots;
+    }
 }

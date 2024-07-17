@@ -17,54 +17,19 @@
                 background-color: #001F3F;
                 display: flex;
                 align-items: center;
-                padding: 10px 20px;
+                padding: 30px 20px;
                 border-bottom: 1px solid #ddd;
-                justify-content: space-between; 
-            }
-            .nav a, .nav .dropbtn {
-                text-decoration: none;
-                color: black;
-                font-weight: bold;
-                padding: 14px 20px;
-                margin: 0 5px;
-                display: inline-block;
+                justify-content: center; /* Center the content horizontally */
             }
             .nav h1 {
-                color: red;
-                text-align: center;
-                margin-left: auto; 
-                margin-right: auto; 
-            }
-
-            .statistics {
-                background-color: #001F3F;
                 color: white;
                 text-align: center;
-                padding: 20px 0;
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                flex-wrap: wrap;
+                margin: 0; /* Remove any default margins */
+                flex: 1; /* Allow the h1 to grow and take up available space */
             }
-            .statistic {
-                text-align: center;
-                flex: 1;
-                padding: 20px;
-                box-sizing: border-box;
-                min-width: 200px;
-            }
-            .statistic img {
-                width: 50px;
-                height: 50px;
-                margin-bottom: 10px;
-            }
-            .statistic p {
-                margin: 0;
-            }
-            .statistic .number {
-                font-size: 24px;
-                font-weight: bold;
-                margin-top: 5px;
+            .nav .logout-button {
+                position: absolute; /* Position the button absolutely */
+                right: 20px; /* Position it on the right side */
             }
             .account {
                 padding: 20px;
@@ -86,6 +51,9 @@
             }
             table tbody tr:nth-child(even) {
                 background-color: #f3f3f3;
+            }
+            table tbody tr:hover {
+                background-color: #ddd;
             }
             .account h2 {
                 text-align: center;
@@ -143,114 +111,106 @@
             .unban-btn:active {
                 background-color: #367c39; 
             }
-
-
+            .logout-button {
+                padding: 10px 15px;
+                font-size: 15px;
+                background-color: #FF4136;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: transform 0.3s, box-shadow 0.3s; /* Add transition for hover effect */
+            }
+            .logout-button:hover {
+                background-color: #ff0000; /* Change background color on hover */
+                transform: translateY(-3px); /* Slight lift effect */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+            }
         </style>
     </head>
     <body>
-        <%
-            UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
-            if (loginUser == null || !"admin".equals(loginUser.getRole())) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-            String search = request.getParameter("search");
-            if (search == null) {
-                search = "";
-            }
-        %>
-        <div class="nav">
-            <h1> Welcomeback Admin</h1>
-        </div>
-        <div class="account">
-            <h2>Danh sách tài khoản người dùng</h2>
-            <form action="SearchController" method="GET">
-                <input type="text" name="search" value="<%= search%>"/>
-                <button class="search-button" type="submit">Search</button>
-            </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>FullName</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Amount of Report</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
-                        List<UserDTO> users = (List<UserDTO>) request.getAttribute("LIST_USER");
-                        if (users != null) {
-                            for (UserDTO user : users) {
-                    %>
-                    <tr>
-                        <td><%= user.getId()%></td>
-                        <td><%= user.getName()%></td>
-                        <td><%= user.getUsername()%></td>
-                        <td>********</td>
-                        <td><%= user.getRole()%></td>
-                        <td><%= user.getStatus()%></td>
-                        <td><%= user.getAmountOfReport()%></td>
-                        <td class="action-buttons">
-                            <%
-                                if ("active".equals(user.getStatus()) && user.getAmountOfReport() == 3) {
-                            %>
-                            <form action="MainController" method="POST">
-                                <input type="hidden" name="action" value="Ban"/>
-                                <input type="hidden" name="actionType" value="Ban"/>
-                                <input type="hidden" name="AccountId" value="<%= user.getId()%>"/>
-                                <input type="hidden" name="search" value="<%= request.getAttribute("search")%>"/>
-                                <button class="ban-btn" type="submit">Ban</button>
-                            </form>
-                            <%
-                            } else if ("lock".equals(user.getStatus())) {
-                            %>
-                            <form action="MainController" method="POST">
-                                <input type="hidden" name="action" value="Ban"/>
-                                <input type="hidden" name="actionType" value="UnBan"/>
-                                <input type="hidden" name="AccountId" value="<%= user.getId()%>"/>
-                                <input type="hidden" name="search" value="<%= request.getAttribute("search")%>"/>
-                                <button class="unban-btn" type="submit">UnBan</button>
-                            </form>
-                            <%
-                                }
-                            %>
-                        </td>
-                    </tr>
-                    <%
+    <%
+        UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
+        if (loginUser == null || !"admin".equals(loginUser.getRole())) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        String search = request.getParameter("search");
+        if (search == null) {
+            search = "";
+        }
+    %>
+    <div class="nav">
+        <h1>Welcomeback Admin</h1>
+        <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
+    </div>
+    <div class="account">
+        <h2>Danh sách tài khoản người dùng</h2>
+        <form action="SearchController" method="GET">
+            <input type="text" name="search" value="<%= search %>"/>
+            <button class="search-button" type="submit">Search</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>FullName</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Amount of Report</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    List<UserDTO> users = (List<UserDTO>) request.getAttribute("LIST_USER");
+                    if (users != null) {
+                        for (UserDTO user : users) {
+                %>
+                <tr>
+                    <td><%= user.getId() %></td>
+                    <td><%= user.getName() %></td>
+                    <td><%= user.getUsername() %></td>
+                    <td>********</td>
+                    <td><%= user.getRole() %></td>
+                    <td><%= user.getStatus() %></td>
+                    <td><%= user.getAmountOfReport() %></td>
+                    <td class="action-buttons">
+                        <%
+                            if ("active".equals(user.getStatus()) && user.getAmountOfReport() == 3) {
+                        %>
+                        <form action="MainController" method="POST">
+                            <input type="hidden" name="action" value="Ban"/>
+                            <input type="hidden" name="actionType" value="Ban"/>
+                            <input type="hidden" name="AccountId" value="<%= user.getId() %>"/>
+                            <input type="hidden" name="search" value="<%= request.getAttribute("search") %>"/>
+                            <button class="ban-btn" type="submit">Ban</button>
+                        </form>
+                        <%
+                        } else if ("lock".equals(user.getStatus())) {
+                        %>
+                        <form action="MainController" method="POST">
+                            <input type="hidden" name="action" value="Ban"/>
+                            <input type="hidden" name="actionType" value="UnBan"/>
+                            <input type="hidden" name="AccountId" value="<%= user.getId() %>"/>
+                            <input type="hidden" name="search" value="<%= request.getAttribute("search") %>"/>
+                            <button class="unban-btn" type="submit">UnBan</button>
+                        </form>
+                        <%
                             }
-                        } else {
-                            out.println("<tr><td colspan='8'>Who you wanna find ?</td></tr>");
+                        %>
+                    </td>
+                </tr>
+                <%
                         }
-                    %>
-                </tbody>
-            </table>
-        </div>
-        <div class="statistics">
-            <div class="statistic">
-                <img src="img/student-icon.png" alt="Student Icon">
-                <p>Tổng số học sinh</p>
-                <p class="number" id="student-count">1000</p>
-            </div>
-            <div class="statistic">
-                <img src="img/teacher-icon.png" alt="Teacher Icon">
-                <p>Tổng giáo viên</p>
-                <p class="number" id="teacher-count">500</p>
-            </div>
-            <div class="statistic">
-                <img src="img/graduate-icon.png" alt="Graduate Icon">
-                <p>Số học sinh giỏi sau khi học tại trung tâm</p>
-                <p class="number" id="graduate-count">700</p>
-            </div>
-            <div class="statistic">
-                <img src="img/parent-icon.png" alt="Parent Icon">
-                <p>Số phụ huynh quay lại đăng ký cho con em</p>
-                <p class="number" id="parent-count">500</p>
-            </div>
-        </div>
-    </body>
+                    } else {
+                        out.println("<tr><td colspan='8'>Who you wanna find ?</td></tr>");
+                    }
+                %>
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>

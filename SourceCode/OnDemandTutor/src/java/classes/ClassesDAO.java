@@ -12,16 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import subject.SubjectDTO;
 
-/**
- *
- * @author Admin
- */
 public class ClassesDAO {
 
-    private static final String GETALL = "  select s.Name as SubjectName, c.*, a.Name from Class c left join [Subject] s on c.SubjectId = s.Id left join Tutor t on t.Id = c.TutorId left join Account a on a.Id = t.AccountId";
-    
     public List<ClassesDTO> getAll(String subjectId) throws SQLException {
         List<ClassesDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -31,11 +24,24 @@ public class ClassesDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = GETALL;
-                if (subjectId != "") {
-                    sql += " where SubjectId = " + subjectId;
+                String sql = "SELECT s.Name as SubjectName, c.*, a.Name, "
+                        + "(SELECT COUNT(*) FROM Slot sl "
+                        + "LEFT JOIN Schedule sc ON sl.Id = sc.SlotId "
+                        + "WHERE sl.ClassId = c.Id AND (sc.Status IS NULL OR sc.Status != N'thành công')) as AvailableSlots "
+                        + "FROM Class c "
+                        + "LEFT JOIN [Subject] s ON c.SubjectId = s.Id "
+                        + "LEFT JOIN Tutor t ON t.Id = c.TutorId "
+                        + "LEFT JOIN Account a ON a.Id = t.AccountId "
+                        + "WHERE (SELECT COUNT(*) FROM Slot sl "
+                        + "LEFT JOIN Schedule sc ON sl.Id = sc.SlotId "
+                        + "WHERE sl.ClassId = c.Id AND (sc.Status IS NULL OR sc.Status != N'thành công')) > 0";
+                if (subjectId != null && !subjectId.isEmpty()) {
+                    sql += " AND c.SubjectId = ?";
+                    ptm = conn.prepareStatement(sql);
+                    ptm.setString(1, subjectId);
+                } else {
+                    ptm = conn.prepareStatement(sql);
                 }
-                ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int Id = rs.getInt("Id");
@@ -44,7 +50,8 @@ public class ClassesDAO {
                     String Name = rs.getString("Name");
                     String StartDay = rs.getString("StartDay");
                     String EndDay = rs.getString("EndDay");
-                    list.add(new ClassesDTO(SubjectName, Id, Name, AmountOfSlot, StartDay, EndDay));
+                    int AvailableSlots = rs.getInt("AvailableSlots");
+                    list.add(new ClassesDTO(SubjectName, Id, Name, AmountOfSlot, StartDay, EndDay, AvailableSlots));
                 }
             } else {
                 System.out.println("Failed to connect to the database.");
