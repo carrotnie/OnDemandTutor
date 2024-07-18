@@ -106,10 +106,57 @@ public class ModDAO {
                 + "INNER JOIN Moderator m ON c.ModId = m.Id "
                 + "INNER JOIN Account a_s ON s.AccountId = a_s.Id "
                 + "INNER JOIN Account a_t ON t.AccountId = a_t.Id "
-                + "WHERE m.Id = ?;";
+                + "WHERE m.Id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, modId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ReportDTO report = new ReportDTO();
+                    report.setComplaintId(rs.getInt("complaintId"));
+                    report.setAccountId(rs.getInt("modAccountId"));
+                    report.setModId(rs.getInt("modId"));
+                    report.setStudentId(rs.getInt("studentId"));
+                    report.setTutorId(rs.getInt("tutorId"));
+                    report.setSlotId(rs.getInt("SlotId"));
+                    report.setStudentName(rs.getString("studentName"));
+                    report.setTutorName(rs.getString("tutorName"));
+                    report.setContent(rs.getString("Content"));
+                    report.setStatus(rs.getString("Status"));
+                    reports.add(report);
+                }
+            }
+        }
+
+        return reports;
+    }
+
+    public List<ReportDTO> getReportByModIdAndStatus(int modId, String status) throws SQLException {
+        List<ReportDTO> reports = new ArrayList<>();
+
+        String query = "SELECT "
+                + "c.Id AS complaintId, "
+                + "m.AccountId AS modAccountId, "
+                + "m.Id AS modId, "
+                + "s.Id AS studentId, "
+                + "t.Id AS tutorId, "
+                + "a_s.Name AS studentName, "
+                + "a_t.Name AS tutorName, "
+                + "c.Content, "
+                + "c.Status, "
+                + "c.SlotId "
+                + "FROM Complaint c "
+                + "INNER JOIN Student s ON c.StudentId = s.Id "
+                + "INNER JOIN Tutor t ON c.TutorId = t.Id "
+                + "INNER JOIN Moderator m ON c.ModId = m.Id "
+                + "INNER JOIN Account a_s ON s.AccountId = a_s.Id "
+                + "INNER JOIN Account a_t ON t.AccountId = a_t.Id "
+                + "WHERE m.Id = ? AND c.Status = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, modId);
+            stmt.setString(2, status);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -237,7 +284,123 @@ public class ModDAO {
                     tutorData.setPersonalId(rs.getString("personalId"));
                     tutorData.setGender(rs.getString("Gender"));
                     tutorData.setExperience(rs.getInt("Experience"));
-                    tutorData.setGrade(rs.getInt("Grade"));
+                    tutorData.setGrade(rs.getString("Grade"));
+                    tutorData.setCreateTime(rs.getDate("CreateTime"));
+                    tutorData.setContent(rs.getString("Content"));
+                    tutorData.setUrl(rs.getString("Url"));
+                    tutorDataList.add(tutorData);
+                }
+            }
+        }
+        return tutorDataList;
+    }
+
+    public List<CvDTO> getTutorCheckedByActiveStatusAndModId(String activeStatus, int modId) throws SQLException {
+        List<CvDTO> tutorDataList = new ArrayList<>();
+
+        String query = "SELECT "
+                + "m.AccountId AS modAccountId, "
+                + "m.Id AS modId, "
+                + "t.Id AS tutorId, "
+                + "c.Id AS cvId, "
+                + "t.Active, "
+                + "a.Name AS tutorName, "
+                + "c.PhoneNumber, "
+                + "c.Yob, "
+                + "c.Location, "
+                + "c.Personal_ID AS personalId, "
+                + "c.Gender, "
+                + "c.Experience, "
+                + "c.Grade, "
+                + "c.CreateTime, "
+                + "c.Content, "
+                + "c.Url "
+                + "FROM "
+                + "CV c "
+                + "JOIN Tutor t ON c.TutorId = t.Id "
+                + "JOIN Moderator m ON c.ModId = m.Id "
+                + "JOIN Account a ON t.AccountId = a.Id "
+                + "WHERE "
+                + "t.Active = N'đã kiểm duyệt' AND "
+                + "m.Id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, modId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    CvDTO tutorData = new CvDTO();
+                    tutorData.setModId(rs.getInt("modId"));
+                    tutorData.setModAccountId(rs.getInt("modAccountId"));
+                    tutorData.setTutorId(rs.getInt("tutorId"));
+                    tutorData.setCvId(rs.getInt("cvId"));
+                    tutorData.setActive(rs.getString("Active"));
+                    tutorData.setTutorName(rs.getString("tutorName"));
+                    tutorData.setPhoneNumber(rs.getString("PhoneNumber"));
+                    tutorData.setYob(rs.getInt("Yob"));
+                    tutorData.setLocation(rs.getString("Location"));
+                    tutorData.setPersonalId(rs.getString("personalId"));
+                    tutorData.setGender(rs.getString("Gender"));
+                    tutorData.setExperience(rs.getInt("Experience"));
+                    tutorData.setGrade(rs.getString("Grade"));
+                    tutorData.setCreateTime(rs.getDate("CreateTime"));
+                    tutorData.setContent(rs.getString("Content"));
+                    tutorData.setUrl(rs.getString("Url"));
+                    tutorDataList.add(tutorData);
+                }
+            }
+        }
+        return tutorDataList;
+    }
+    
+    public List<CvDTO> getTutorRejectedByActiveStatusAndModId(String activeStatus, int modId) throws SQLException {
+        List<CvDTO> tutorDataList = new ArrayList<>();
+
+        String query = "SELECT "
+                + "m.AccountId AS modAccountId, "
+                + "m.Id AS modId, "
+                + "t.Id AS tutorId, "
+                + "c.Id AS cvId, "
+                + "t.Active, "
+                + "a.Name AS tutorName, "
+                + "c.PhoneNumber, "
+                + "c.Yob, "
+                + "c.Location, "
+                + "c.Personal_ID AS personalId, "
+                + "c.Gender, "
+                + "c.Experience, "
+                + "c.Grade, "
+                + "c.CreateTime, "
+                + "c.Content, "
+                + "c.Url "
+                + "FROM "
+                + "CV c "
+                + "JOIN Tutor t ON c.TutorId = t.Id "
+                + "JOIN Moderator m ON c.ModId = m.Id "
+                + "JOIN Account a ON t.AccountId = a.Id "
+                + "WHERE "
+                + "t.Active = N'bị từ chối' AND "
+                + "m.Id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, modId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    CvDTO tutorData = new CvDTO();
+                    tutorData.setModId(rs.getInt("modId"));
+                    tutorData.setModAccountId(rs.getInt("modAccountId"));
+                    tutorData.setTutorId(rs.getInt("tutorId"));
+                    tutorData.setCvId(rs.getInt("cvId"));
+                    tutorData.setActive(rs.getString("Active"));
+                    tutorData.setTutorName(rs.getString("tutorName"));
+                    tutorData.setPhoneNumber(rs.getString("PhoneNumber"));
+                    tutorData.setYob(rs.getInt("Yob"));
+                    tutorData.setLocation(rs.getString("Location"));
+                    tutorData.setPersonalId(rs.getString("personalId"));
+                    tutorData.setGender(rs.getString("Gender"));
+                    tutorData.setExperience(rs.getInt("Experience"));
+                    tutorData.setGrade(rs.getString("Grade"));
                     tutorData.setCreateTime(rs.getDate("CreateTime"));
                     tutorData.setContent(rs.getString("Content"));
                     tutorData.setUrl(rs.getString("Url"));
@@ -292,7 +455,7 @@ public class ModDAO {
                     cv.setPersonalId(rs.getString("personalId"));
                     cv.setGender(rs.getString("Gender"));
                     cv.setExperience(rs.getInt("Experience"));
-                    cv.setGrade(rs.getInt("Grade"));
+                    cv.setGrade(rs.getString("Grade"));
                     cv.setCreateTime(rs.getDate("CreateTime"));
                     cv.setContent(rs.getString("Content"));
                     cv.setUrl(rs.getString("Url"));
@@ -313,4 +476,27 @@ public class ModDAO {
         }
     }
 
+    public boolean rejectTutor(int cvId, String reason) throws SQLException {
+        String updateTutorQuery = "UPDATE Tutor SET Active = N'bị từ chối' WHERE Id = (SELECT TutorId FROM CV WHERE Id = ?)";
+        String insertReasonQuery = "INSERT INTO ReasonDenyCv (ModId, TutorId, Reason) VALUES (?, ?, ?)";
+
+        try (PreparedStatement updateStmt = connection.prepareStatement(updateTutorQuery);
+                PreparedStatement insertStmt = connection.prepareStatement(insertReasonQuery)) {
+            updateStmt.setInt(1, cvId);
+            int updateRows = updateStmt.executeUpdate();
+
+            if (updateRows > 0) {
+                // Get the ModId and TutorId
+                CvDTO cv = getCvById(cvId);
+                if (cv != null) {
+                    insertStmt.setInt(1, cv.getModId());
+                    insertStmt.setInt(2, cv.getTutorId());
+                    insertStmt.setString(3, reason);
+                    int insertRows = insertStmt.executeUpdate();
+                    return insertRows > 0;
+                }
+            }
+        }
+        return false;
+    }
 }

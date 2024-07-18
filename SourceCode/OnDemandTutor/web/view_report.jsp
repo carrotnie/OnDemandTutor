@@ -67,6 +67,10 @@
                 width: 100%;
                 margin-bottom: 1rem;
                 color: #212529;
+                table-layout: fixed; /* Fixes the table layout */
+            }
+            .table thead th {
+                white-space: nowrap;
             }
             .table tbody tr {
                 background-color: #ffffff;
@@ -76,6 +80,21 @@
             }
             .table tbody tr:hover {
                 background-color: #e0e0e0;
+            }
+            .table td:nth-child(1), .table th:nth-child(1) {
+                width: 15%; /* Adjust this percentage as needed */
+            }
+            .table td:nth-child(2), .table th:nth-child(2) {
+                width: 15%; /* Adjust this percentage as needed */
+            }
+            .table td:nth-child(3), .table th:nth-child(3) {
+                width: 35%; /* Adjust this percentage as needed */
+            }
+            .table td:nth-child(4), .table th:nth-child(4) {
+                width: 10%; /* Adjust this percentage as needed */
+            }
+            .table td:nth-child(5), .table th:nth-child(5) {
+                width: 15%; /* Adjust this percentage as needed */
             }
             .error-message {
                 color: red;
@@ -109,11 +128,41 @@
                 text-align: center;
                 border-radius: 10px;
             }
-            .modal-content button {
-                margin: 10px;
+            .modal-content .button-container {
+                display: flex;
+                justify-content: space-between;
             }
             .btn-equal {
-                width: 60px; /* Adjust width as needed */
+                flex: 1;
+                margin: 5px;
+            }
+            /* New styles for the select dropdown */
+            .form-select {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                display: block;
+                width: 100%;
+                height: calc(1.5em + 0.75rem + 2px);
+                padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                color: #495057;
+                background-color: #fff;
+                background-clip: padding-box;
+                border: 1px solid #ced4da;
+                border-radius: 0.25rem;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 0.75rem center;
+                background-size: 8px 10px;
+            }
+            .form-select:focus {
+                border-color: #86b7fe;
+                outline: 0;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
             }
         </style>
         <script>
@@ -160,8 +209,10 @@
     <body>
         <div class="sidebar" id="mySidebar">
             <a href="ViewFeedbackController"><i class="bi bi-envelope"></i>Nhận Xét</a>
-            <a href="ViewReportController"><i class="bi bi-file-earmark-text"></i>Báo Cáo</a>
-            <a href="ViewCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Giáo Viên</a>
+            <a href="ViewReportController"><i class="bi bi-file-earmark-text"></i>Reports</a>
+            <a href="ViewCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Chờ Duyệt</a>
+            <a href="ViewCvCheckedController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Duyệt</a>
+            <a href="ViewRejectedCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Bị Từ Chối</a>
             <a href="login.jsp"><i class="bi bi-box-arrow-right"></i>Đăng Xuất</a>
         </div>
         <div class="main-content" id="main">
@@ -173,6 +224,16 @@
                 <c:if test="${not empty errorMessage}">
                     <div class="error-message">${errorMessage}</div>
                 </c:if>
+                <div style="margin: 10px 0px;" class="col-md-12">
+                    <form method="GET" action="ViewReportController">
+                        <select class="form-select" onchange="this.form.submit()" name="status">
+                            <option value="">All</option>
+                            <option value="thành công" ${param.status == 'thành công' ? 'selected' : ''}>Thành công</option>
+                            <option value="thất bại" ${param.status == 'thất bại' ? 'selected' : ''}>Thất bại</option>
+                            <option value="đang xử lý" ${param.status == 'đang xử lý' ? 'selected' : ''}>Đang xử lý</option>
+                        </select>
+                    </form>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered">
@@ -194,8 +255,10 @@
                                     <td>${report.status}</td>
                                     <td>
                                         <c:if test="${report.status == 'đang xử lý'}">
-                                            <button type="button" class="btn btn-primary btn-sm btn-equal" onclick="showModal('confirm', ${report.complaintId})">Có</button>
-                                            <button type="button" class="btn btn-danger btn-sm btn-equal" onclick="showModal('deny', ${report.complaintId})">Không</button>
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-primary btn-sm btn-equal mr-1" onclick="showModal('confirm', ${report.complaintId})">Có</button>
+                                                <button type="button" class="btn btn-danger btn-sm btn-equal" onclick="showModal('deny', ${report.complaintId})">Không</button>
+                                            </div>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -213,8 +276,10 @@
                 <form id="confirmationForm" method="post">
                     <input type="hidden" id="complaintIdInput" name="complaintId" value=""/>
                     <input type="hidden" id="actionInput" name="action" value=""/>
-                    <button type="button" id="confirmButton" class="btn btn-primary btn-sm btn-equal">Có</button>
-                    <button type="button" id="cancelButton" class="btn btn-danger btn-sm btn-equal">Không</button>
+                    <div class="button-container">
+                        <button type="button" id="confirmButton" class="btn btn-primary btn-sm btn-equal">Có</button>
+                        <button type="button" id="cancelButton" class="btn btn-danger btn-sm btn-equal">Không</button>
+                    </div>
                 </form>
             </div>
         </div>
