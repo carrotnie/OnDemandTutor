@@ -1,20 +1,31 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
 
 import database.DBUtils;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mod.CvDTO;
 import mod.ModDAO;
-import mod.ReportDTO;
 
-public class ViewReportController extends HttpServlet {
-
+/**
+ *
+ * @author ADMIN
+ */
+@WebServlet(name = "ViewRejectedCvController", urlPatterns = {"/ViewRejectedCvController"})
+public class ViewRejectedCvController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,39 +48,39 @@ public class ViewReportController extends HttpServlet {
             return;
         }
 
-        List<ReportDTO> reportList;
-        String status = request.getParameter("status"); // Lấy giá trị của tham số status
+        StringBuilder errorMessage = new StringBuilder();
 
         try (Connection connection = DBUtils.getConnection()) {
             ModDAO modDAO = new ModDAO(connection);
             Integer modId = modDAO.getModIdByAccountId(accountId);
 
             if (modId != null) {
-                // Lấy báo cáo dựa trên ModId và Status
-                if (status == null || status.isEmpty() || (!status.equals("thành công") && !status.equals("thất bại") && !status.equals("đang xử lý"))) {
-                    reportList = modDAO.getReportByModId(modId);
+                List<CvDTO> cvList = modDAO.getTutorRejectedByActiveStatusAndModId("bị từ chối", modId);
+
+                if (cvList.isEmpty()) {
+                    errorMessage.append("No CVs found for the moderator.");
                 } else {
-                    reportList = modDAO.getReportByModIdAndStatus(modId, status);
+                    request.setAttribute("CV_LIST", cvList);
                 }
-
-                if (reportList.isEmpty()) {
-                    request.setAttribute("errorMessage", "No report found for the moderator.");
-                }
-
-                request.setAttribute("REPORT_LIST", reportList);
             } else {
-                request.setAttribute("errorMessage", "Moderator ID not found for this account.");
+                errorMessage.append("Moderator ID not found for this account.");
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            request.setAttribute("errorMessage", "An error occurred while retrieving report: " + e.getMessage());
+            errorMessage.append("An error occurred while retrieving CVs: ").append(e.getMessage());
         }
 
-        request.getRequestDispatcher("/view_report.jsp").forward(request, response);
+        if (errorMessage.length() > 0) {
+            request.setAttribute("errorMessage", errorMessage.toString());
+        }
+
+        request.getRequestDispatcher("/view_rejected_cv.jsp").forward(request, response);
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet that retrieves and displays CVs for a moderator";
     }
 }
+
+

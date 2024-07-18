@@ -71,11 +71,13 @@
 </head>
 <body>
     <div class="sidebar" id="mySidebar">
-        <a href="ViewFeedbackController"><i class="bi bi-envelope"></i>Nhận Xét</a>
-        <a href="ViewReportController"><i class="bi bi-file-earmark-text"></i>Báo Cáo</a>
-        <a href="ViewCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Giáo Viên</a>
-        <a href="login.jsp"><i class="bi bi-box-arrow-right"></i>Đăng Xuất</a>
-    </div>
+            <a href="ViewFeedbackController"><i class="bi bi-envelope"></i>Nhận Xét</a>
+            <a href="ViewReportController"><i class="bi bi-file-earmark-text"></i>Reports</a>
+            <a href="ViewCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Chờ Duyệt</a>
+            <a href="ViewCvCheckedController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Duyệt</a>
+            <a href="ViewRejectedCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Bị Từ Chối</a>
+            <a href="login.jsp"><i class="bi bi-box-arrow-right"></i>Đăng Xuất</a>
+        </div>
     <div class="main-content" id="main">
         <div class="card">
             <h2 class="card-title">Welcome Moderator</h2>
