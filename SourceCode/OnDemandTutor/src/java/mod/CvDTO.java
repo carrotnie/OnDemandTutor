@@ -18,7 +18,7 @@ public class CvDTO {
     private String personalId;
     private String gender;
     private int experience;
-    private int grade;
+    private String grade;
     private Date createTime;
     private String content;
     private String url;
@@ -26,7 +26,7 @@ public class CvDTO {
     public CvDTO() {
     }
 
-    public CvDTO(int modAccountId, int modId, int tutorId, int cvId, String active, String tutorName, String phoneNumber, int yob, String location, String personalId, String gender, int experience, int grade, Date createTime, String content, String url) {
+    public CvDTO(int modAccountId, int modId, int tutorId, int cvId, String active, String tutorName, String phoneNumber, int yob, String location, String personalId, String gender, int experience, String grade, Date createTime, String content, String url) {
         this.modAccountId = modAccountId;
         this.modId = modId;
         this.tutorId = tutorId;
@@ -141,11 +141,11 @@ public class CvDTO {
         this.experience = experience;
     }
 
-    public int getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 

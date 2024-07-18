@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/ViewCvDetailsController")
+@WebServlet(name = "ViewCvDetailsController", urlPatterns = {"/ViewCvDetailsController", "/approveTutor", "/rejectTutor"})
 public class ViewCvDetailsController extends HttpServlet {
 
     @Override
@@ -46,6 +46,7 @@ public class ViewCvDetailsController extends HttpServlet {
                 String certificatePath = "/img/certificate/" + cv.getTutorId() + ".png";
                 request.setAttribute("certificatePath", request.getContextPath() + certificatePath);
                 request.setAttribute("cvId", cvId); // Add cvId to the request
+                request.setAttribute("cvActive", cv.getActive());
             } else {
                 errorMessage.append("CV not found.");
             }
@@ -64,19 +65,39 @@ public class ViewCvDetailsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getServletPath();
         String cvId = request.getParameter("cvId");
 
         if (cvId != null) {
             try (Connection connection = DBUtils.getConnection()) {
                 ModDAO modDAO = new ModDAO(connection);
-                boolean isApproved = modDAO.approveTutor(Integer.parseInt(cvId));
-                if (isApproved) {
-                    request.setAttribute("message", "CV has been approved successfully.");
-                } else {
-                    request.setAttribute("errorMessage", "Failed to approve CV.");
+                boolean result = false;
+                String message = null;
+
+                switch (action) {
+                    case "/approveTutor":
+                        result = modDAO.approveTutor(Integer.parseInt(cvId));
+                        message = result ? "CV này đã được duyệt thành công" : "Duyệt CV thất bại";
+                        break;
+                    case "/rejectTutor":
+                        String reason = new String(request.getParameter("rejectionReason").getBytes("ISO-8859-1"),("UTF-8"));
+                        if (reason == null || reason.trim().isEmpty()) {
+                            message = "Rejection reason is required.";
+                        } else {
+                            result = modDAO.rejectTutor(Integer.parseInt(cvId), reason);
+                            message = result ? "CV này đã được từ chối thành công" : "Từ chối CV thất bại";
+                        }
+                        break;
                 }
+
+                if (result) {
+                    request.setAttribute("message", message);
+                } else {
+                    request.setAttribute("errorMessage", message);
+                }
+
             } catch (ClassNotFoundException | SQLException e) {
-                request.setAttribute("errorMessage", "An error occurred while approving the CV: " + e.getMessage());
+                request.setAttribute("errorMessage", "An error occurred while processing the CV: " + e.getMessage());
             }
         } else {
             request.setAttribute("errorMessage", "CV ID is missing.");
@@ -87,6 +108,6 @@ public class ViewCvDetailsController extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Servlet that retrieves and displays CV details";
+        return "Servlet that retrieves and displays CV details, and handles approval/rejection actions";
     }
 }
