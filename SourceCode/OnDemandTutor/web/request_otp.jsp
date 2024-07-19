@@ -26,7 +26,7 @@
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                text-align: center;
+                width: 300px;
             }
             .container h2 {
                 text-align: center;
@@ -54,16 +54,15 @@
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
+                margin-bottom: 10px;
             }
             .container button:hover {
                 background-color: #ff4136;
             }
-            .container .back-button {
-                margin-top: 20px;
-                background-color: #6c757d;
-            }
-            .container .back-button:hover {
-                background-color: #5a6268;
+            .buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
             .error-message {
                 color: red;
@@ -80,18 +79,19 @@
             <form action="RequestOtpController" method="post">
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
                 <button type="submit">Yêu cầu OTP</button>
             </form>
-            <button class="back-button" onclick="window.location.href = 'login.jsp'">Quay lại trang đăng nhập</button>
-
             <div class="error-message">
                 <%
-                    String error = (String) request.getAttribute("ERROR");
+                    String error = (String) request.getAttribute("error");
                     if (error != null && !error.isEmpty()) {
                         out.print(error);
                     }
                 %>
             </div>
+            <button onclick="window.location.href = 'login.jsp'">Quay lại đăng nhập</button>
         </div>
     </body>
 </html>
