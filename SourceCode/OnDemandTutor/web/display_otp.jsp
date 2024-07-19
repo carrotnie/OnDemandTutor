@@ -10,7 +10,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Đổi mật khẩu</title>
+        <title>Đặt lại mật khẩu</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -26,7 +26,7 @@
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                text-align: center;
+                width: 300px;
             }
             .container h2 {
                 text-align: center;
@@ -54,18 +54,12 @@
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
+                margin-bottom: 10px;
             }
             .container button:hover {
                 background-color: #ff4136;
             }
-            .container .back-button {
-                margin-top: 20px;
-                background-color: #6c757d;
-            }
-            .container .back-button:hover {
-                background-color: #5a6268;
-            }
-            .error-message, .success-message {
+            .error-message, .success-message, .otp-error-message {
                 color: red;
                 text-align: center;
                 margin-top: -20px;
@@ -75,21 +69,17 @@
             .success-message {
                 color: green;
             }
-            .otp-error-message {
-                color: red;
-                text-align: center;
-                margin-top: -20px;
-                margin-bottom: 20px;
-                font-weight: bold;
+            .buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <h2>Đổi mật khẩu</h2>
-            <p><strong>OTP của bạn là: </strong><%= request.getAttribute("otp")%></p>
+            <h2>Đặt lại mật khẩu</h2>
             <form id="resetPasswordForm" action="ResetPasswordController" method="post">
-                <input type="hidden" name="username" value="<%= request.getAttribute("username")%>">
                 <label for="otp">OTP:</label>
                 <input type="text" id="otp" name="otp" required>
                 <div class="otp-error-message">
@@ -105,17 +95,17 @@
                 </div>
                 <button type="submit">Đặt lại mật khẩu</button>
             </form>
-            <button class="back-button" onclick="window.location.href = 'login.jsp'">Quay lại trang đăng nhập</button>
-
+            <button onclick="window.location.href = 'login.jsp'">Quay lại đăng nhập</button>
         </div>
 
         <script>
             document.getElementById('newPassword').addEventListener('input', function () {
                 var password = this.value;
                 var errorMessage = '';
+                var passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
                 if (password.length < 6 || password.length > 15) {
                     errorMessage = 'Mật khẩu phải có độ dài từ 6 đến 15 ký tự.';
-                } else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/.test(password)) {
+                } else if (!passwordPattern.test(password)) {
                     errorMessage = 'Mật khẩu phải có ít nhất 1 chữ cái viết hoa, 1 chữ số, 1 ký tự đặc biệt và không có khoảng trắng.';
                 }
                 document.querySelector('.error-message').textContent = errorMessage;

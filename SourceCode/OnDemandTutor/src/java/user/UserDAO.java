@@ -8,7 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +28,8 @@ public class UserDAO {
     private static final String CHECK_BAN = "SELECT Status FROM BanAccount WHERE AccountId=?";
     private static final String UPDATE_ACCOUNT_STATUS = "UPDATE BanAccount SET Status = 'lock' WHERE AccountId = ?";
     private static final String UNBAN_ACCOUNT_STATUS = "UPDATE BanAccount SET Status = 'active' WHERE AccountId = ?";
+
+    private static final Map<String, String> otpStorage = new HashMap<>();
 
     public UserDTO checkLogin(String Username, String Password) throws SQLException {
         UserDTO user = null;
@@ -453,6 +458,95 @@ public class UserDAO {
     }
 
     //forgot password
+//    public UserDTO getUserByUsername(String username) throws SQLException, ClassNotFoundException {
+//        UserDTO user = null;
+//        Connection conn = null;
+//        PreparedStatement ptm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                String sql = "SELECT Id, Name, Username, Password, Role, OTP FROM Account WHERE Username = ?";
+//                ptm = conn.prepareStatement(sql);
+//                ptm.setString(1, username);
+//                rs = ptm.executeQuery();
+//                if (rs.next()) {
+//                    int id = rs.getInt("Id");
+//                    String name = rs.getString("Name");
+//                    String password = rs.getString("Password");
+//                    String role = rs.getString("Role");
+//                    String otp = rs.getString("OTP");
+//                    user = new UserDTO(id, name, username, password, role);
+//                    user.setOtp(otp);
+//                }
+//            }
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (ptm != null) {
+//                ptm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return user;
+//    }
+//
+//    public boolean updateOtp(String username, String otp) throws SQLException, ClassNotFoundException {
+//        Connection conn = null;
+//        PreparedStatement ptm = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                String sql = "UPDATE Account SET OTP = ? WHERE Username = ?";
+//                ptm = conn.prepareStatement(sql);
+//                ptm.setString(1, otp);
+//                ptm.setString(2, username);
+//                int result = ptm.executeUpdate();
+//                return result > 0;
+//            }
+//        } finally {
+//            if (ptm != null) {
+//                ptm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public boolean updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException {
+//        Connection conn = null;
+//        PreparedStatement ptm = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                String sql = "UPDATE Account SET Password = ? WHERE Username = ?";
+//                ptm = conn.prepareStatement(sql);
+//                ptm.setString(1, newPassword);
+//                ptm.setString(2, username);
+//                int result = ptm.executeUpdate();
+//                return result > 0;
+//            }
+//        } finally {
+//            if (ptm != null) {
+//                ptm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return false;
+//    }
+//
+//    // Phương thức tạo OTP ngẫu nhiên
+//    public String generateOtp() {
+//        int otp = (int) (Math.random() * 900000) + 100000;
+//        return String.valueOf(otp);
+//    }
     public UserDTO getUserByUsername(String username) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
         Connection conn = null;
@@ -539,7 +633,8 @@ public class UserDAO {
 
     // Phương thức tạo OTP ngẫu nhiên
     public String generateOtp() {
-        int otp = (int) (Math.random() * 900000) + 100000;
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000);
         return String.valueOf(otp);
     }
 }

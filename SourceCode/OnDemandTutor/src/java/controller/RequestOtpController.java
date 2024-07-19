@@ -5,12 +5,16 @@
  */
 package controller;
 
+import email.EmailUtility;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import user.UserDAO;
 import user.UserDTO;
 
@@ -31,29 +35,7 @@ public class RequestOtpController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
 
-        UserDAO userDAO = new UserDAO();
-        try {
-            UserDTO user = userDAO.getUserByUsername(username);
-            if (user != null) {
-                // Tạo mã OTP
-                String otp = userDAO.generateOtp();
-                // Cập nhật OTP vào cơ sở dữ liệu
-                userDAO.updateOtp(username, otp);
-                // Chuyển tiếp đến trang hiển thị OTP
-                request.setAttribute("otp", otp);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("display_otp.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Tên người dùng không tồn tại.");
-                request.getRequestDispatcher("request_otp.jsp").forward(request, response);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            request.setAttribute("error", "Đã xảy ra lỗi trong quá trình yêu cầu OTP.");
-            request.getRequestDispatcher("request_otp.jsp").forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -82,7 +64,37 @@ public class RequestOtpController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+
+        UserDAO userDAO = new UserDAO();
+        try {
+            UserDTO user = userDAO.getUserByUsername(username); // Tìm người dùng qua username
+            if (user != null) {
+                // Tạo mã OTP
+                String otp = userDAO.generateOtp();
+                // Cập nhật OTP vào cơ sở dữ liệu
+                userDAO.updateOtp(username, otp);
+                // Gửi OTP qua email
+                EmailUtility.sendEmail(email, "Your OTP Code", "Your OTP code is: " + otp);
+                // Lưu username vào session để sử dụng sau này
+                HttpSession session = request.getSession();
+                session.setAttribute("username", username);
+                // Chuyển hướng tới trang nhập OTP
+                request.getRequestDispatcher("display_otp.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", "Tên người dùng không tồn tại.");
+                request.getRequestDispatcher("request_otp.jsp").forward(request, response);
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Đã xảy ra lỗi trong quá trình gửi email.");
+            request.getRequestDispatcher("request_otp.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Đã xảy ra lỗi trong quá trình yêu cầu OTP.");
+            request.getRequestDispatcher("request_otp.jsp").forward(request, response);
+        }
     }
 
     /**
