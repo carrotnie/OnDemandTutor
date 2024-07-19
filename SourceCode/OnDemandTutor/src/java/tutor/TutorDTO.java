@@ -16,7 +16,7 @@ public class TutorDTO {
     private String Personal_Id;
     private String Gender;
     private int Experience;
-    private int Grade;
+    private String Grade;
     private String Name;
     private String PhoneNumber;
     private String Location;
@@ -34,7 +34,7 @@ public class TutorDTO {
         this.Personal_Id = "";
         this.Gender = "";
         this.Experience = 0;
-        this.Grade = 0;
+        this.Grade = "";
         this.PhoneNumber = "";
         this.Location = "";
         this.Yob = 0;
@@ -56,9 +56,7 @@ public class TutorDTO {
         return Experience;
     }
 
-    public int getGrade() {
-        return Grade;
-    }
+    
 
     public String getName() {
         return Name;
@@ -100,9 +98,7 @@ public class TutorDTO {
         this.Experience = Experience;
     }
 
-    public void setGrade(int Grade) {
-        this.Grade = Grade;
-    }
+    
 
     public void setName(String Name) {
         this.Name = Name;
@@ -180,7 +176,17 @@ public class TutorDTO {
         this.tutorId = tutorId;
     }
 
-    public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, String url) {
+    public String getGrade() {
+        return Grade;
+    }
+
+    public void setGrade(String Grade) {
+        this.Grade = Grade;
+    }
+    
+    
+
+    public TutorDTO(String Personal_Id, String Gender, int Experience, String Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, String url) {
         this.Personal_Id = Personal_Id;
         this.Gender = Gender;
         this.Experience = Experience;
@@ -193,7 +199,7 @@ public class TutorDTO {
         this.url = url;
     }
 
-    public TutorDTO(String Personal_Id, String Gender, int Experience, int Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, int tutorId) {
+    public TutorDTO(String Personal_Id, String Gender, int Experience, String Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, int tutorId) {
         this.Personal_Id = Personal_Id;
         this.Gender = Gender;
         this.Experience = Experience;

@@ -92,6 +92,14 @@
         <servlet-name>ChatController</servlet-name>
         <servlet-class>controller.ChatController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RequestOtpController</servlet-name>
+        <servlet-class>controller.RequestOtpController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResetPasswordController</servlet-name>
+        <servlet-class>controller.ResetPasswordController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -183,6 +191,14 @@
     <servlet-mapping>
         <servlet-name>ChatController</servlet-name>
         <url-pattern>/ChatController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestOtpController</servlet-name>
+        <url-pattern>/RequestOtpController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordController</servlet-name>
+        <url-pattern>/ResetPasswordController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

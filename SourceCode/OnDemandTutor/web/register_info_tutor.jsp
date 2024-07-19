@@ -190,16 +190,7 @@
                     isValid = false;
                 } else {
                     clearError(experience);
-                }
-
-                // Kiểm tra lớp
-                let grade = document.getElementById("grade");
-                if (!/^\d+$/.test(grade.value) || parseInt(grade.value) < 1 || parseInt(grade.value) > 12) {
-                    setError(grade, "Lớp phải là một số từ 1 đến 12.");
-                    isValid = false;
-                } else {
-                    clearError(grade);
-                }
+                }                
 
                 return isValid;
             }
@@ -272,7 +263,7 @@
                     <input type="number" id="experience" name="experience" value="<%= request.getAttribute("experience")%>" required=""/>
 
                     <label for="grade">Grade:</label>
-                    <input type="number" id="grade" name="grade" value="<%= request.getAttribute("grade")%>" required=""/>
+                    <input type="text" id="grade" name="grade" value="<%= request.getAttribute("grade")%>" required=""/>
 
                     <label for="url">Link URL:</label>
                     <input type="text" id="url" name="url" value="<%= request.getAttribute("url")%>" required=""/>
