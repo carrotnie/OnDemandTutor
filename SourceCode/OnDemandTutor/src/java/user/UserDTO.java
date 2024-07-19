@@ -18,6 +18,7 @@ public class UserDTO {
     private String Role;
     private int AmountOfReport;
     private String Status;
+    private String otp;
 
     private int accountId;
     private String gender;
@@ -35,6 +36,12 @@ public class UserDTO {
     private int modId;
     private int tutorId;
 
+    //fotgot password
+
+    
+    
+    
+    
     public UserDTO(int accountId, String gender, int yob, String location, String phoneNumber, int grade) {
         this.accountId = accountId;
         this.gender = gender;
@@ -258,7 +265,17 @@ public class UserDTO {
     public void setStatus(String Status) {
         this.Status = Status;
     }
+    
+    //forgot password
 
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+    
     
 
 }

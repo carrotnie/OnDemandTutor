@@ -89,7 +89,7 @@ public class UpdateTutorInfoController extends HttpServlet {
         String gender = request.getParameter("gender");
         String yobStr = request.getParameter("yob");
         String experienceStr = request.getParameter("experience");
-        String gradeStr = request.getParameter("grade");
+        String grade = request.getParameter("grade");
 
         String errorMsg = null;
 
@@ -107,8 +107,6 @@ public class UpdateTutorInfoController extends HttpServlet {
             errorMsg = "Giới tính phải là Nam hoặc Nữ.";
         } else if (experienceStr == null || !experienceStr.matches("^\\d+$") || Integer.parseInt(experienceStr) < 0) {
             errorMsg = "Kinh nghiệm phải là một số nguyên không âm.";
-        } else if (gradeStr == null || !gradeStr.matches("^\\d+$") || Integer.parseInt(gradeStr) < 1 || Integer.parseInt(gradeStr) > 12) {
-            errorMsg = "Lớp phải là một số từ 1 đến 12.";
         }
 
         if (errorMsg != null) {
@@ -117,7 +115,6 @@ public class UpdateTutorInfoController extends HttpServlet {
         } else {
             int yob = Integer.parseInt(yobStr);
             int experience = Integer.parseInt(experienceStr);
-            int grade = Integer.parseInt(gradeStr);
 
             boolean result = tutorDAO.updateTutorInfo(name, phoneNumber, yob, location, personalId, gender, experience, grade, accountId);
 
