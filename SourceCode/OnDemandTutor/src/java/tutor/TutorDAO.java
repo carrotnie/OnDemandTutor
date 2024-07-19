@@ -76,7 +76,7 @@ public class TutorDAO {
                     String personalId = rs.getString("Personal_ID");
                     String gender = rs.getString("Gender");
                     int experience = rs.getInt("Experience");
-                    int grade = rs.getInt("Grade");
+                    String grade = rs.getString("Grade");
                     String name = rs.getString("Name");
                     String url = rs.getString("url");
                     int tutorId = rs.getInt("TutorId");
@@ -171,7 +171,7 @@ public class TutorDAO {
         return tutors;
     }
 
-    public boolean updateTutorInfo(String name, String phoneNumber, int yob, String location, String personalId, String gender, int experience, int grade, int accountId) {
+    public boolean updateTutorInfo(String name, String phoneNumber, int yob, String location, String personalId, String gender, int experience, String grade, int accountId) {
         Connection conn = null;
         PreparedStatement ptm1 = null;
         PreparedStatement ptm2 = null;
@@ -188,7 +188,7 @@ public class TutorDAO {
                 ptm1.setString(4, personalId);
                 ptm1.setString(5, gender);
                 ptm1.setInt(6, experience);
-                ptm1.setInt(7, grade);
+                ptm1.setString(7, grade);
                 ptm1.setInt(8, accountId);
 
                 // Update Account table

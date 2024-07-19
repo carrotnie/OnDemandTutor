@@ -194,7 +194,8 @@
                     </div>
                 </form>
                 Chưa có tài khoản ? <a href="MainController?action=RegisterPage" class="register-link">Đăng Ký</a> hoặc
-                <a href="MainController?action=HomePage" class="register-link">Quay lại</a>
+                <a href="MainController?action=HomePage" class="register-link">Quay lại</a> <br/>
+                Bạn quên mật khẩu ư? <a href="request_otp.jsp">Quên mật khẩu?</a>
             </div>
         </div>
     </body>
