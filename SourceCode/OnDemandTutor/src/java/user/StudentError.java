@@ -77,6 +77,10 @@ public class StudentError {
 
     // Validation methods
     public boolean checkYob(String yob) {
+        if (yob == null || yob.trim().isEmpty()) {
+            yobError = "Năm sinh không được để trống.";
+            return false;
+        }
         if (!yob.matches("\\d{4}")) {
             yobError = "Năm sinh chỉ được phép nhập số.";
             return false;
@@ -87,6 +91,10 @@ public class StudentError {
     }
 
     public boolean checkPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            phoneNumberError = "Số điện thoại không được để trống.";
+            return false;
+        }
         if (!phoneNumber.matches("\\d{10}")) {
             phoneNumberError = "Số điện thoại chỉ được phép nhập số và bắt buộc 10 số.";
             return false;
@@ -97,7 +105,7 @@ public class StudentError {
     }
 
     public boolean checkGender(String gender) {
-        if (gender == null || gender.isEmpty()) {
+        if (gender == null || gender.trim().isEmpty()) {
             genderError = "Vui lòng chọn giới tính.";
             return false;
         } else {
@@ -107,7 +115,7 @@ public class StudentError {
     }
 
     public boolean checkLocation(String location) {
-        if (location == null || location.isEmpty()) {
+        if (location == null || location.trim().isEmpty()) {
             locationError = "Địa chỉ không được để trống.";
             return false;
         } else {
@@ -117,7 +125,7 @@ public class StudentError {
     }
 
     public boolean checkGrade(String grade) {
-        if (grade == null || grade.isEmpty()) {
+        if (grade == null || grade.trim().isEmpty()) {
             gradeError = "Vui lòng chọn lớp.";
             return false;
         } else {
@@ -127,7 +135,7 @@ public class StudentError {
     }
 
     public boolean checkPicture(String picture) {
-        if (picture == null || picture.isEmpty()) {
+        if (picture == null || picture.trim().isEmpty()) {
             pictureError = "Vui lòng chọn ảnh đại diện.";
             return false;
         } else {
@@ -135,6 +143,7 @@ public class StudentError {
             return true;
         }
     }
+
     // Phương thức kiểm tra tất cả các lỗi
     public boolean isValid() {
         return nameError.isEmpty() && genderError.isEmpty() && yobError.isEmpty() &&

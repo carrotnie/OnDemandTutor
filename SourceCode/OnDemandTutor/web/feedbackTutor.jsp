@@ -158,6 +158,7 @@
                 List<FeedbackDTO> feedbackList = (List<FeedbackDTO>) request.getAttribute("feedbackList");
                 if (feedbackList == null || feedbackList.isEmpty()) {
                     out.println("<p>Không tìm thấy lớp học.</p>");
+                    out.println("<p>Lưu ý: Bạn chỉ được đánh giá giảng viên trong 2 tuần kể từ ngày học cuối cùng.</p>");
                 } else {
                     int no = 1;
             %>

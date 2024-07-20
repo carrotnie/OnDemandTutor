@@ -25,8 +25,8 @@ import user.UserError;
 public class RegisterController extends HttpServlet {
 
     private static final String ERROR = "register.jsp";
-    private static final String SUCCESS_STUDENT = "register_info_student.jsp";
-    private static final String SUCCESS_TUTOR = "register_insertInfo_tutor.jsp";
+    private static final String SUCCESS_STUDENT = "student_homepage.jsp";
+    private static final String SUCCESS_TUTOR = "tutor_homepage.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,11 +36,18 @@ public class RegisterController extends HttpServlet {
         try {
             UserDAO dao = new UserDAO();
             boolean checkValidation = true;
-            String Name = request.getParameter("Name");
+            String Name = new String(request.getParameter("Name").getBytes("ISO-8859-1"), "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("userName", Name);
             String Username = request.getParameter("Username");
             String Password = request.getParameter("Password");
             String Confirm = request.getParameter("Confirm");
             String Role = request.getParameter("Role");
+
+            if (Name.matches(".*\\d.*")) {
+                userError.setNameError("Tên không được chứa số !!!");
+                checkValidation = false;
+            }
 
             if (Username.length() < 5 || Username.length() > 20) {
                 userError.setUsernameError("Tên tài khoản có độ dài từ 5 đến 20 !!!");
@@ -48,7 +55,7 @@ public class RegisterController extends HttpServlet {
             }
             boolean checkDuplicate = dao.checkDuplicate(Username);
             if (checkDuplicate) {
-                userError.setNameError("Tên tài khoản này đã được đăng ký rồi!!!");
+                userError.setUsernameError("Tên tài khoản này đã được đăng ký rồi!!!");
                 checkValidation = false;
             }
             if (Password.length() < 6 || Password.length() > 15) {
@@ -67,9 +74,8 @@ public class RegisterController extends HttpServlet {
                 UserDTO user = new UserDTO(Name, Username, Password, Role);
                 boolean checkInsert = dao.insert(user);
                 if (checkInsert) {
-                    HttpSession session = request.getSession();
                     session.setAttribute("USER_NAME", Name);
-                    session.setAttribute("USER_ID", user.getId());
+                    session.setAttribute("accountId", user.getId());
                     if ("student".equals(Role)) {
                         url = SUCCESS_STUDENT;
                     } else if ("tutor".equals(Role)) {

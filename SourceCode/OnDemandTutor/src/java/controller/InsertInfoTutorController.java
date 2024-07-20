@@ -24,20 +24,21 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import user.TutorError;
+import static user.UserDAO.getUserNameById;
 
 /**
  *
  * @author ASUS
  */
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50 // 50MB
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10, // 10MB
+    maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class InsertInfoTutorController extends HttpServlet {
 
-    private static final String TUTOR_SAVE_DIR = "D:\\semester 5\\SWP\\ccccccccccc\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\tutor";
-    private static final String CERTIFICATE_SAVE_DIR = "D:\\semester 5\\SWP\\ccccccccccc\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate";
+    private static final String TUTOR_SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\tutor";
+    private static final String CERTIFICATE_SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,13 +47,14 @@ public class InsertInfoTutorController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             HttpSession session = request.getSession(false); // Lấy session hiện tại, không tạo session mới nếu không tồn tại
-            if (session == null || session.getAttribute("USER_ID") == null) {
+            if (session == null || session.getAttribute("accountId") == null) {
                 throw new Exception("Account ID not found in session.");
             }
-            Integer accountId = (Integer) session.getAttribute("USER_ID");
+            Integer accountId = (Integer) session.getAttribute("accountId");
             String active = request.getParameter("active");
 
-            String name = request.getParameter("Name");
+            String name = getUserNameById(accountId);
+            request.setAttribute("userName", name);
             String phoneNumber = request.getParameter("phoneNumber");
             String yobString = request.getParameter("yob");
             String personalId = request.getParameter("personalId");
@@ -77,20 +79,20 @@ public class InsertInfoTutorController extends HttpServlet {
             errors.checkContent(content);
             errors.checkExperience(experienceString);
 
-            Part picturePart = request.getPart("picture");
-            Part certificatePart = request.getPart("certificate");
-
-            if (picturePart == null || picturePart.getSize() == 0) {
-                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
-            } else {
-                errors.checkPicture(picturePart.getSubmittedFileName());
-            }
-
-            if (certificatePart == null || certificatePart.getSize() == 0) {
-                errors.setCertificateError("Vui lòng chọn chứng chỉ.");
-            } else {
-                errors.checkCertificate(certificatePart.getSubmittedFileName());
-            }
+//            Part picturePart = request.getPart("picture");
+//            Part certificatePart = request.getPart("certificate");
+//
+//            if (picturePart == null || picturePart.getSize() == 0) {
+//                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
+//            } else {
+//                errors.checkPicture(picturePart.getSubmittedFileName());
+//            }
+//
+//            if (certificatePart == null || certificatePart.getSize() == 0) {
+//                errors.setCertificateError("Vui lòng chọn chứng chỉ.");
+//            } else {
+//                errors.checkCertificate(certificatePart.getSubmittedFileName());
+//            }
 
             if (!errors.isValid()) {
                 request.setAttribute("nameError", errors.getNameError());
@@ -110,6 +112,21 @@ public class InsertInfoTutorController extends HttpServlet {
                 return;
             }
 
+            Part picturePart = request.getPart("picture");
+            Part certificatePart = request.getPart("certificate");
+
+            if (picturePart == null || picturePart.getSize() == 0) {
+                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
+            } else {
+                errors.checkPicture(picturePart.getSubmittedFileName());
+            }
+
+            if (certificatePart == null || certificatePart.getSize() == 0) {
+                errors.setCertificateError("Vui lòng chọn chứng chỉ.");
+            } else {
+                errors.checkCertificate(certificatePart.getSubmittedFileName());
+            }
+
             int yob = Integer.parseInt(yobString);
             int grade = Integer.parseInt(gradeString);
             int experience = Integer.parseInt(experienceString);
@@ -124,7 +141,7 @@ public class InsertInfoTutorController extends HttpServlet {
             String certificatePath = saveAndConvertFile(certificatePart, tutorId, CERTIFICATE_SAVE_DIR, "png", "certificate");
 
             // Get a random moderator ID
-            int modId = Moderator.getRandomModeratorId();
+            int modId = 1;
 
             UserDTO tutor = new UserDTO(tutorId, modId, phoneNumber, yob, location, personalId, gender, experience, grade, content, url);
             userDAO.insertCV(tutor); // Insert into CV table
@@ -134,7 +151,7 @@ public class InsertInfoTutorController extends HttpServlet {
                 userDAO.insertTutorSubject(tutorId, subjectId); // Insert into TutorSubject table
             }
 
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("tutor_homepage.jsp");
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage", "Invalid input format: " + e.getMessage());
             request.getRequestDispatcher("error11.jsp").forward(request, response);
@@ -171,8 +188,8 @@ public class InsertInfoTutorController extends HttpServlet {
             return "img/" + fileType + "/" + newFileName;
         }
         return null;
-    }   
-
+    }
+ 
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
