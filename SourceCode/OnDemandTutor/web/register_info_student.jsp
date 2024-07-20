@@ -71,26 +71,26 @@
     </head>
     <body>
         <%
-            String Name = (String) session.getAttribute("USER_NAME");
-            Integer userId = (Integer) session.getAttribute("USER_ID");
-            if (Name == null) {
-                Name = "";
-                out.println("<p style='color:red;'>Lỗi: Không tìm thấy tên người dùng trong session.</p>");
+            String userName = (String) request.getAttribute("userName");
+            if (userName == null) {
+                userName = "";
+                out.println("<p style='color:red;'>Lỗi: Không tìm thấy tên người dùng.</p>");
             }
+            Integer userId = (Integer) session.getAttribute("accountId");
             if (userId == null) {
                 out.println("<p style='color:red;'>Lỗi: Không tìm thấy USER_ID trong session.</p>");
             }
         %>
         <div class="container">
             <div class="form-section">
-                <a href="MainController?action=LoginPage" class="back-link">
+                <a href="student_homepage.jsp" class="back-link">
                     <i class="bi bi-arrow-left-circle"></i>
                 </a><br/>
                 <h2>Thông Tin Cá Nhân</h2>
                 <form action="InsertInfoStudentController" method="post" enctype="multipart/form-data">
                     <!-- Personal Information -->
                     <label for="name">Họ và Tên:</label>
-                    <input type="text" id="name" name="Name" value="<%= request.getParameter("Name")%>" required>
+                    <input type="text" id="name" name="Name" value="<%= userName%>" required>
                     <span class="error">
                         <%= (request.getAttribute("nameError") != null) ? request.getAttribute("nameError") : ""%>
                     </span>

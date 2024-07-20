@@ -342,7 +342,7 @@
         <div class="nav">
             <img src="<%=request.getContextPath()%>/img/logoo.png" alt="Logo">
             <div class="nav-links">
-                <a href="ViewStuInfoController">Thông tin cá nhân</a>
+                <a href="CheckStudentInfoController">Thông tin cá nhân</a>
                 <a href="TimeTableController">Lịch học</a>
                 <a href="ListClasses">Đăng ký khóa học</a>
                 <a href="ScheduleController">Tình trạng đăng ký</a>

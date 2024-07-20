@@ -84,25 +84,26 @@
     </head>
     <body>
         <%
-            String Name = (String) session.getAttribute("USER_NAME");
-            Integer userId = (Integer) session.getAttribute("USER_ID");
-            if (Name == null) {
-                Name = "";
-                out.println("<p style='color:red;'>Lỗi: Không tìm thấy tên người dùng trong session.</p>");
+            String userName = (String) request.getAttribute("userName");
+            if (userName == null) {
+                userName = "";
+                out.println("<p style='color:red;'>Lỗi: Không tìm thấy tên người dùng.</p>");
             }
+            Integer userId = (Integer) session.getAttribute("accountId");
             if (userId == null) {
                 out.println("<p style='color:red;'>Lỗi: Không tìm thấy USER_ID trong session.</p>");
             }
         %>
         <div class="container">
             <div class="form-section">
-                <a href="MainController?action=LoginPage" class="back-link">
+                <%-- <a href="MainController?action=LoginPage" class="back-link"> --%>
+                <a href="tutor_homepage.jsp" class="back-link">
                     <i class="bi bi-arrow-left-circle"></i>
                 </a><br/>
                 <h2>Thông Tin Cá Nhân</h2>
                 <form action="InsertInfoTutorController" method="post" enctype="multipart/form-data">
                     <label for="name">Họ và Tên: </label>
-                    <input type="text" id="name" name="Name" value="<%= Name%>" required>
+                    <input type="text" id="name" name="Name" value="<%= userName%>" required>
                     <span class="error"><%= request.getAttribute("nameError") != null ? request.getAttribute("nameError") : ""%></span>
 
                     <label for="phoneNumber">Số Điện Thoại: </label>
@@ -143,21 +144,12 @@
                     </div>
                     <span class="error"><%= request.getAttribute("subjectError") != null ? request.getAttribute("subjectError") : ""%></span>
 
-                    <label for="grade">Lớp: </label>
+                    <label for="grade">Cấp: </label>
                     <select id="grade" name="grade" required>
                         <option value="" disabled selected hidden>Chọn trình độ giảng dạy</option>
-                        <option value="1">Lớp 1</option>
-                        <option value="2">Lớp 2</option>
-                        <option value="3">Lớp 3</option>
-                        <option value="4">Lớp 4</option>
-                        <option value="5">Lớp 5</option>
-                        <option value="6">Lớp 6</option>
-                        <option value="7">Lớp 7</option>
-                        <option value="8">Lớp 8</option>
-                        <option value="9">Lớp 9</option>
-                        <option value="10">Lớp 10</option>
-                        <option value="11">Lớp 11</option>
-                        <option value="12">Lớp 12</option>
+                        <option value="1">Cấp 1</option>
+                        <option value="2">Cấp 2</option>
+                        <option value="3">Cấp 3</option>
                     </select>
                     <span class="error"><%= request.getAttribute("gradeError") != null ? request.getAttribute("gradeError") : ""%></span>
 
@@ -190,11 +182,11 @@
                     <span class="error"><%= request.getAttribute("experienceError") != null ? request.getAttribute("experienceError") : ""%></span>
 
                     <label for="picture">Ảnh Đại Diện:</label>
-                    <input type="file" id="picture" name="picture" accept=".jpg">
+                    <input type="file" id="picture" name="picture" accept=".jpg" required>
                     <span class="error"><%= request.getAttribute("pictureError") != null ? request.getAttribute("pictureError") : ""%></span>
 
                     <label for="certificate">Certificate:</label>
-                    <input type="file" id="certificate" name="certificate" accept=".png">
+                    <input type="file" id="certificate" name="certificate" accept=".png" required>
                     <span class="error"><%= request.getAttribute("certificateError") != null ? request.getAttribute("certificateError") : ""%></span>
 
                     <!-- Submit Button -->
