@@ -3,22 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/register.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/request_otp.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/tutor/TutorDTO.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/display_otp.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/UpdateTutorInfoController.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/StudentError.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/InsertInfoTutorController.java</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/ResetPasswordController.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/tutor/TutorDAO.java</file>
+            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/email/EmailUtility.java</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/RequestOtpController.java</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/login.jsp</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/register_info_tutor.jsp</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/UserDTO.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/UserError.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/registerMenu.html</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/error.jsp</file>
+            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/request_otp.jsp</file>
+            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/display_otp.jsp</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/WEB-INF/web.xml</file>
             <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/UserDAO.java</file>
         </group>
