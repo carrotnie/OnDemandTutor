@@ -134,6 +134,9 @@ public class TutorError {
         if (name == null || name.trim().isEmpty()) {
             nameError = "Tên không được để trống.";
             return false;
+        } else if (name.matches(".*\\d.*")) {
+            nameError = "Tên không được chứa số.";
+            return false;
         } else {
             nameError = "";
             return true;

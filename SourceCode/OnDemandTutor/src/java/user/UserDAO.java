@@ -182,7 +182,7 @@ public class UserDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-                ptm.setNString(1, user.getName());
+                ptm.setString(1, user.getName());
                 ptm.setString(2, user.getUsername());
                 ptm.setString(3, user.getPassword());
                 ptm.setString(4, user.getRole());
@@ -200,6 +200,9 @@ public class UserDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error at insert: ", e);
         } finally {
+            if (rs != null) {
+                rs.close();
+            }
             if (ptm != null) {
                 ptm.close();
             }
@@ -322,6 +325,26 @@ public class UserDAO {
         }
     }
 
+    public boolean checkStudent(int accountId) throws ClassNotFoundException {
+        String query = "SELECT s.AccountId AS StudentAccountId "
+                + "FROM Account a "
+                + "LEFT JOIN Student s ON a.Id = s.AccountId "
+                + "WHERE a.Id = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement stm = conn.prepareStatement(query)) {
+            stm.setInt(1, accountId);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public int insertStudent(UserDTO student) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -399,6 +422,26 @@ public class UserDAO {
         return 0;
     }
 
+    public boolean checkTutor(int accountId) throws ClassNotFoundException {
+        String query = "SELECT t.AccountId AS TutorAccountId "
+                + "FROM Account a "
+                + "LEFT JOIN Tutor t ON a.Id = t.AccountId "
+                + "WHERE a.Id = ?";
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement stm = conn.prepareStatement(query)) {
+            stm.setInt(1, accountId);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void insertCV(UserDTO tutor) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -455,6 +498,36 @@ public class UserDAO {
                 conn.close();
             }
         }
+    }
+
+    public String getTutorActiveStatus(int accountId) throws Exception, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        String activeStatus = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String query = "SELECT Active FROM Tutor WHERE AccountId = ?";
+                stm = conn.prepareStatement(query);
+                stm.setInt(1, accountId);
+                ResultSet rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    activeStatus = rs.getString("Active");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return activeStatus;
     }
 
     //forgot password

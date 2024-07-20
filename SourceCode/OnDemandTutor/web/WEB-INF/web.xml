@@ -93,6 +93,18 @@
         <servlet-class>controller.ChatController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TutorStatusController</servlet-name>
+        <servlet-class>controller.TutorStatusController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckTutorInfoController</servlet-name>
+        <servlet-class>controller.CheckTutorInfoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckStudentInfoController</servlet-name>
+        <servlet-class>controller.CheckStudentInfoController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RequestOtpController</servlet-name>
         <servlet-class>controller.RequestOtpController</servlet-class>
     </servlet>
@@ -191,6 +203,18 @@
     <servlet-mapping>
         <servlet-name>ChatController</servlet-name>
         <url-pattern>/ChatController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TutorStatusController</servlet-name>
+        <url-pattern>/TutorStatusController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckTutorInfoController</servlet-name>
+        <url-pattern>/CheckTutorInfoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckStudentInfoController</servlet-name>
+        <url-pattern>/CheckStudentInfoController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RequestOtpController</servlet-name>

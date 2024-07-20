@@ -5,58 +5,43 @@
  */
 package controller;
 
-import feedback.FeedbackDAO;
-import feedback.FeedbackDTO;
-import feedback.Moderator;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import user.UserDAO;
 
 /**
  *
  * @author ASUS
  */
-public class submitFeedbackController extends HttpServlet {
+public class CheckTutorInfoController extends HttpServlet {
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8"); // Thiết lập mã hóa UTF-8 cho yêu cầu
-        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         try {
-             // Lấy dữ liệu từ form
-            int tutorId = Integer.parseInt(request.getParameter("tutorId"));
-            int studentId = Integer.parseInt(request.getParameter("studentId"));
-            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-            int rating = Integer.parseInt(request.getParameter("rating"));
-            int slotId = Integer.parseInt(request.getParameter("slotId"));
-            int modId = Integer.parseInt(request.getParameter("modId"));
-            String feedbackText = request.getParameter("feedback");
-
-            // Tạo đối tượng FeedbackDTO và gọi phương thức DAO để chèn dữ liệu vào cơ sở dữ liệu
-            FeedbackDTO feedbackDTO = new FeedbackDTO();
-            feedbackDTO.setTutorId(tutorId);
-            feedbackDTO.setStudentId(studentId);
-            feedbackDTO.setSubjectId(subjectId);
-            feedbackDTO.setRating(rating);
-            feedbackDTO.setSlotId(slotId);
-            feedbackDTO.setModId(1);
-            feedbackDTO.setFeedback(feedbackText);
-
-            FeedbackDAO.insertRating(feedbackDTO);
-            FeedbackDAO.insertFeedback(feedbackDTO); 
-        } catch (Exception e) {
-            // Xử lý lỗi và hiển thị thông báo lỗi
-            e.printStackTrace();
-            response.sendRedirect("error.jsp");
-
-        } finally {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("thankYou.jsp");
-            dispatcher.forward(request, response);
+            HttpSession session = request.getSession();
+            Integer accountId = (Integer) session.getAttribute("accountId");
+            if (accountId == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            UserDAO dao = new UserDAO();
+            boolean hasTutorInfo = dao.checkTutor(accountId);
+            if (hasTutorInfo) {
+                response.sendRedirect("ViewTutorInfoController");
+            } else {
+                response.sendRedirect("InsertInfoTutorController");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CheckTutorInfoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

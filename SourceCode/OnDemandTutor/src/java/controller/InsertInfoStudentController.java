@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import user.StudentError;
 import user.UserDAO;
+import static user.UserDAO.getUserNameById;
 import user.UserDTO;
 
 /**
@@ -35,7 +36,7 @@ import user.UserDTO;
 )
 public class InsertInfoStudentController extends HttpServlet {
 
-    private static final String SAVE_DIR = "D:\\semester 5\\SWP\\ccccccccccc\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\student";
+    private static final String SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\student";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,15 +45,16 @@ public class InsertInfoStudentController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String message = null;
-        String forwardPage = "login.jsp"; // Trang mặc định chuyển tiếp
+        String forwardPage = "student_homepage.jsp"; // Trang mặc định chuyển tiếp
 
         try {
             HttpSession session = request.getSession(false); // Lấy session hiện tại, không tạo session mới nếu không tồn tại
-            if (session == null || session.getAttribute("USER_ID") == null) {
+            if (session == null || session.getAttribute("accountId") == null) {
                 throw new Exception("Account ID not found in session.");
             }
-            Integer accountId = (Integer) session.getAttribute("USER_ID");
-            String name = request.getParameter("Name");
+            Integer accountId = (Integer) session.getAttribute("accountId");
+            String name = getUserNameById(accountId);
+            request.setAttribute("userName", name);
             String gender = request.getParameter("gender");
             String yobString = request.getParameter("yob");
             String location = request.getParameter("location");
@@ -63,22 +65,24 @@ public class InsertInfoStudentController extends HttpServlet {
 
             if (name == null || name.trim().isEmpty()) {
                 errors.setNameError("Tên không được để trống.");
+            } else if (name.matches(".*\\d.*")) {
+                errors.setNameError("Tên không được chứa số.");
             } else {
                 errors.setNameError(""); // Đảm bảo lỗi không phải null
             }
+            
             errors.checkGender(gender);
             errors.checkYob(yobString);
             errors.checkLocation(location);
             errors.checkPhoneNumber(phoneNumber);
             errors.checkGrade(gradeString);
 
-            Part filePart = request.getPart("picture");
-            if (filePart == null || filePart.getSize() == 0) {
-                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
-            } else {
-                errors.checkPicture(filePart.getSubmittedFileName());
-            }
-
+//            Part filePart = request.getPart("picture");
+//            if (filePart == null || filePart.getSize() == 0) {
+//                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
+//            } else {
+//                errors.checkPicture(filePart.getSubmittedFileName());
+//            }
             if (!errors.isValid()) {
                 request.setAttribute("nameError", errors.getNameError());
                 request.setAttribute("genderError", errors.getGenderError());
@@ -88,27 +92,34 @@ public class InsertInfoStudentController extends HttpServlet {
                 request.setAttribute("gradeError", errors.getGradeError());
                 request.setAttribute("pictureError", errors.getPictureError());
                 request.getRequestDispatcher("register_info_student.jsp").forward(request, response);
-            } else {
-                int yob = Integer.parseInt(yobString);
-                int grade = Integer.parseInt(gradeString);
-
-                // Cập nhật tên 
-                UserDAO userDAO = new UserDAO();
-                userDAO.updateAccountName(accountId, name);
-
-                // chèn thông tin 
-                UserDTO student = new UserDTO(accountId, gender, yob, location, phoneNumber, grade);
-                int studentId = userDAO.insertStudent(student);
-
-                // Xử lý việc upload tệp
-                if (filePart != null && filePart.getSize() > 0) {
-                    String picturePath = saveAndConvertFile(filePart, studentId, SAVE_DIR, "jpg", "student");
-                }
             }
+
+            Part filePart = request.getPart("picture");
+            if (filePart == null || filePart.getSize() == 0) {
+                errors.setPictureError("Vui lòng chọn ảnh đại diện.");
+            } else {
+                errors.checkPicture(filePart.getSubmittedFileName());
+            }
+            int yob = Integer.parseInt(yobString);
+            int grade = Integer.parseInt(gradeString);
+
+            // Cập nhật tên 
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateAccountName(accountId, name);
+
+            // chèn thông tin 
+            UserDTO student = new UserDTO(accountId, gender, yob, location, phoneNumber, grade);
+            int studentId = userDAO.insertStudent(student);
+
+            // Xử lý việc upload tệp
+            if (filePart != null && filePart.getSize() > 0) {
+                String picturePath = saveAndConvertFile(filePart, studentId, SAVE_DIR, "jpg", "student");
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             message = "Error: " + e.getClass().getName() + ": " + e.getMessage();
-            forwardPage = "error11.jsp"; 
+            forwardPage = "error11.jsp";
         } finally {
             request.setAttribute("message", message);
             request.getRequestDispatcher(forwardPage).forward(request, response);
