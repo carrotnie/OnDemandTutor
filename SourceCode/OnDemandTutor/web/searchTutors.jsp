@@ -13,7 +13,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Giasumienphi.edu.vn</title>
+        <title>STUDENT HOME PAGE</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@
                 background-color: #001e54;
                 display: flex;
                 align-items: center;
-                padding: 10px 20px;
+                padding: 5px 20px;
                 border-bottom: 1px solid #ddd;
                 color: #000;
             }
@@ -40,7 +40,7 @@
                 text-decoration: none;
                 color: #ddd;
                 font-weight: bold;
-                padding: 14px 20px;
+                padding: 20px 8px;
                 margin: 0 5px;
                 display: inline-block;
             }
@@ -348,18 +348,18 @@
         <div class="nav">
             <img src="<%=request.getContextPath()%>/img/logoo.png" alt="Logo">
             <div class="nav-links">
-                <a href="ViewStuInfoController">Thông tin cá nhân</a>
-                <a href="TimeTableController">Lịch học</a>
-                <a href="ListClasses">Đăng ký khóa học</a>
-                <a href="ScheduleController">Tình trạng đăng ký</a>
-                <a href="FeedbackController">Đánh giá khóa học</a>
-                <a href="ChatController">Chat</a>
+                <a href="MainController?action=checkStudentInfo">Thông tin cá nhân</a>
+                <a href="MainController?action=timeTable">Lịch học</a>
+                <a href="MainController?action=listClasses">Đăng ký khóa học</a>
+                <a href="MainController?action=schedule">Tình trạng đăng ký</a>
+                <a href="MainController?action=feedback">Đánh giá khóa học</a>
+                <a href="MainController?action=chat">Chat</a>
             </div>
             <form action="SearchTutorController" method="GET">
                 <div class="search-container">
                     <input type="text" class="search-input" name="txtSearchTutor" placeholder="Tìm giáo viên...">
                     <button type="submit" class="search-button">Tìm</button>
-                    <<button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
+                    <<button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
                 </div>
             </form>
 

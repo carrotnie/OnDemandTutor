@@ -167,11 +167,11 @@
     <div class="nav">
         <div class="left-nav">
             <img src="img/logoo.png" alt="Logo">
-            <a href="tutor_homepage.jsp">Trang Chủ</a>
-            <a href="CheckTutorInfoController">Thông Tin Cá Nhân</a>
-            <a href="registerMenu.html">Đăng ký Class&Slot</a>
-            <a href="ViewTutorCalendar">Lịch Dạy</a>
-            <a href="ChatController">Chat</a>
+            <a href="MainController?action=tutorHomePage">Trang Chủ</a>
+            <a href="MainController?action=checkTutorInfo">Thông Tin Cá Nhân</a>
+            <a href="MainController?action=registerMenu">Đăng ký Class&Slot</a>
+            <a href="MainController?action=viewTutorCalendar">Lịch Dạy</a>
+            <a href="MainController?action=tutorChat">Chat</a>
         </div>
         <div class="right-nav">
             <div class="notification-bell">
@@ -179,7 +179,7 @@
                 <div class="notification-popup" id="notificationPopup"></div>
                 <span class="notification-count" id="notificationCount"></span>
             </div>
-            <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
+            <button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
         </div>
     </div>
     <div class="container">

@@ -39,6 +39,37 @@ public class MainController extends HttpServlet {
     private static final String REGISTER_SLOT = "RegisterSlot";
     private static final String REGISTER_SLOT_CONTROLLER = "InsertSlotServlet";
 
+    private static final String CHECK_STUDENT_INFO = "checkStudentInfo";
+    private static final String TIME_TABLE = "timeTable";
+    private static final String LIST_CLASSES = "listClasses";
+    private static final String SCHEDULE = "schedule";
+    private static final String FEEDBACK = "feedback";
+    private static final String CHAT = "chat";
+    
+    private static final String CHECK_STUDENT_INFO_CONTROLLER = "CheckStudentInfoController";
+    private static final String TIME_TABLE_CONTROLLER = "TimeTableController";
+    private static final String LIST_CLASSES_CONTROLLER = "ListClasses";
+    private static final String SCHEDULE_CONTROLLER = "ScheduleController";
+    private static final String FEEDBACK_CONTROLLER = "FeedbackController";
+    private static final String CHAT_CONTROLLER = "ChatController";
+    private static final String STUDENT_HOME_PAGE = "StudentPage";
+    private static final String STUDENT_HOME_PAGE_VIEW = "student_homepage.jsp";
+
+    private static final String TUTOR_HOME_PAGE = "tutorHomePage";
+    private static final String TUTOR_HOME_PAGE_VIEW = "tutor_homepage.jsp";
+
+    private static final String CHECK_TUTOR_INFO = "checkTutorInfo";
+    private static final String CHECK_TUTOR_INFO_CONTROLLER = "CheckTutorInfoController";
+
+    private static final String REGISTER_MENU = "registerMenu";
+    private static final String REGISTER_MENU_PAGE = "registerMenu.html";
+
+    private static final String VIEW_TUTOR_CALENDAR = "viewTutorCalendar";
+    private static final String VIEW_TUTOR_CALENDAR_CONTROLLER = "ViewTutorCalendar";
+
+    private static final String TUTOR_CHAT = "tutorChat";
+    private static final String TUTOR_CHAT_CONTROLLER = "ChatController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = MAIN_PAGE;
@@ -62,6 +93,30 @@ public class MainController extends HttpServlet {
                 url = REGISTER_CLASS_CONTROLLER;
             } else if (REGISTER_SLOT.equals(action)) {
                 url = REGISTER_SLOT_CONTROLLER;
+            } else if (CHECK_STUDENT_INFO.equals(action)) {
+                url = CHECK_STUDENT_INFO_CONTROLLER;
+            } else if (TIME_TABLE.equals(action)) {
+                url = TIME_TABLE_CONTROLLER;
+            } else if (LIST_CLASSES.equals(action)) {
+                url = LIST_CLASSES_CONTROLLER;
+            } else if (SCHEDULE.equals(action)) {
+                url = SCHEDULE_CONTROLLER;
+            } else if (FEEDBACK.equals(action)) {
+                url = FEEDBACK_CONTROLLER;
+            } else if (CHAT.equals(action)) {
+                url = CHAT_CONTROLLER;
+            } else if (STUDENT_HOME_PAGE.equals(action)) {
+                url = STUDENT_HOME_PAGE_VIEW;
+            } else if (TUTOR_HOME_PAGE.equals(action)) {
+                url = TUTOR_HOME_PAGE_VIEW;
+            } else if (CHECK_TUTOR_INFO.equals(action)) {
+                url = CHECK_TUTOR_INFO_CONTROLLER;
+            } else if (REGISTER_MENU.equals(action)) {
+                url = REGISTER_MENU_PAGE;
+            } else if (VIEW_TUTOR_CALENDAR.equals(action)) {
+                url = VIEW_TUTOR_CALENDAR_CONTROLLER;
+            } else if (TUTOR_CHAT.equals(action)) {
+                url = TUTOR_CHAT_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController: " + e.toString());
