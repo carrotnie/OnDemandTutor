@@ -352,7 +352,7 @@ public class ModDAO {
         }
         return tutorDataList;
     }
-    
+
     public List<CvDTO> getTutorRejectedByActiveStatusAndModId(String activeStatus, int modId) throws SQLException {
         List<CvDTO> tutorDataList = new ArrayList<>();
 
@@ -478,15 +478,20 @@ public class ModDAO {
 
     public boolean rejectTutor(int cvId, String reason) throws SQLException {
         String updateTutorQuery = "UPDATE Tutor SET Active = N'bị từ chối' WHERE Id = (SELECT TutorId FROM CV WHERE Id = ?)";
+        String deleteReasonQuery = "DELETE FROM ReasonDenyCv WHERE TutorId = (SELECT TutorId FROM CV WHERE Id = ?)";
         String insertReasonQuery = "INSERT INTO ReasonDenyCv (ModId, TutorId, Reason) VALUES (?, ?, ?)";
 
         try (PreparedStatement updateStmt = connection.prepareStatement(updateTutorQuery);
+                PreparedStatement deleteStmt = connection.prepareStatement(deleteReasonQuery);
                 PreparedStatement insertStmt = connection.prepareStatement(insertReasonQuery)) {
+
             updateStmt.setInt(1, cvId);
             int updateRows = updateStmt.executeUpdate();
 
             if (updateRows > 0) {
-                // Get the ModId and TutorId
+                deleteStmt.setInt(1, cvId);
+                deleteStmt.executeUpdate();
+
                 CvDTO cv = getCvById(cvId);
                 if (cv != null) {
                     insertStmt.setInt(1, cv.getModId());
@@ -499,4 +504,5 @@ public class ModDAO {
         }
         return false;
     }
+
 }
