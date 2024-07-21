@@ -20,8 +20,6 @@ import user.UserDAO;
  */
 public class TutorStatusController extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -33,25 +31,37 @@ public class TutorStatusController extends HttpServlet {
 
         UserDAO dao = new UserDAO();
         String status = "Unknown";
+        String reason = null;
 
         try {
             if (accountId != null) {
                 status = dao.getTutorActiveStatus(accountId);
+                if ("bị từ chối".equals(status)) {
+                    int tutorId = dao.getTutorIdByAccountId(accountId);
+                    reason = dao.getReasonForDeny(tutorId);
+                }
                 if (status == null) {
                     status = "Giáo viên lưu lòng nhập thông tin cá nhân";
                 }
             } else {
                 status = "No ACCOUNT_ID in session";
             }
+            
         } catch (Exception e) {
             e.printStackTrace();
             status = "Error retrieving status";
         } finally {
-            System.out.println("Status: " + status); // Log để kiểm tra status
-            response.getWriter().write("{\"status\":\"" + status + "\"}");
+            String responseMessage = "{\"status\":\"" + status + "\"";
+            if (reason != null) {
+                responseMessage += ", \"reason\":\"" + reason + "\"";
+            }
+            responseMessage += "}";
+            System.out.println("Status: " + status);
+            System.out.println("Reason: " + reason);
+            response.getWriter().write(responseMessage);
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

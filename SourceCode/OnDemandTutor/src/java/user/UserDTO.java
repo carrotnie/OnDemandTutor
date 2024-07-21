@@ -5,6 +5,8 @@
  */
 package user;
 
+import java.util.List;
+
 /**
  *
  * @author MSI
@@ -35,12 +37,35 @@ public class UserDTO {
     private String active;
     private int modId;
     private int tutorId;
+    private List<Integer> subjects;
+    
 
     //fotgot password
 
     
     
-    
+    public UserDTO(int id, int modId, String phoneNumber, int yob, String location, String personalId, String gender, int experience, int grade, String content, String url, List<Integer> subjects) {
+        this.Id = id;
+        this.modId = modId;
+        this.phoneNumber = phoneNumber;
+        this.yob = yob;
+        this.location = location;
+        this.personalId = personalId;
+        this.gender = gender;
+        this.experience = experience;
+        this.grade = grade;
+        this.content = content;
+        this.url = url;
+        this.subjects = subjects;
+    }
+
+    public List<Integer> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Integer> subjects) {
+        this.subjects = subjects;
+    }
     
     public UserDTO(int accountId, String gender, int yob, String location, String phoneNumber, int grade) {
         this.accountId = accountId;

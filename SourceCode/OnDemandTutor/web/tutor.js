@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("Fetching status...");
     fetch('TutorStatusController')
         .then(response => {
+            console.log("Response received:", response);
             if (!response.ok) {
                 throw new Error("Network response was not ok " + response.statusText);
             }
@@ -15,6 +16,11 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log("Data received: ", data);
             const status = data.status;
+            const reason = data.reason;
+
+            console.log("Parsed status: ", status);
+            console.log("Parsed reason: ", reason);
+
             const notificationPopup = document.getElementById("notificationPopup");
             const notificationCount = document.getElementById("notificationCount");
 
@@ -29,6 +35,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 hasMessage = true;
             } else if (status === "bị từ chối") {
                 message = "Tài khoản của bạn đã bị từ chối.";
+                if (reason) {
+                    message += `<br>Lý do: ${reason} <a href='UpdateInsertInfoTutorController' style='color: red;'>Vui lòng cập nhật thông tin</a>`;
+                }
                 hasMessage = true;
             } else if (status === "Giáo viên lưu lòng nhập thông tin cá nhân") {
                 message = "Giáo viên lưu lòng nhập thông tin cá nhân.";
@@ -38,7 +47,11 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             if (hasMessage) {
-                notificationPopup.innerHTML = `<p>${message}</p>`;
+                notificationPopup.innerHTML = `
+                    <div class="menu-item">
+                        <p>${message}</p>
+                    </div>
+                `;
                 notificationCount.innerText = "1";
                 notificationCount.style.display = "block";
             } else {
@@ -47,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
             const notificationPopup = document.getElementById("notificationPopup");
             notificationPopup.innerHTML = "<p>Failed to fetch status.</p>";
             const notificationCount = document.getElementById("notificationCount");

@@ -164,8 +164,8 @@ public class TutorError {
     }
 
     public boolean checkPersonalId(String personalId) {
-        if (personalId == null || !personalId.matches("\\d{10}")) {
-            personalIdError = "CCCD không được phép để trống, bắt buộc 10 số.";
+        if (personalId == null || !personalId.matches("\\d{12}")) {
+            personalIdError = "CCCD không được phép để trống, bắt buộc 12 số.";
             return false;
         } else {
             personalIdError = "";
