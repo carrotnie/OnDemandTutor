@@ -342,18 +342,18 @@
         <div class="nav">
             <img src="<%=request.getContextPath()%>/img/logoo.png" alt="Logo">
             <div class="nav-links">
-                <a href="CheckStudentInfoController">Thông tin cá nhân</a>
-                <a href="TimeTableController">Lịch học</a>
-                <a href="ListClasses">Đăng ký khóa học</a>
-                <a href="ScheduleController">Tình trạng đăng ký</a>
-                <a href="FeedbackController">Đánh giá khóa học</a>
-                <a href="ChatController">Chat</a>
+                <a href="MainController?action=checkStudentInfo">Thông tin cá nhân</a>
+                <a href="MainController?action=timeTable">Lịch học</a>
+                <a href="MainController?action=listClasses">Đăng ký khóa học</a>
+                <a href="MainController?action=schedule">Tình trạng đăng ký</a>
+                <a href="MainController?action=feedback">Đánh giá khóa học</a>
+                <a href="MainController?action=chat">Chat</a>
             </div>
             <form action="SearchTutorController" method="GET">
                 <div class="search-container">
                     <input type="text" class="search-input" name="txtSearchTutor" placeholder="Tìm giáo viên...">
                     <button type="submit" class="search-button">Tìm</button>
-                    <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
+                    <button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
                 </div>
             </form>
 

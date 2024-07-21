@@ -122,7 +122,7 @@
         </div>
         <div class="nav">
             <img src="img/logoo.png" alt="Logo">
-            <a href="student_homepage.jsp">Trang Chủ</a>
+            <a href="MainController?action=StudentPage">Trang Chủ</a>
             <a href="#" class="logout-button">Đăng Xuất</a>
         </div>
         <div class="container">

@@ -150,7 +150,7 @@
     </head>
     <body>
         <div class="container">
-            <a href="student_homepage.jsp" class="back-link">
+            <a href="MainController?action=StudentPage" class="back-link">
                 <i class="bi bi-arrow-left-circle"></i>
             </a><br/>
             <h2 class="centered-title">Feedback Information</h2>

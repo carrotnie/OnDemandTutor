@@ -13,6 +13,6 @@
     </head>
     <body>
         <p class="error-message">${errorMessage}</p>
-        <a href="index.jsp" class="home-link">Go to Home</a>
+        <a href="MainController?action=StudentPage" class="home-link">Go to Home</a>
     </body>
 </html>
