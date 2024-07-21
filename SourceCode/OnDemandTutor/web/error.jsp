@@ -51,7 +51,7 @@
     <div class="container">
         <h1>Error</h1>
         <p>Đã xảy ra lỗi trong quá trình xử lý yêu cầu của bạn</p>
-        <a href="student_homepage.jsp">Quay lại trang chủ</a>
+        <a href="MainController?action=StudentPage">Quay lại trang chủ</a>
     </div>
 </body>
 </html>

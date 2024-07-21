@@ -104,7 +104,7 @@
         <c:if test="${empty schedules}">
             <p>Hiện bạn chưa có lịch học nào</p>
         </c:if>
-        <a href="student_homepage.jsp" class="back-button">Quay lại trang chủ</a>
+        <a href="MainController?action=StudentPage" class="back-button">Quay lại trang chủ</a>
     </div>
 </body>
 </html>

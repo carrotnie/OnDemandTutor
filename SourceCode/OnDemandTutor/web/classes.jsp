@@ -107,7 +107,7 @@
 </head>
 <body>
     <div class="nav">
-        <a href="student_homepage.jsp" class="home-icon">
+        <a href="MainController?action=StudentPage" class="home-icon">
             <i class="bi bi-house-fill"></i>
         </a>
         <h2>Danh Sách Lớp học</h2>

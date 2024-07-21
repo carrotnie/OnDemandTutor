@@ -127,7 +127,7 @@
 </head>
 <body>
     <div class="nav">
-        <a href="student_homepage.jsp" class="back-button">
+        <a href="MainController?action=StudentPage" class="back-button">
             <i class="bi bi-house-fill icon-home"></i>
         </a>
     </div>

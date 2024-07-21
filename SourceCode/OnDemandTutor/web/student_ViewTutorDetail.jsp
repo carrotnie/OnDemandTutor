@@ -88,7 +88,7 @@
     <body>
         <div class="container">
             <!-- Biểu tượng và liên kết trở về trang chủ -->
-            <a href="student_homepage.jsp" class="back-icon">
+            <a href="MainController?action=StudentPage" class="back-icon">
                 <i class="bi bi-reply-fill"></i> 
             </a>
             <%
