@@ -3,18 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/ResetPasswordController.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/tutor/TutorDAO.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/RequestOtpController.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/login.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/register_info_tutor.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/UserDTO.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/request_otp.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/tutor/TutorDTO.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/display_otp.jsp</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/UpdateTutorInfoController.java</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/web/WEB-INF/web.xml</file>
-            <file>file:/D:/SWP391/OnDemandTutor/SourceCode/OnDemandTutor/src/java/user/UserDAO.java</file>
+            <file>file:/D:/SWP/sua%20bug/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/InsertSlotServlet.java</file>
+            <file>file:/D:/SWP/sua%20bug/OnDemandTutor/SourceCode/OnDemandTutor/src/java/controller/MainController.java</file>
+            <file>file:/D:/SWP/sua%20bug/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/SlotDTO.java</file>
+            <file>file:/D:/SWP/sua%20bug/OnDemandTutor/SourceCode/OnDemandTutor/web/registerSlot.jsp</file>
+            <file>file:/D:/SWP/sua%20bug/OnDemandTutor/SourceCode/OnDemandTutor/src/java/registerClassSlotTutor/SlotDAO.java</file>
+            <file>file:/D:/SWP/sua%20bug/OnDemandTutor/SourceCode/OnDemandTutor/web/registerClass.jsp</file>
         </group>
     </open-files>
 </project-private>

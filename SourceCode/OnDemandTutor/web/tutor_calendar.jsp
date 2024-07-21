@@ -136,7 +136,7 @@
         <img src="img/logoo.png" alt="Logo">
         <a href="tutor_homepage.jsp">Trang Chủ</a>
         <a href="ViewTutorInfoController">Thông Tin Cá Nhân</a>
-        <a href="registerMenu.html">Đăng ký Class&Slot</a>
+        <a href="RegisterMenuController">Đăng ký Class&Slot</a>
         <a href="">Lịch Dạy</a>
         <a href="ChatController">Chat</a>
         <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>

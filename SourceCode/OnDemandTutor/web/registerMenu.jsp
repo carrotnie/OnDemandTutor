@@ -1,14 +1,16 @@
+<%-- 
+    Document   : registerMenu
+    Created on : Jul 18, 2024, 1:50:44 PM
+    Author     : Long Dinh
+--%>
+
+<%@page import="registerClassSlotTutor.ClassDAO"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>Register Menu</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -117,8 +119,17 @@ and open the template in the editor.
         </div>
         <div class="container">
             <div class="content">
-                <a href="InsertClassServlet" class="button-link">Đăng Ký Lớp Học</a>
-                <a href="registerSlot.jsp" class="button-link">Đăng Ký Slot</a>
+                <%
+                    Boolean isApproved = (Boolean) request.getAttribute("isApproved");
+                    if (isApproved == null) {
+                        isApproved = false; // Đặt giá trị mặc định nếu null
+                    }
+                %>
+                <a href="InsertClassServlet" class="button-link" <%= isApproved ? "" : "style='display:none;'"%>>Đăng Ký Lớp Học</a>
+                <a href="registerSlot.jsp" class="button-link" <%= isApproved ? "" : "style='display:none;'"%>>Đăng Ký Slot</a>
+                <% if (!isApproved) { %>
+                <p>Bạn cần được admin duyệt trước khi đăng ký Class hoặc Slot.</p>
+                <% }%>
             </div>
         </div>
     </body>

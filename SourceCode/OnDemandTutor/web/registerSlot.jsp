@@ -1,90 +1,91 @@
-<%-- 
-    Document   : registerSlot
-    Created on : Jul 6, 2024, 2:01:05 AM
-    Author     : Long Dinh
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Register Class</title>
+        <title>Đăng ký Slot</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
+                background-color: #f8f8f8;
                 margin: 0;
                 padding: 0;
             }
             .container {
-                width: 50%;
-                margin: auto;
+                width: 80%;
+                margin: 50px auto;
                 padding: 20px;
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                margin-top: 50px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-            .form-group {
-                margin-bottom: 15px;
+            h1 {
+                text-align: center;
+                color: #333;
             }
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-            .form-group input, .form-group select {
+            table {
                 width: 100%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                box-sizing: border-box;
-                margin-bottom: 10px;
-                font-size: 16px;
+                border-collapse: collapse;
+                margin-top: 20px;
             }
-            .form-group button, .form-group .button-back {
-                padding: 10px 20px;
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: center;
+            }
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .button-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+            .btn-submit, .btn-back, .btn-add-row {
+                display: inline-block;
+                width: 120px;
+                padding: 12px;
+                margin: 10px;
                 font-size: 16px;
                 color: white;
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
-                transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-                margin-right: 10px;
-            }
-            .form-group button {
-                background-color: #007bff;
-            }
-            .form-group button:hover {
-                background-color: #0056b3;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 10px rgba(0, 91, 187, 0.2);
-            }
-            .form-group .button-back {
-                background-color: #6c757d;
-                text-decoration: none;
-                display: inline-block;
                 text-align: center;
             }
-            .form-group .button-back:hover {
-                background-color: #5a6268;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 10px rgba(90, 98, 104, 0.2);
+            .btn-submit {
+                background-color: #4CAF50;
             }
-            .alert {
-                color: red;
-                margin-bottom: 15px;
+            .btn-submit:hover {
+                background-color: #45a049;
+            }
+            .btn-back {
+                background-color: #f44336;
+                text-decoration: none;
+                padding: 10px 20px;
+                display: inline-block;
+                border-radius: 5px;
+            }
+            .btn-back:hover {
+                background-color: #e41f1f;
+            }
+            .btn-add-row {
+                background-color: #2196F3;
+            }
+            .btn-add-row:hover {
+                background-color: #1E88E5;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>Insert Slot</h2>
-            <form action="MainController" method="post">
-                <div class="form-group">
-                    <label for="dayOfSlot">Ngày trong tuần:</label>
-                    <select id="dayOfSlot" name="dayOfSlot" required>
+        <script>
+            function addRow() {
+                const table = document.getElementById('slotsTable').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+
+                const dayCell = newRow.insertCell(0);
+                const startTimeCell = newRow.insertCell(1);
+                const endTimeCell = newRow.insertCell(2);
+
+                dayCell.innerHTML = `
+                    <select name="dayOfSlot[]">
                         <option value="Thứ Hai">Thứ Hai</option>
                         <option value="Thứ Ba">Thứ Ba</option>
                         <option value="Thứ Tư">Thứ Tư</option>
@@ -93,24 +94,92 @@
                         <option value="Thứ Bảy">Thứ Bảy</option>
                         <option value="Chủ Nhật">Chủ Nhật</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="startTime">Start Time (HH:mm):</label>
-                    <input type="time" id="startTime" name="startTime" required>
-                </div>
-                <div class="form-group">
-                    <label for="endTime">End Time (HH:mm):</label>
-                    <input type="time" id="endTime" name="endTime" required>
-                </div>
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert">${errorMessage}</div>
-                </c:if>
-                <div class="form-group">
-                    <button type="submit" name="action" value="RegisterSlot">Register</button>
-                    <a href="registerMenu.html" class="button-back">Back to Register Menu</a>
+                `;
+                startTimeCell.innerHTML = `
+                    <select name="startTime[]">
+                        <option value="08:00">08:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="18:00">18:00</option>
+                        <option value="20:00">20:00</option>
+                    </select>
+                `;
+                endTimeCell.innerHTML = `
+                    <select name="endTime[]">
+                        <option value="10:00">10:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="18:00">18:00</option>
+                        <option value="20:00">20:00</option>
+                        <option value="22:00">22:00</option>
+                    </select>
+                `;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Đăng ký Slot</h1>
+            <form action="MainController" method="post" accept-charset="UTF-8">
+                <input type="hidden" name="action" value="RegisterSlot">
+                <table id="slotsTable">
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Thời gian bắt đầu</th>
+                            <th>Thời gian kết thúc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="dayOfSlot[]">
+                                    <option value="Thứ Hai">Thứ Hai</option>
+                                    <option value="Thứ Ba">Thứ Ba</option>
+                                    <option value="Thứ Tư">Thứ Tư</option>
+                                    <option value="Thứ Năm">Thứ Năm</option>
+                                    <option value="Thứ Sáu">Thứ Sáu</option>
+                                    <option value="Thứ Bảy">Thứ Bảy</option>
+                                    <option value="Chủ Nhật">Chủ Nhật</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="startTime[]">
+                                    <option value="08:00">08:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="18:00">18:00</option>
+                                    <option value="20:00">20:00</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="endTime[]">
+                                    <option value="10:00">10:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="18:00">18:00</option>
+                                    <option value="20:00">20:00</option>
+                                    <option value="22:00">22:00</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="button-container">
+                    <button type="button" class="btn-add-row" onclick="addRow()">Thêm Slot</button>
+                    <button type="submit" name="action" value="RegisterSlot" class="btn-submit">Đăng ký</button>
+                    <a href="registerMenu.html" class="btn-back">Quay lại</a>
                 </div>
             </form>
+            <% if (request.getAttribute("errorMessage") != null) {%>
+            <p style="color:red; text-align: center;"><%= request.getAttribute("errorMessage")%></p>
+            <% }%>
         </div>
     </body>
 </html>
-
