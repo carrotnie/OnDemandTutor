@@ -366,6 +366,9 @@
             </form>
 
         </div>
+        <form action="ViewBalanceController" method="GET">
+            <button type="submit">Check Balance</button>
+        </form>
 
         <!-- HTML code for the filter row -->
         <div class="filter-row">

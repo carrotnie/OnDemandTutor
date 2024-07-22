@@ -5,24 +5,28 @@
  */
 package slot;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Admin
  */
 public class SlotDTO {
 
-    int id;
-    String day;
-    String startTime;   
-    String endTime;
-    String subjectName;
+    private int id;
+    private String day;
+    private String startTime;   
+    private String endTime;
+    private String subjectName;
+    private BigDecimal price;
 
-    public SlotDTO(int id, String day, String startTime, String endTime, String subjectName) {
+    public SlotDTO(int id, String day, String startTime, String endTime, String subjectName, BigDecimal price) {
         this.id = id;
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
         this.subjectName = subjectName;
+        this.price = price;
     }
 
     public int getId() {
@@ -42,7 +46,7 @@ public class SlotDTO {
     }
 
     public String getStartTime() {
-        return startTime.substring(0, 8);
+        return startTime;
     }
 
     public void setStartTime(String startTime) {
@@ -50,7 +54,7 @@ public class SlotDTO {
     }
 
     public String getEndTime() {
-        return endTime.substring(0, 8);
+        return endTime;
     }
 
     public void setEndTime(String endTime) {
@@ -64,5 +68,14 @@ public class SlotDTO {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+    
 
 }

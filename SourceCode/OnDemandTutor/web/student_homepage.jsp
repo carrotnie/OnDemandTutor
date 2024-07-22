@@ -360,6 +360,9 @@
             </form>
 
         </div>
+        <form action="ViewBalanceController" method="GET">
+            <button type="submit">Check Balance</button>
+        </form>
 
         <!-- HTML code for the filter row -->
         <div class="filter-row">
@@ -435,34 +438,34 @@
         </div>
 
         <div class="teachers-section">
-        <div class="teachers-container">
-            <%
-                List<TutorDTO> tutors = (List<TutorDTO>) request.getAttribute("filteredTutors");
-                if (tutors == null) {
-                    TutorDAO dao = new TutorDAO();
-                    tutors = dao.info();
-                }
-                if (tutors == null || tutors.isEmpty()) {
-                    out.println("<p>No tutors found.</p>");
-                } else {
-                    for (TutorDTO tutor : tutors) {
-            %>
-            <div class="teacher-card">
-                <div class="teacher-image-container">
-                    <img src="<%= request.getContextPath()%>/img/tutor/<%= tutor.getId()%>.jpg" alt="<%= tutor.getName()%>" class="teacher-image">
-                </div>
-                <div class="teacher-info">
-                    <h3><%= tutor.getName()%></h3>
-                    <p>Môn: <%= tutor.getSubjectName() %></p>
-                    <p>Đánh giá: <%= String.format("%.1f", tutor.getRating()) %> ★</p>
-                    <a href="student_ViewTutorDetail.jsp?id=<%= tutor.getId()%>" class="btn">Xem thêm</a>
-                </div>
-            </div>
-            <%
+            <div class="teachers-container">
+                <%
+                    List<TutorDTO> tutors = (List<TutorDTO>) request.getAttribute("filteredTutors");
+                    if (tutors == null) {
+                        TutorDAO dao = new TutorDAO();
+                        tutors = dao.info();
                     }
-                }
-            %>
+                    if (tutors == null || tutors.isEmpty()) {
+                        out.println("<p>No tutors found.</p>");
+                    } else {
+                        for (TutorDTO tutor : tutors) {
+                %>
+                <div class="teacher-card">
+                    <div class="teacher-image-container">
+                        <img src="<%= request.getContextPath()%>/img/tutor/<%= tutor.getId()%>.jpg" alt="<%= tutor.getName()%>" class="teacher-image">
+                    </div>
+                    <div class="teacher-info">
+                        <h3><%= tutor.getName()%></h3>
+                        <p>Môn: <%= tutor.getSubjectName()%></p>
+                        <p>Đánh giá: <%= String.format("%.1f", tutor.getRating())%> ★</p>
+                        <a href="student_ViewTutorDetail.jsp?id=<%= tutor.getId()%>" class="btn">Xem thêm</a>
+                    </div>
+                </div>
+                <%
+                        }
+                    }
+                %>
+            </div>
         </div>
-    </div>
     </body>
 </html>

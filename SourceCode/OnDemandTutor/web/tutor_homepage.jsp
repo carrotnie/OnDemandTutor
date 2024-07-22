@@ -172,6 +172,7 @@
                 <a href="MainController?action=registerMenu">Đăng ký Class&Slot</a>
                 <a href="MainController?action=viewTutorCalendar">Lịch Dạy</a>
                 <a href="MainController?action=tutorChat">Chat</a>
+                <a href="ViewBalanceTutorController">Tiền lương</a>
             </div>
             <div class="right-nav">
                 <div class="notification-bell">
