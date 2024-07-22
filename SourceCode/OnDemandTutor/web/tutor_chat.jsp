@@ -126,6 +126,7 @@
             <a href="MainController?action=registerMenu">Đăng ký Class&Slot</a>
             <a href="MainController?action=viewTutorCalendar">Lịch Dạy</a>
             <a href="MainController?action=tutorChat">Chat</a>
+            <a href="ViewBalanceTutorController">Tiền lương</a>
             <button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
         </div>
         <div class="container">

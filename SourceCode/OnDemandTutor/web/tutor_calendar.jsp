@@ -134,11 +134,12 @@
     <div class="nav">
         <img src="img/logoo.png" alt="Logo">
         <a href="MainController?action=tutorHomePage">Trang Chủ</a>
-            <a href="MainController?action=checkTutorInfo">Thông Tin Cá Nhân</a>
-            <a href="MainController?action=registerMenu">Đăng ký Class&Slot</a>
-            <a href="MainController?action=viewTutorCalendar">Lịch Dạy</a>
-            <a href="MainController?action=tutorChat">Chat</a>
-            <button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
+        <a href="MainController?action=checkTutorInfo">Thông Tin Cá Nhân</a>
+        <a href="MainController?action=registerMenu">Đăng ký Class&Slot</a>
+        <a href="MainController?action=viewTutorCalendar">Lịch Dạy</a>
+        <a href="MainController?action=tutorChat">Chat</a>
+        <a href="ViewBalanceTutorController">Tiền lương</a>
+        <button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
     </div>
     <div class="container">
         <div class="schedule-section">
