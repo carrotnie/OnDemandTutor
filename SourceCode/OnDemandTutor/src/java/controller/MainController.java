@@ -62,7 +62,7 @@ public class MainController extends HttpServlet {
     private static final String CHECK_TUTOR_INFO_CONTROLLER = "CheckTutorInfoController";
 
     private static final String REGISTER_MENU = "registerMenu";
-    private static final String REGISTER_MENU_PAGE = "registerMenu.html";
+    private static final String REGISTER_MENU_PAGE = "RegisterMenuController";
 
     private static final String VIEW_TUTOR_CALENDAR = "viewTutorCalendar";
     private static final String VIEW_TUTOR_CALENDAR_CONTROLLER = "ViewTutorCalendar";

@@ -110,6 +110,7 @@
             <a href="">Đăng ký Class&Slot</a>
             <a href="ViewTutorCalendar">Lịch Dạy</a>
             <a href="ChatController">Chat</a>
+            <a href="ViewBalanceTutorController">Tiền lương</a>
             <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
         </div>
         <div class="container">
