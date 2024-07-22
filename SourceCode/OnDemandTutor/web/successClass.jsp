@@ -61,7 +61,7 @@
     <div class="container">
         <h1>Tạo Class Thành Công!</h1>
         <p>Slot đã được tạo thành công.</p>
-        <a href="registerMenu.html">Tạo Class khác</a>
+        <a href="MainController?action=registerMenu">Tạo Class khác</a>
     </div>
 </body>
 </html>

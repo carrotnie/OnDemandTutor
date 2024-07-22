@@ -208,12 +208,12 @@
     </head>
     <body>
         <div class="sidebar" id="mySidebar">
-            <a href="ViewFeedbackController"><i class="bi bi-envelope"></i>Nhận Xét</a>
-            <a href="ViewReportController"><i class="bi bi-file-earmark-text"></i>Reports</a>
-            <a href="ViewCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Chờ Duyệt</a>
-            <a href="ViewCvCheckedController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Duyệt</a>
-            <a href="ViewRejectedCvController"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Bị Từ Chối</a>
-            <a href="login.jsp"><i class="bi bi-box-arrow-right"></i>Đăng Xuất</a>
+            <a href="MainController?action=ViewFeedback"><i class="bi bi-envelope"></i>Nhận Xét</a>
+            <a href="MainController?action=ViewReport"><i class="bi bi-file-earmark-text"></i>Reports</a>
+            <a href="MainController?action=ViewCv"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Chờ Duyệt</a>
+            <a href="MainController?action=ViewCvChecked"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Duyệt</a>
+            <a href="MainController?action=ViewRejectedCv"><i class="bi bi-file-earmark-person"></i>Hồ Sơ Đã Bị Từ Chối</a>
+            <a href="MainController?action=HomePage"><i class="bi bi-box-arrow-right"></i>Đăng Xuất</a>
         </div>
         <div class="main-content" id="main">
             <div class="card">

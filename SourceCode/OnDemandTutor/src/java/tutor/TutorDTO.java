@@ -29,6 +29,7 @@ public class TutorDTO {
     private String youtubeUrl;
     private List<String> subjects;
     private int tutorId;
+    private String userName;
 
     public TutorDTO() {
         this.Personal_Id = "";
@@ -56,7 +57,13 @@ public class TutorDTO {
         return Experience;
     }
 
-    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getName() {
         return Name;
@@ -183,7 +190,7 @@ public class TutorDTO {
     public void setGrade(String Grade) {
         this.Grade = Grade;
     }
-    
+
     
 
     public TutorDTO(String Personal_Id, String Gender, int Experience, String Grade, String PhoneNumber, String Location, int Yob, int AccountId, int Id, String url) {

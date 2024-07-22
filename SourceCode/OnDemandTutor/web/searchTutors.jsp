@@ -303,15 +303,14 @@
                 background-color: #FF4136;
             }
 
-
-
             /* CSS code for the filter row and search button */
             .filter-row {
                 display: flex;
-                justify-content: space-around;
+                justify-content: center; /* Center the filter row */
                 align-items: center;
                 margin-top: 20px;
                 margin-bottom: 20px;
+                gap: 20px; /* Add space between filter elements */
             }
 
             .filter-row .filter {
@@ -319,7 +318,9 @@
                 font-size: 16px;
                 border: 1px solid #ddd;
                 border-radius: 5px;
-                width: 15%; /* Adjust width as needed */
+                width: 300px; /* Set a fixed width for filter elements */
+                box-sizing: border-box; /* Ensure padding and border are included in the width */
+                margin-bottom: 0; /* Remove bottom margin */
             }
 
             .filter-row .search-button {
@@ -336,7 +337,8 @@
                 background-color: #FF4136;
             }
 
-            .filter-row select:focus {
+            .filter-row select:focus,
+            .filter-row button:focus {
                 border-color: #001F3F;
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
                 outline: none;
@@ -367,86 +369,76 @@
 
         <!-- HTML code for the filter row -->
         <div class="filter-row">
-            <select name="subject" class="filter">
-                <option value="">Môn học</option>
-                <option value="m1">Toán</option>
-                <option value="m2">Lí</option>
-                <option value="m3">Hóa</option>
-                <option value="m4">Sinh</option>
-                <option value="m5">Tiếng Anh</option>
-                <option value="m6">Sử</option>
-                <option value="m7">Địa</option>
-                <option value="m8">Văn</option>
-                <option value="m9">TOEIC</option>
-                <option value="m10">IELTS</option>
-                <option value="m11">Chinese</option>
-                <option value="m12">Japanese</option>
-                <option value="m13">Korean</option>
-            </select>
+            <form action="FilterController" method="GET">
+                <select name="subject" class="filter">
+                    <option value="">Môn học</option>
+                    <option value="1">Toán</option>
+                    <option value="2">Lí</option>
+                    <option value="3">Hóa</option>
+                    <option value="4">Sinh</option>
+                    <option value="5">Tiếng Anh</option>
+                    <option value="6">Sử</option>
+                    <option value="7">Địa</option>
+                    <option value="8">Văn</option>
+                    <option value="9">TOEIC</option>
+                    <option value="10">IELTS</option>
+                    <option value="11">Chinese</option>
+                    <option value="12">Japanese</option>
+                    <option value="13">Korean</option>
+                </select>
 
-            <select name="city" class="filter">
-                <option value="">Thành phố</option>
-                <option value="tp1">Tp. Hồ Chí Minh</option>
-                <option value="tp2">Hà Nội</option>
-                <option value="tp3">Đà Nẵng</option>
-                <option value="tp4">Hải Phòng</option>
-                <option value="tp5">Cần Thơ</option>
-                <option value="tp6">Nha Trang</option>
-                <option value="tp7">Huế</option>
-                <option value="tp8">Vũng Tàu</option>
-                <option value="tp9">Phan Thiết</option>
-                <option value="tp10">Quãng Ninh</option>
-                <option value="tp11">Thanh Hóa</option>
-                <option value="tp12">Huế</option>
-                <option value="tp13">Thái Nguyên</option>
-                <option value="tp14">Nam Định</option>
-                <option value="tp15">Bắc Giang</option>
-                <option value="tp16">Nghệ An</option>
-                <option value="tp17">Quãng Bình</option>
-                <option value="tp18">Quãng Trị</option>
-                <option value="tp19">Bình Định</option>
-                <option value="tp20">Gia Lai</option>
-                <option value="tp21">Kon Tum</option>
-                <option value="tp22">Bình Thuận</option>
-                <option value="tp23">Lâm Đồng</option>
-                <option value="tp24">Khánh Hòa</option>
-                <option value="tp25">Đắk Lắk</option>
-                <option value="tp26">Đắk Nông</option>
-            </select>
+                <select name="district" class="filter">
+                    <option value="">Quận</option>
+                    <option value="Q1">Quận 1</option>
+                    <option value="Q2">Quận 2</option>
+                    <option value="Q3">Quận 3</option>
+                    <option value="Q4">Quận 4</option>
+                    <option value="Q5">Quận 5</option>
+                    <option value="Q6">Quận 6</option>
+                    <option value="Q7">Quận 7</option>
+                    <option value="Q8">Quận 8</option>
+                    <option value="Q9">Quận 9</option>
+                    <option value="Q10">Quận 10</option>
+                    <option value="Q11">Quận 11</option>
+                    <option value="Q12">Quận 12</option>
+                    <option value="Q.Bình Thạnh">Bình Thạnh</option>
+                    <option value="Q.Thủ Đức">Thủ Đức</option>
+                    <option value="Q.Gò Vấp">Gò Vấp</option>
+                    <option value="Q.Phú Nhuận">Phú Nhuận</option>
+                    <option value="Q.Tân Bình">Tân Bình</option>
+                    <option value="Q.Tân Phú">Tân Phú</option>
+                    <option value="Q.Bình Tân">Bình Tân</option>
+                    <option value="Q.Bình Chánh">Bình Chánh</option>
+                    <option value="Q.Nhà Bè">Nhà Bè</option>
+                    <option value="Q.Cần Giờ">Cần Giờ</option>
+                    <option value="Q.Hóc Môn">Hóc Môn</option>
+                    <option value="Q.Củ Chi">Củ Chi</option>
+                </select>
 
-            <select name="class" class="filter">
-                <option value="">Lớp</option>
-                <option value="l1">Lớp 1</option>
-                <option value="l2">Lớp 2</option>
-                <option value="l3">Lớp 3</option>
-                <option value="l4">Lớp 4</option>
-                <option value="l5">Lớp 5</option>
-                <option value="l6">Lớp 6</option>
-                <option value="l7">Lớp 7</option>
-                <option value="l8">Lớp 8</option>
-                <option value="l9">Lớp 9</option>
-                <option value="l10">Lớp 10</option>
-                <option value="l11">Lớp 11</option>
-                <option value="l12">Lớp 12</option>
-            </select>
+                <select name="grade" class="filter">
+                    <option value="">Cấp</option>
+                    <option value="Cấp 1">Cấp 1</option>
+                    <option value="Cấp 2">Cấp 2</option>
+                    <option value="Cấp 3">Cấp 3</option>
+                </select>
 
-            <select name="rating" class="filter">
-                <option value="">Đánh giá</option>
-                <option value="d1">5 sao</option>
-                <option value="d2">4 sao</option>
-                <option value="d3">3 sao</option>
-                <option value="d4">2 sao</option>
-                <option value="d5">1 sao</option>
-            </select>
+                <select name="rating" class="filter">
+                    <option value="">Đánh giá</option>
+                    <option value="10">10 sao</option>
+                    <option value="9">9 sao</option>
+                    <option value="8">8 sao</option>
+                    <option value="7">7 sao</option>
+                    <option value="6">6 sao</option>
+                    <option value="5">5 sao</option>
+                    <option value="4">4 sao</option>
+                    <option value="3">3 sao</option>
+                    <option value="2">2 sao</option>
+                    <option value="1">1 sao</option>
+                </select>
 
-            <select name="time" class="filter">
-                <option value="">Khung giờ</option>
-                <option value="t1">Sáng</option>
-                <option value="t2">Chiều</option>
-                <option value="t3">Tối</option>
-            </select>
-            <button type="button" class="search-button">Tìm kiếm</button>
-        </div>    
+                <button type="submit" class="search-button">Tìm kiếm</button>
+            </form>
+        </div> 
 
         <div class="teachers-section">
             <div class="teachers-container">

@@ -99,7 +99,7 @@
     %>
     <div class="container">
         <div class="form-section">
-            <a href="tutor_homepage.jsp" class="back-link">
+            <a href="MainController?action=tutorHomePage" class="back-link">
                 <i class="bi bi-arrow-left-circle"></i>
             </a><br/>
             <h2>Thông Tin Cá Nhân</h2>

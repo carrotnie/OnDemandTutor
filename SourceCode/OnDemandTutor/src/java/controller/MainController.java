@@ -69,7 +69,23 @@ public class MainController extends HttpServlet {
 
     private static final String TUTOR_CHAT = "tutorChat";
     private static final String TUTOR_CHAT_CONTROLLER = "ChatController";
+    
+    private static final String VIEW_FEEDBACK = "ViewFeedback";
+    private static final String VIEW_FEEDBACK_CONTROLLER = "ViewFeedbackController";
 
+    private static final String VIEW_REPORT = "ViewReport";
+    private static final String VIEW_REPORT_CONTROLLER = "ViewReportController";
+
+    private static final String VIEW_CV = "ViewCv";
+    private static final String VIEW_CV_CONTROLLER = "ViewCvController";
+
+    private static final String VIEW_CV_CHECKED = "ViewCvChecked";
+    private static final String VIEW_CV_CHECKED_CONTROLLER = "ViewCvCheckedController";
+
+    private static final String VIEW_REJECTED_CV = "ViewRejectedCv";
+    private static final String VIEW_REJECTED_CV_CONTROLLER = "ViewRejectedCvController";
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = MAIN_PAGE;
@@ -117,6 +133,16 @@ public class MainController extends HttpServlet {
                 url = VIEW_TUTOR_CALENDAR_CONTROLLER;
             } else if (TUTOR_CHAT.equals(action)) {
                 url = TUTOR_CHAT_CONTROLLER;
+            } else if (VIEW_FEEDBACK.equals(action)) {
+                url = VIEW_FEEDBACK_CONTROLLER;
+            } else if (VIEW_REPORT.equals(action)) {
+                url = VIEW_REPORT_CONTROLLER;
+            } else if (VIEW_CV.equals(action)) {
+                url = VIEW_CV_CONTROLLER;
+            } else if (VIEW_CV_CHECKED.equals(action)) {
+                url = VIEW_CV_CHECKED_CONTROLLER;
+            } else if (VIEW_REJECTED_CV.equals(action)) {
+                url = VIEW_REJECTED_CV_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController: " + e.toString());
