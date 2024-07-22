@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -31,119 +26,134 @@ import registerClassSlotTutor.SubjectDTO;
  */
 public class InsertClassServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer accountId = (Integer) session.getAttribute("accountId");
+
+        if (accountId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        List<SubjectDTO> subjects = new ArrayList<>();
+        SubjectDAO subjectDAO = new SubjectDAO();
 
         try {
-            HttpSession session = request.getSession();
-            Integer tutorId = (Integer) session.getAttribute("accountId");
-
-            if (tutorId == null) {
-                response.sendRedirect("login.jsp");
-                return;
+            subjects = subjectDAO.getSubjectsByAccountId(accountId);
+            for (SubjectDTO subject : subjects) {
+                System.out.println("Subject ID: " + subject.getId() + ", Name: " + subject.getName());
             }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            // Truy vấn danh sách các môn học mà giáo viên đang dạy
-            List<SubjectDTO> subjectList = new ArrayList<>();
-            SubjectDAO subjectDAO = new SubjectDAO();
-            try {
-                subjectList = subjectDAO.getSubjectsByTutorId(tutorId);
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(InsertClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        request.setAttribute("subjects", subjects);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("registerClass.jsp");
+        dispatcher.forward(request, response);
+    }
 
-            String subjectIdParam = request.getParameter("subjectId");
-            String amountOfSlotParam = request.getParameter("amountOfSlot");
-            String startDayParam = request.getParameter("startDay");
-            String endDayParam = request.getParameter("endDay");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
 
-            if (subjectIdParam == null || amountOfSlotParam == null || startDayParam == null || endDayParam == null) {
-                request.setAttribute("errorMessage", "Missing required parameters.");
-                request.setAttribute("subjectList", subjectList);
-                RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
-                rd.forward(request, response);
-                return;
-            }
+        HttpSession session = request.getSession();
+        Integer accountId = (Integer) session.getAttribute("accountId");
 
-            int subjectId = Integer.parseInt(subjectIdParam);
-            int amountOfSlot = Integer.parseInt(amountOfSlotParam);
-            Date startDay = Date.valueOf(startDayParam);
-            Date endDay = Date.valueOf(endDayParam);
+        if (accountId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-            // Kiểm tra ràng buộc ngày
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(startDay);
-            cal.add(Calendar.MONTH, 2);
-            Date expectedEndDay = new Date(cal.getTimeInMillis());
+        String[] subjectIds = request.getParameterValues("subjectId");
+        String amountOfSlotParam = request.getParameter("amountOfSlot");
+        String startDayParam = request.getParameter("startDay");
+        String endDayParam = request.getParameter("endDay");
 
-            if (!endDay.equals(expectedEndDay)) {
-                request.setAttribute("errorMessage", "Ngày kết thúc phải cách ngày bắt đầu đúng 2 tháng.");
-                request.setAttribute("subjectList", subjectList);
-                RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
-                rd.forward(request, response);
-                return;
-            }
+        List<SubjectDTO> subjects = new ArrayList<>();
+        SubjectDAO subjectDAO = new SubjectDAO();
 
+        try {
+            subjects = subjectDAO.getSubjectsByAccountId(accountId);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (subjectIds == null || amountOfSlotParam == null || startDayParam == null || endDayParam == null) {
+            request.setAttribute("errorMessage", "Missing required parameters.");
+            request.setAttribute("subjects", subjects);
+            RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
+        int amountOfSlot;
+        Date startDay;
+        Date endDay;
+        try {
+            amountOfSlot = Integer.parseInt(amountOfSlotParam);
+            startDay = Date.valueOf(startDayParam);
+            endDay = Date.valueOf(endDayParam);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid input format.");
+            request.setAttribute("subjects", subjects);
+            RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
+        // Kiểm tra ràng buộc số lượng slot
+        if (amountOfSlot > 10) {
+            request.setAttribute("errorMessage", "Amount of slot không được vượt quá 10.");
+            request.setAttribute("subjects", subjects);
+            RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
+        // Kiểm tra ngày bắt đầu và ngày kết thúc không được ở quá khứ
+        Date currentDate = new Date(System.currentTimeMillis());
+        if (startDay.before(currentDate) || endDay.before(currentDate)) {
+            request.setAttribute("errorMessage", "Không được chọn ngày quá khứ.");
+            request.setAttribute("subjects", subjects);
+            RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
+        // Kiểm tra ràng buộc ngày kết thúc phải cách ngày bắt đầu đúng 2 tháng
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDay);
+        cal.add(Calendar.MONTH, 2);
+        Date expectedEndDay = new Date(cal.getTimeInMillis());
+
+        if (!endDay.equals(expectedEndDay)) {
+            request.setAttribute("errorMessage", "End day must be exactly 2 months after start day.");
+            request.setAttribute("subjects", subjects);
+            RequestDispatcher rd = request.getRequestDispatcher("registerClass.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
+        ClassDAO classDAO = new ClassDAO();
+        for (String subjectId : subjectIds) {
             ClassDTO classDTO = new ClassDTO();
-            classDTO.setTutorId(tutorId);
-            classDTO.setSubjectId(subjectId);
+            classDTO.setTutorId(accountId);
+            classDTO.setSubjectId(Integer.parseInt(subjectId));
             classDTO.setAmountOfSlot(amountOfSlot);
             classDTO.setStartDay(startDay);
             classDTO.setEndDay(endDay);
 
-            ClassDAO classDAO = new ClassDAO();
             try {
                 classDAO.addClass(classDTO);
-                response.sendRedirect("successClass.jsp");
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.sendRedirect("errorClass.jsp");
+                return;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(InsertClassServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } finally {
-            // Close resources if needed
         }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("successClass.jsp");
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
