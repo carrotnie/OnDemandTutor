@@ -116,6 +116,10 @@
         <servlet-name>UpdateInsertInfoTutorController</servlet-name>
         <servlet-class>controller.UpdateInsertInfoTutorController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterMenuController</servlet-name>
+        <servlet-class>controller.RegisterMenuController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateStudentInfoController</servlet-name>
         <url-pattern>/UpdateStudentInfoController</url-pattern>
@@ -231,6 +235,10 @@
     <servlet-mapping>
         <servlet-name>UpdateInsertInfoTutorController</servlet-name>
         <url-pattern>/UpdateInsertInfoTutorController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterMenuController</servlet-name>
+        <url-pattern>/RegisterMenuController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

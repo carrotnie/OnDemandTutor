@@ -24,7 +24,7 @@
                 background-color: #ffffff;
                 color: #001F3F;
                 text-align: center;
-                padding: 5px 0;
+                padding: 0 0;
                 margin: 0;
             }
             .header h5 {
@@ -190,7 +190,7 @@
                     isValid = false;
                 } else {
                     clearError(experience);
-                }                
+                }
 
                 return isValid;
             }
@@ -214,15 +214,16 @@
         </script>
     </head>
     <body>
-        
+        <div class="header">
+        </div>
         <div class="nav">
             <img src="img/logoo.png" alt="Logo">
-            <a href="MainController?action=tutorHomePage">Trang Chủ</a>
-            <a href="MainController?action=checkTutorInfo">Thông Tin Cá Nhân</a>
-            <a href="MainController?action=registerMenu">Đăng ký Class&Slot</a>
-            <a href="MainController?action=viewTutorCalendar">Lịch Dạy</a>
-            <a href="MainController?action=tutorChat">Chat</a>
-            <button type="button" class="logout-button" onclick="window.location.href = 'MainController?action=HomePage';">Logout</button>
+            <a href="tutor_homepage.jsp">Trang Chủ</a>
+            <a href="">Thông Tin Cá Nhân</a>
+            <a href="RegisterMenuController">Đăng ký Class&Slot </a>
+            <a href="ViewTutorCalendar">Lịch Dạy</a>
+            <a href="ChatController">Chat</a>
+            <button type="button" class="logout-button" onclick="window.location.href = 'home.html';">Logout</button>
         </div>
         <div class="container">
             <div class="form-section">
