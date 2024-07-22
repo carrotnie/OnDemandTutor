@@ -125,6 +125,7 @@
                                 <c:out value="${c.startTime.substring(0, 5)}" /> → 
                                 <c:out value="${c.endTime.substring(0, 5)}" />
                             </p>
+                            <p>Giá: <fmt:formatNumber value="${c.price}" type="number" pattern="###,###,### đ"/></p>
                         </div>
                         <div class="btn-center">
                             <a class="btn btn-info mt-2" href="BookSlot?slotId=${c.id}">Đăng ký</a>
