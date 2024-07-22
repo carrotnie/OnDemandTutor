@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package registerClassSlotTutor;
+
+import java.sql.Time;
 
 /**
  *
@@ -13,19 +10,20 @@ public class SlotDTO {
 
     private int classId;
     private String dayOfSlot;
-    private String startTime;
-    private String endTime;
+    private Time startTime;
+    private Time endTime;
 
     public SlotDTO() {
     }
 
-    public SlotDTO(int classId, String dayOfSlot, String startTime, String endTime) {
+    public SlotDTO(int classId, String dayOfSlot, Time startTime, Time endTime) {
         this.classId = classId;
         this.dayOfSlot = dayOfSlot;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
+    // Getters and Setters
     public int getClassId() {
         return classId;
     }
@@ -42,20 +40,19 @@ public class SlotDTO {
         this.dayOfSlot = dayOfSlot;
     }
 
-    public String getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
-
 }

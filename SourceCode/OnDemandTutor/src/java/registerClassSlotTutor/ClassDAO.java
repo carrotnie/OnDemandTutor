@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package registerClassSlotTutor;
 
 import database.DBUtils;
@@ -59,5 +54,21 @@ public class ClassDAO {
             e.printStackTrace();
         }
         return 0; // or throw an exception if amountOfSlot is not found
+    }
+
+    public boolean isTutorApproved(int tutorId) throws SQLException, ClassNotFoundException {
+        String query = "SELECT Tutor.Active "
+                + "FROM Tutor "
+                + "join Account on Account.Id = Tutor.AccountId "
+                + "where Tutor.AccountId = ?";
+        try (Connection connection = DBUtils.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, tutorId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return "đã kiểm duyệt".equals(resultSet.getString("Active"));
+            }
+        }
+        return false;
     }
 }

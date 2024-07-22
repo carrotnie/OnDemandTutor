@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package registerClassSlotTutor;
 
 import database.DBUtils;
+import static database.DBUtils.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  *
@@ -19,14 +17,18 @@ public class SlotDAO {
 
     private static final String INSERT_SLOT_SQL = "INSERT INTO Slot (ClassId, DayOfSlot, StartTime, EndTime) VALUES (?, ?, ?, ?) ";
 
-    public void addSlot(SlotDTO slotDTO) throws SQLException, ClassNotFoundException {
-        try (Connection conn = DBUtils.getConnection();
+    public void addSlot(SlotDTO slot) throws SQLException, ClassNotFoundException {
+        try (Connection conn = getConnection();
                 PreparedStatement stmt = conn.prepareStatement(INSERT_SLOT_SQL)) {
-            stmt.setInt(1, slotDTO.getClassId());
-            stmt.setNString(2, slotDTO.getDayOfSlot());
-            stmt.setString(3, slotDTO.getStartTime());
-            stmt.setString(4, slotDTO.getEndTime());
-            stmt.executeUpdate();
+            stmt.setInt(1, slot.getClassId());
+            stmt.setString(2, slot.getDayOfSlot());
+            stmt.setTime(3, slot.getStartTime());
+            stmt.setTime(4, slot.getEndTime());
+            int rowsInserted = stmt.executeUpdate();
+            System.out.println("Rows inserted: " + rowsInserted);
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            throw e;
         }
     }
 
@@ -91,5 +93,31 @@ public class SlotDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public boolean isSlotDuplicate(int tutorId, String dayOfSlot, Time startTime, Time endTime) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT COUNT(*) FROM Slot "
+                + "JOIN Class ON Slot.ClassId = Class.Id "
+                + "WHERE Class.TutorId = ? AND DayOfSlot = ? "
+                + "AND ((CAST(StartTime AS DATETIME) < CAST(? AS DATETIME) AND CAST(EndTime AS DATETIME) > CAST(? AS DATETIME)) "
+                + "OR (CAST(StartTime AS DATETIME) < CAST(? AS DATETIME) AND CAST(EndTime AS DATETIME) > CAST(? AS DATETIME)) "
+                + "OR (CAST(StartTime AS DATETIME) >= CAST(? AS DATETIME) AND CAST(EndTime AS DATETIME) <= CAST(? AS DATETIME)))";
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, tutorId);
+            stmt.setString(2, dayOfSlot);
+            stmt.setTimestamp(3, new Timestamp(endTime.getTime()));
+            stmt.setTimestamp(4, new Timestamp(startTime.getTime()));
+            stmt.setTimestamp(5, new Timestamp(endTime.getTime()));
+            stmt.setTimestamp(6, new Timestamp(startTime.getTime()));
+            stmt.setTimestamp(7, new Timestamp(startTime.getTime()));
+            stmt.setTimestamp(8, new Timestamp(endTime.getTime()));
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
