@@ -97,8 +97,9 @@ public class InsertSlotServlet extends HttpServlet {
 
                 long duration = (endTime.getTime() - startTime.getTime()) / (1000 * 60);
 
-                if (duration > 120) {
-                    request.setAttribute("errorMessage", "Thời gian của mỗi Slot không được vượt quá 2 tiếng.");
+                // Ràng buộc thời gian của mỗi Slot phải bằng đúng 2 tiếng
+                if (duration != 120) {
+                    request.setAttribute("errorMessage", "Thời gian của mỗi Slot phải bằng đúng 2 tiếng.");
                     RequestDispatcher rd = request.getRequestDispatcher("registerSlot.jsp");
                     rd.forward(request, response);
                     return;
