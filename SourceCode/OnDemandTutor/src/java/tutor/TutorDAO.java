@@ -114,34 +114,30 @@ public class TutorDAO {
             if (conn != null) {
                 System.out.println("Connection successfully.");
 
-                String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, s.[Name] AS SubjectName, "
+                String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
+                        + "STUFF((SELECT DISTINCT ', ' + s.[Name] "
+                        + "FROM TutorSubject ts JOIN Subject s ON ts.SubjectId = s.Id "
+                        + "WHERE ts.TutorId = t.Id FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS SubjectName, "
                         + "AVG(r.Rating) AS AverageRating "
                         + "FROM Tutor t "
                         + "JOIN Account a ON t.AccountId = a.Id "
-                        + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
-                        + "JOIN Subject s ON ts.SubjectId = s.Id "
+                        + "LEFT JOIN TutorSubject ts ON t.Id = ts.TutorId "
+                        + "LEFT JOIN Subject s ON ts.SubjectId = s.Id "
                         + "LEFT JOIN Rating r ON t.Id = r.TutorId "
-                        + "GROUP BY t.Id, a.[Name], s.[Name] "
-                        + "HAVING AVG(r.Rating) BETWEEN 7 AND 9 "
-                        + // Filter to only include ratings between 7 and 9
-                        "ORDER BY AverageRating DESC";
+                        + "GROUP BY t.Id, a.[Name] "
+                        + "HAVING AVG(r.Rating) BETWEEN 7 AND 9 " // Filter to only include ratings between 7 and 9
+                        + "ORDER BY AverageRating DESC";
+
                 stm = conn.prepareStatement(query);
                 rs = stm.executeQuery();
-                Map<Integer, TutorDTO> tutorMap = new LinkedHashMap<>();
                 while (rs.next()) {
-                    int tutorId = rs.getInt("TutorId");
-                    TutorDTO tutor = tutorMap.get(tutorId);
-                    if (tutor == null) {
-                        tutor = new TutorDTO();
-                        tutor.setId(tutorId);
-                        tutor.setName(rs.getString("TutorName"));
-                        tutor.setRating(rs.getDouble("AverageRating"));
-                        tutor.setSubjects(new ArrayList<>());
-                        tutorMap.put(tutorId, tutor);
-                    }
-                    tutor.getSubjects().add(rs.getString("SubjectName"));
+                    TutorDTO tutor = new TutorDTO();
+                    tutor.setId(rs.getInt("TutorId"));
+                    tutor.setName(rs.getString("TutorName"));
+                    tutor.setSubjectName(rs.getString("SubjectName"));
+                    tutor.setRating(rs.getDouble("AverageRating"));
+                    tutors.add(tutor);
                 }
-                tutors.addAll(tutorMap.values());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -239,13 +235,16 @@ public class TutorDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
-                        + "STRING_AGG(s.[Name], ', ') AS SubjectName, "
+                String query = "SELECT t.Id AS TutorId, "
+                        + "a.[Name] AS TutorName, "
+                        + "STUFF((SELECT DISTINCT ', ' + s.[Name] "
+                        + "FROM TutorSubject ts "
+                        + "JOIN Subject s ON ts.SubjectId = s.Id "
+                        + "WHERE ts.TutorId = t.Id "
+                        + "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS SubjectName, "
                         + "COALESCE(AVG(r.Rating), 0) AS AverageRating "
                         + "FROM Tutor t "
                         + "JOIN Account a ON t.AccountId = a.Id "
-                        + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
-                        + "JOIN Subject s ON ts.SubjectId = s.Id "
                         + "LEFT JOIN Rating r ON t.Id = r.TutorId "
                         + "WHERE a.[Name] LIKE ? "
                         + "GROUP BY t.Id, a.[Name] "
@@ -292,19 +291,24 @@ public class TutorDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
-                        + "STRING_AGG(s.[Name], ', ') AS SubjectName, "
+                String query = "SELECT t.Id AS TutorId, "
+                        + "a.[Name] AS TutorName, "
+                        + "a.Username AS Username, "
+                        + "STUFF((SELECT DISTINCT ', ' + s.[Name] "
+                        + "FROM TutorSubject ts "
+                        + "JOIN Subject s ON ts.SubjectId = s.Id "
+                        + "WHERE ts.TutorId = t.Id "
+                        + "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS SubjectName, "
                         + "COALESCE(AVG(r.Rating), 0) AS AverageRating, "
                         + "cv.[Location] AS Location, "
-                        + "cv.[Url] AS YoutubeUrl "
+                        + "cv.[Url] AS YoutubeUrl, "
+                        + "cv.Grade AS Grade "
                         + "FROM Tutor t "
                         + "JOIN Account a ON t.AccountId = a.Id "
-                        + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
-                        + "JOIN Subject s ON ts.SubjectId = s.Id "
                         + "LEFT JOIN Rating r ON t.Id = r.TutorId "
-                        + "LEFT JOIN CV cv ON t.Id = cv.Id " // Assuming TutorId matches CV Id
+                        + "LEFT JOIN CV cv ON t.Id = cv.TutorId "
                         + "WHERE t.Id = ? "
-                        + "GROUP BY t.Id, a.[Name], cv.[Location], cv.[Url]";
+                        + "GROUP BY t.Id, a.[Name], a.Username, cv.[Location], cv.[Url], cv.Grade";
 
                 stm = conn.prepareStatement(query);
                 stm.setString(1, id);
@@ -314,10 +318,12 @@ public class TutorDAO {
                     tutor = new TutorDTO();
                     tutor.setId(rs.getInt("TutorId"));
                     tutor.setName(rs.getString("TutorName"));
+                    tutor.setUserName(rs.getString("Username"));
                     tutor.setSubjectName(rs.getString("SubjectName"));
                     tutor.setRating(rs.getDouble("AverageRating"));
                     tutor.setYoutubeUrl(rs.getString("YoutubeUrl"));
                     tutor.setLocation(rs.getString("Location"));
+                    tutor.setGrade(rs.getString("Grade"));
                 }
             }
         } catch (SQLException e) {
@@ -401,6 +407,84 @@ public class TutorDAO {
             }
         }
         return result;
+    }
+
+    //Trang Student_HomePage
+    public List<TutorDTO> filterTutors(String subject, String district, String grade, String rating) throws ClassNotFoundException, SQLException {
+        List<TutorDTO> tutors = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        String query = "SELECT t.Id AS TutorId, a.[Name] AS TutorName, "
+                + "STUFF((SELECT DISTINCT ', ' + s.[Name] "
+                + "FROM TutorSubject ts JOIN Subject s ON ts.SubjectId = s.Id "
+                + "WHERE ts.TutorId = t.Id FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS SubjectName, "
+                + "COALESCE(AVG(r.Rating), 0) AS AverageRating, "
+                + "cv.Grade AS Grade "
+                + "FROM Tutor t "
+                + "JOIN Account a ON t.AccountId = a.Id "
+                + "JOIN TutorSubject ts ON t.Id = ts.TutorId "
+                + "JOIN Subject s ON ts.SubjectId = s.Id "
+                + "LEFT JOIN Rating r ON t.Id = r.TutorId "
+                + "LEFT JOIN CV cv ON t.Id = cv.TutorId "
+                + "WHERE 1=1";
+
+        if (subject != null && !subject.isEmpty()) {
+            query += " AND ts.SubjectId = ?";
+        }
+        if (district != null && !district.isEmpty()) {
+            query += " AND cv.[Location] LIKE ?";
+        }
+        if (grade != null && !grade.isEmpty()) {
+            query += " AND cv.Grade = ?";
+        }
+        if (rating != null && !rating.isEmpty()) {
+            query += " AND COALESCE((SELECT AVG(Rating) FROM Rating r WHERE r.TutorId = t.Id), 0) = ?";
+        }
+
+        query += " GROUP BY t.Id, a.[Name], cv.Grade";
+
+        try {
+            conn = DBUtils.getConnection();
+            stm = conn.prepareStatement(query);
+
+            int paramIndex = 1;
+            if (subject != null && !subject.isEmpty()) {
+                stm.setInt(paramIndex++, Integer.parseInt(subject));
+            }
+            if (district != null && !district.isEmpty()) {
+                stm.setString(paramIndex++, "%" + district + "%");
+            }
+            if (grade != null && !grade.isEmpty()) {
+                stm.setString(paramIndex++, grade);
+            }
+            if (rating != null && !rating.isEmpty()) {
+                stm.setDouble(paramIndex++, Double.parseDouble(rating));
+            }
+
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                TutorDTO tutor = new TutorDTO();
+                tutor.setId(rs.getInt("TutorId"));
+                tutor.setName(rs.getString("TutorName"));
+                tutor.setSubjectName(rs.getString("SubjectName"));
+                tutor.setRating(rs.getDouble("AverageRating"));
+                tutors.add(tutor);
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return tutors;
     }
 
 }

@@ -52,7 +52,7 @@
         <h1>Thank You!</h1>
         <p>Phản hồi của bạn đã được gửi thành công.</p> 
         <p>Chúng tôi rất trân trọng ý kiến của bạn và sẽ sử dụng nó để cải thiện dịch vụ của chúng tôi.</p>
-        <a href="student_homepage.jsp">Quay lại trang chủ</a>
+        <a href="MainController?action=StudentPage">Quay lại trang chủ</a>
     </div>
 </body>
 </html>
