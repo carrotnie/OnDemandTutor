@@ -62,7 +62,7 @@
     <div class="container">
         <h1>Tạo Slot Thành Công!</h1>
         <p>Slot đã được tạo thành công.</p>
-        <a href="registerMenu.html">Tạo slot khác</a>
+        <a href="MainController?action=registerMenu">Tạo slot khác</a>
     </div>
 </body>
 </html>

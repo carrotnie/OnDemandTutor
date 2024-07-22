@@ -106,7 +106,10 @@
                     <h2><%= tutor.getName() %></h2>
                     <p>Môn: <%= tutor.getSubjectName() %></p>
                     <p>Vị Trí: <%= tutor.getLocation() %></p>
+                    <p>Giảng dạy: <%= tutor.getGrade() %></p>
                     <p>Đánh giá: <%= String.format("%.1f", tutor.getRating()) %> ★</p>
+                    <p>UserName: <%= tutor.getUserName() %></p>
+                    <h6>*Note: UserName được dùng để kết nối với GV ở khung Chat</h6>
                 </div>
                 <div class="video-container">
                     <% if (tutor.getYoutubeUrl() != null && !tutor.getYoutubeUrl().isEmpty()) { %>
