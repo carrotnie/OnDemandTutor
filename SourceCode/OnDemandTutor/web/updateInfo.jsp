@@ -85,6 +85,9 @@
             .error{
                 color: red;
             }
+            .hidden {
+            display: none;
+            }
         </style>
     </head>
 <body>
@@ -92,6 +95,8 @@
         UserDTO tutor = (UserDTO) request.getAttribute("tutor");
         String profileImage = (String) request.getAttribute("profileImage");
         String certificateImage = (String) request.getAttribute("certificateImage");
+        String certificateImage2 = (String) request.getAttribute("certificateImage2");
+        String certificateImage3 = (String) request.getAttribute("certificateImage3");
 
         if (tutor == null) {
             out.println("<p style='color:red;'>Lỗi: Không tìm thấy thông tin gia sư.</p>");
@@ -178,9 +183,31 @@
                 <input type="file" id="profileImage" name="profile" accept=".jpg">
                 <span class="error"><%= request.getAttribute("profileImageError") != null ? request.getAttribute("profileImageError") : "" %></span>
 
-                <label for="certificateImage">Chứng Chỉ: <a href="<%= certificateImage %>" target="_blank">Xem thêm</a></label>
+                <label for="certificateImage">Bằng Cấp: <a href="<%= certificateImage %>" target="_blank">Xem thêm</a></label>
                 <input type="file" id="certificateImage" name="certificate" accept=".png">
                 <span class="error"><%= request.getAttribute("certificateImageError") != null ? request.getAttribute("certificateImageError") : "" %></span>
+                
+                <label for="certificateImage2">Bằng Cấp 2: (nếu có) <a href="<%= certificateImage2 %>" target="_blank">Xem thêm</a></label>
+                    <input type="file" id="certificateImage2" name="certificate2" accept=".png">
+                    <span class="error"><%= request.getAttribute("certificateImageError") != null ? request.getAttribute("certificateImageError") : ""%></span>
+
+                <div id="certificate3-container" class="hidden">
+                    <label for="certificateImage3">Bằng Cấp 3: (nếu có) <a href="<%= certificateImage3 %>" target="_blank">Xem thêm</a></label>
+                    <input type="file" id="certificateImage3" name="certificate3" accept=".png">
+                    <span class="error"><%= request.getAttribute("certificateImageError") != null ? request.getAttribute("certificateImageError") : ""%></span>
+                </div>
+
+                    <script>
+                        document.getElementById('certificateImage2').addEventListener('change', function () {
+                            let certificate3Container = document.getElementById('certificate3-container');
+
+                            if (this.files.length > 0) {
+                                certificate3Container.classList.remove('hidden');
+                            } else {
+                                certificate3Container.classList.add('hidden');
+                            }
+                        });
+                    </script>
 
                 <button type="submit" value="updateTutor">Lưu thông tin</button>
             </form>

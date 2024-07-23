@@ -155,7 +155,7 @@ public class TutorError {
 
     public boolean checkYob(String yob) {
         if (yob == null || !yob.matches("\\d{4}") || Integer.parseInt(yob) < 1974 || Integer.parseInt(yob) > 2005) {
-            yobError = "Năm sinh phải từ 1974 đến 2005.";
+            yobError = "Năm sinh chỉ từ 1974 đến 2005.";
             return false;
         } else {
             yobError = "";

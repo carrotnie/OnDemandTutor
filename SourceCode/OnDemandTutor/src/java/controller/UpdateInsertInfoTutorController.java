@@ -39,6 +39,8 @@ public class UpdateInsertInfoTutorController extends HttpServlet {
 
     private static final String TUTOR_SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\tutor";
     private static final String CERTIFICATE_SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate";
+    private static final String CERTIFICATE_SAVE_DIR_2 = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate2";
+    private static final String CERTIFICATE_SAVE_DIR_3 = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate3";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -74,6 +76,8 @@ public class UpdateInsertInfoTutorController extends HttpServlet {
                 String experienceString = request.getParameter("experience");
                 Part picturePart = request.getPart("profile");
                 Part certificatePart = request.getPart("certificate");
+                Part certificatePart2 = request.getPart("certificate2");
+                Part certificatePart3 = request.getPart("certificate3");
                 //hiện lỗi
                 boolean hasError = false;
                 if (phoneNumber == null || !phoneNumber.matches("\\d{10}")) {
@@ -149,6 +153,9 @@ public class UpdateInsertInfoTutorController extends HttpServlet {
                         System.out.println("Certificate saved at: " + certificatePath);
                     }
 
+                    String certificatePath2 = saveAndConvertFile(certificatePart2, tutor.getTutorId(), CERTIFICATE_SAVE_DIR_2, "png", "certificate2");
+                    String certificatePath3 = saveAndConvertFile(certificatePart3, tutor.getTutorId(), CERTIFICATE_SAVE_DIR_3, "png", "certificate3");
+
                     // trả về
                     response.sendRedirect("tutor_homepage.jsp");
                     return;
@@ -168,9 +175,13 @@ public class UpdateInsertInfoTutorController extends HttpServlet {
             // Hiển thị thông tin gia sư
             String profileImage = "img/tutor/" + tutor.getTutorId() + ".jpg";
             String certificateImage = "img/certificate/" + tutor.getTutorId() + ".png";
+            String certificateImage2 = "img/certificate2/" + tutor.getTutorId() + ".png";
+            String certificateImage3 = "img/certificate3/" + tutor.getTutorId() + ".png";
             request.setAttribute("tutor", tutor);
             request.setAttribute("profileImage", profileImage);
             request.setAttribute("certificateImage", certificateImage);
+            request.setAttribute("certificateImage2", certificateImage2);
+            request.setAttribute("certificateImage3", certificateImage3);
 
             request.getRequestDispatcher("updateInfo.jsp").forward(request, response);
 

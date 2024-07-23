@@ -31,14 +31,16 @@ import static user.UserDAO.getUserNameById;
  * @author ASUS
  */
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-    maxFileSize = 1024 * 1024 * 10, // 10MB
-    maxRequestSize = 1024 * 1024 * 50 // 50MB
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class InsertInfoTutorController extends HttpServlet {
 
     private static final String TUTOR_SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\tutor";
     private static final String CERTIFICATE_SAVE_DIR = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate";
+    private static final String CERTIFICATE_SAVE_DIR_2 = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate2";
+    private static final String CERTIFICATE_SAVE_DIR_3 = "D:\\swp\\OnDemandTutor\\SourceCode\\OnDemandTutor\\web\\img\\certificate3";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -114,6 +116,8 @@ public class InsertInfoTutorController extends HttpServlet {
 
             Part picturePart = request.getPart("picture");
             Part certificatePart = request.getPart("certificate");
+            Part certificatePart2 = request.getPart("certificate2");
+            Part certificatePart3 = request.getPart("certificate3");
 
             if (picturePart == null || picturePart.getSize() == 0) {
                 errors.setPictureError("Vui lòng chọn ảnh đại diện.");
@@ -139,6 +143,8 @@ public class InsertInfoTutorController extends HttpServlet {
             // Handle file uploads
             String picturePath = saveAndConvertFile(picturePart, tutorId, TUTOR_SAVE_DIR, "jpg", "tutor");
             String certificatePath = saveAndConvertFile(certificatePart, tutorId, CERTIFICATE_SAVE_DIR, "png", "certificate");
+            String certificatePath2 = saveAndConvertFile(certificatePart2, tutorId, CERTIFICATE_SAVE_DIR_2, "png", "certificate2");
+            String certificatePath3 = saveAndConvertFile(certificatePart3, tutorId, CERTIFICATE_SAVE_DIR_3, "png", "certificate3");
 
             // Get a random moderator ID
             int modId = 1;
@@ -189,7 +195,7 @@ public class InsertInfoTutorController extends HttpServlet {
         }
         return null;
     }
- 
+
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -331,4 +331,49 @@ public class SlotDAO {
         }
         return studentId;
     }
+
+    public List<Integer> getClassIdsByTutorId(int tutorId) throws SQLException {
+        List<Integer> classIds = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT DISTINCT c.Id AS ClassId "
+                        + "FROM Slot s "
+                        + "LEFT JOIN Class c ON s.ClassId = c.Id "
+                        + "LEFT JOIN [Subject] su ON c.SubjectId = su.Id "
+                        + "WHERE s.Id NOT IN ( "
+                        + "    SELECT SlotId "
+                        + "    FROM Schedule "
+                        + "    WHERE [Status] = N'thành công' OR [Status] = N'đang xử lý' "
+                        + ") AND c.TutorId = ?";
+                ptm = conn.prepareStatement(sql);
+                ptm.setInt(1, tutorId);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int classId = rs.getInt("ClassId");
+                    classIds.add(classId);
+                }
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return classIds;
+    }
+
 }
