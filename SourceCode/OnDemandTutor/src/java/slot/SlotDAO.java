@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package slot;
 
 import database.DBUtils;
@@ -25,15 +20,6 @@ public class SlotDAO {
             + "AND s.ClassId = ?";
 
     private static final String BOOKINGSLOT = "INSERT INTO [dbo].[Schedule] ([StudentId], [SlotId], [Status]) VALUES (?, ?, N'đang xử lý')";
-    private static final String BOOKEDLIST
-            = "SELECT sc.Status, sl.DayOfSlot, sl.StartTime, sl.EndTime, s.Name AS subjectName, a.Name AS teacherName "
-            + "FROM Schedule sc "
-            + "LEFT JOIN Slot sl ON sc.SlotId = sl.Id "
-            + "LEFT JOIN Class c ON sl.ClassId = c.Id "
-            + "LEFT JOIN [Subject] s ON c.SubjectId = s.Id "
-            + "LEFT JOIN Tutor t ON t.Id = c.TutorId "
-            + "LEFT JOIN Account a ON a.Id = t.AccountId "
-            + "WHERE sc.StudentId = ?";
 
     public List<SlotDTO> getAll(String classId) throws SQLException {
         List<SlotDTO> slots = new ArrayList<>();
@@ -73,50 +59,6 @@ public class SlotDAO {
             }
         }
         return slots;
-    }
-
-    public static void main(String[] args) throws SQLException {
-        System.out.println(new SlotDAO().getAllBookedList(1));
-    }
-
-    public List<BookedDTO> getAllBookedList(int id) throws SQLException {
-        List<BookedDTO> users = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
-                ptm = conn.prepareStatement(BOOKEDLIST);
-                ptm.setInt(1, id);
-                rs = ptm.executeQuery();
-                while (rs.next()) {
-                    String status = rs.getString(1);
-                    String dayOfSlot = rs.getString(2);
-                    String endTime = rs.getString(4);
-                    String startTime = rs.getString(3);
-                    String subjectName = rs.getString(5);
-                    String teacherName = rs.getString(6);
-                    users.add(new BookedDTO(status, dayOfSlot, startTime, endTime, subjectName, teacherName));
-                }
-            } else {
-                System.out.println("Failed to connect to the database.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (ptm != null) {
-                ptm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return users;
     }
 
     public boolean checkSlotConflict(String slotId, int studentId) throws SQLException {
@@ -164,18 +106,18 @@ public class SlotDAO {
         return conflict;
     }
 
-    public void bookingSlot(String slotId, int studentId) throws SQLException {
+    public boolean bookingSlot(String slotId, int studentId) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
+        boolean bookingSuccess = false;
 
         try {
             conn = DBUtils.getConnection();
-            conn.setAutoCommit(false); // Bắt đầu giao dịch
+            conn.setAutoCommit(false); // Start transaction
 
             if (checkSlotConflict(slotId, studentId)) {
-                System.out.println("Lịch học bị trùng, không thể đăng ký.");
-                return; // Exit if conflict exists
+                return false; // Exit if conflict exists
             }
 
             String getSlotDetails = "SELECT sl.Price, c.TutorId "
@@ -192,30 +134,30 @@ public class SlotDAO {
                 int tutorId = rs.getInt("TutorId");
 
                 if (!checkBalance(studentId, slotPrice)) {
-                    System.out.println("Số dư không đủ để đăng ký.");
-                    return;
+                    return false;
                 }
 
-                // Trừ tiền từ ví học sinh
+                // Deduct balance from student's wallet
                 deductBalance(studentId, slotPrice);
 
-                // Thêm lịch học vào Schedule
+                // Add schedule to Schedule table
                 ptm = conn.prepareStatement(BOOKINGSLOT);
                 ptm.setInt(1, studentId);
                 ptm.setString(2, slotId);
                 ptm.executeUpdate();
 
-                // Chèn dữ liệu vào bảng Salary
+                // Insert data into Salary table
                 insertIntoSalary(tutorId, Integer.parseInt(slotId), slotPrice);
 
-                conn.commit(); // Hoàn thành giao dịch
+                conn.commit(); // Complete transaction
+                bookingSuccess = true;
             } else {
                 System.out.println("Không tìm thấy Slot hoặc Tutor tương ứng.");
             }
         } catch (Exception e) {
             e.printStackTrace();
             if (conn != null) {
-                conn.rollback(); // Rollback giao dịch nếu có lỗi xảy ra
+                conn.rollback(); // Rollback transaction if an error occurs
             }
         } finally {
             if (rs != null) {
@@ -228,6 +170,7 @@ public class SlotDAO {
                 conn.close();
             }
         }
+        return bookingSuccess;
     }
 
     public boolean checkBalance(int studentId, BigDecimal slotPrice) throws SQLException {
@@ -246,7 +189,12 @@ public class SlotDAO {
                 rs = ptm.executeQuery();
                 if (rs.next()) {
                     BigDecimal totalBalance = rs.getBigDecimal("TotalBalance");
+                    if (totalBalance == null) {
+                        totalBalance = BigDecimal.ZERO; // Set default value to 0 if no balance found
+                    }
                     hasEnoughBalance = totalBalance.compareTo(slotPrice) >= 0;
+                } else {
+                    System.out.println("No results returned from the database.");
                 }
             } else {
                 System.out.println("Failed to connect to the database.");
@@ -348,4 +296,39 @@ public class SlotDAO {
         }
     }
 
+    public int getStudentIdByAccountId(int accountId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int studentId = -1;
+
+        String query = "SELECT Id FROM Student WHERE AccountId = ?";
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(query);
+                ptm.setInt(1, accountId);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    studentId = rs.getInt("Id");
+                }
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return studentId;
+    }
 }

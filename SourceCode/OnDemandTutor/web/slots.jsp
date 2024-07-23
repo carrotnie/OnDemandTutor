@@ -1,7 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,7 +130,7 @@
                             <p>Giá: <fmt:formatNumber value="${c.price}" type="number" pattern="###,###,### đ"/></p>
                         </div>
                         <div class="btn-center">
-                            <a class="btn btn-info mt-2" href="BookSlot?slotId=${c.id}">Đăng ký</a>
+                            <a class="btn btn-info mt-2" href="BookSlot?slotId=${c.id}&classId=${classId}">Đăng ký</a>
                         </div>
                     </div>
                 </div>

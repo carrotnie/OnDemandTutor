@@ -17,14 +17,16 @@ public class BookedDTO {
     String endTime;
     String subjectName;
     String teacherName;
+    int studentId;
 
-    public BookedDTO(String status, String dayOfSlot, String startTime, String endTime, String subjectName, String teacherName) {
+    public BookedDTO(String status, String dayOfSlot, String startTime, String endTime, String subjectName, String teacherName, int studentId) {
         this.status = status;
         this.dayOfSlot = dayOfSlot;
         this.startTime = startTime;
         this.endTime = endTime;
         this.subjectName = subjectName;
         this.teacherName = teacherName;
+        this.studentId = studentId;
     }
 
     public String getStatus() {
@@ -74,6 +76,14 @@ public class BookedDTO {
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
     }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
     
-    
+
 }
