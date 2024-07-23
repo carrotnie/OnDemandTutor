@@ -1,6 +1,7 @@
 package mod;
 
 import database.DBUtils;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,23 +90,16 @@ public class ModDAO {
     public List<ReportDTO> getReportByModId(int modId) throws SQLException {
         List<ReportDTO> reports = new ArrayList<>();
 
-        String query = "SELECT "
-                + "c.Id AS complaintId, "
-                + "m.AccountId AS modAccountId, "
-                + "m.Id AS modId, "
-                + "s.Id AS studentId, "
-                + "t.Id AS tutorId, "
-                + "a_s.Name AS studentName, "
-                + "a_t.Name AS tutorName, "
-                + "c.Content, "
-                + "c.Status, "
-                + "c.SlotId "
+        String query = "SELECT c.Id AS complaintId, m.AccountId AS modAccountId, m.Id AS modId, "
+                + "s.Id AS studentId, t.Id AS tutorId, a_s.Name AS studentName, "
+                + "a_t.Name AS tutorName, c.Content, c.Status, c.SlotId, sl.Price "
                 + "FROM Complaint c "
                 + "INNER JOIN Student s ON c.StudentId = s.Id "
                 + "INNER JOIN Tutor t ON c.TutorId = t.Id "
                 + "INNER JOIN Moderator m ON c.ModId = m.Id "
                 + "INNER JOIN Account a_s ON s.AccountId = a_s.Id "
                 + "INNER JOIN Account a_t ON t.AccountId = a_t.Id "
+                + "INNER JOIN Slot sl ON c.SlotId = sl.Id "
                 + "WHERE m.Id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -124,6 +118,7 @@ public class ModDAO {
                     report.setTutorName(rs.getString("tutorName"));
                     report.setContent(rs.getString("Content"));
                     report.setStatus(rs.getString("Status"));
+                    report.setPrice(rs.getBigDecimal("Price"));
                     reports.add(report);
                 }
             }
@@ -503,6 +498,47 @@ public class ModDAO {
             }
         }
         return false;
+    }
+
+    public void insertMoneyIntoWallet(int studentId, double amount) throws SQLException {
+        String query = "INSERT INTO Wallet (StudentId, AdminId, Balance, Status) VALUES (?, 1, ?, 'thành công')";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, studentId);
+            stmt.setDouble(2, amount);
+            int rowsAffected = stmt.executeUpdate();
+            LOGGER.info("Money inserted into wallet. Rows affected: " + rowsAffected);
+        }
+    }
+
+    public ReportDTO getReportDetailsByComplaintId(int complaintId) throws SQLException {
+        String query = "SELECT c.SlotId, c.TutorId, c.StudentId, sl.Price "
+                + "FROM Complaint c "
+                + "INNER JOIN Slot sl ON c.SlotId = sl.Id "
+                + "WHERE c.Id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, complaintId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int slotId = rs.getInt("SlotId");
+                    int tutorId = rs.getInt("TutorId");
+                    int studentId = rs.getInt("StudentId");
+                    BigDecimal price = rs.getBigDecimal("Price");
+                    return new ReportDTO(slotId, tutorId, studentId, price);
+                }
+            }
+        }
+        return null;
+    }
+
+    // Thêm phương thức xóa Payment
+    public void deletePayment(int slotId, int tutorId) throws SQLException {
+        String query = "DELETE FROM Salary WHERE SlotId = ? AND TutorId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, slotId);
+            stmt.setInt(2, tutorId);
+            int rowsAffected = stmt.executeUpdate();
+            LOGGER.info("Payment deleted. Rows affected: " + rowsAffected);
+        }
     }
 
 }

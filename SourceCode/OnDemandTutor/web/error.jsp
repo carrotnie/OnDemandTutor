@@ -1,58 +1,35 @@
-<%-- 
-    Document   : thankYou
-    Created on : Jul 2, 2024, 12:46:33 PM
-    Author     : ASUS
---%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
         .container {
-            background-color: #fff;
-            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border-radius: 8px;
         }
         h1 {
-            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            color: red;
         }
         p {
-            color: #666;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        a:hover {
-            background-color: #0056b3;
+            text-align: center;
+            color: #333;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Error</h1>
-        <p>Đã xảy ra lỗi trong quá trình xử lý yêu cầu của bạn</p>
-        <a href="MainController?action=StudentPage">Quay lại trang chủ</a>
+        <h1>Error Occurred</h1>
+        <p>${errorMessage}</p>
+        <p><a href="home.html">Go back to home page</a></p>
     </div>
 </body>
 </html>
-

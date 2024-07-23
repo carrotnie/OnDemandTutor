@@ -17,6 +17,7 @@ public class SubmitComplaintController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
         try {
@@ -50,8 +51,11 @@ public class SubmitComplaintController extends HttpServlet {
             int studentId = Integer.parseInt(studentIdStr);
             int slotId = Integer.parseInt(slotIdStr);
 
-            // Get a random moderator ID
-            int modId = Moderator.getRandomModeratorId();
+            // Set modId to a fixed value of 1
+            int modId = 1;
+
+            // Debugging output
+            System.out.println("Using fixed modId: " + modId);
 
             // Create DTO and set properties
             TimeTableDTO complaintDTO = new TimeTableDTO();
