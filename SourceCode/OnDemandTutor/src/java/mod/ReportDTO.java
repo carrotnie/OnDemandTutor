@@ -1,5 +1,7 @@
 package mod;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author ADMIN
@@ -16,11 +18,16 @@ public class ReportDTO {
     private String tutorName;
     private String content;
     private String status;
+    private int walletId;
+    private int adminId;
+    private int balance;
+    private BigDecimal price;
+    private int SalaryId;
 
     public ReportDTO() {
     }
 
-    public ReportDTO(int accountId, int modId, int complaintId, int studentId, int tutorId, int accountTutorId, int slotId, String studentName, String tutorName, String content, String status) {
+    public ReportDTO(int accountId, int modId, int complaintId, int studentId, int tutorId, int accountTutorId, int slotId, String studentName, String tutorName, String content, String status, int walletId, int adminId, int balance, BigDecimal price, int SalaryId) {
         this.accountId = accountId;
         this.modId = modId;
         this.complaintId = complaintId;
@@ -32,6 +39,18 @@ public class ReportDTO {
         this.tutorName = tutorName;
         this.content = content;
         this.status = status;
+        this.walletId = walletId;
+        this.adminId = adminId;
+        this.balance = balance;
+        this.price = price;
+        this.SalaryId = SalaryId;
+    }
+    
+    public ReportDTO(int slotId, int tutorId, int studentId, BigDecimal price) {
+        this.slotId = slotId;
+        this.tutorId = tutorId;
+        this.studentId = studentId;
+        this.price = price;
     }
 
     public int getAccountId() {
@@ -122,5 +141,47 @@ public class ReportDTO {
         this.status = status;
     }
 
+    public int getWalletId() {
+        return walletId;
+    }
+
+    public void setWalletId(int walletId) {
+        this.walletId = walletId;
+    }
+
+    public int getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public int getSalaryId() {
+        return SalaryId;
+    }
+
+    public void setSalaryId(int SalaryId) {
+        this.SalaryId = SalaryId;
+    }
+    
+
+   
     
 }
