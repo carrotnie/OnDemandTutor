@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -49,6 +50,10 @@ public class ViewTutorInfoController extends HttpServlet {
                 request.setAttribute("photoPath", request.getContextPath() + photoPath);
                 String certificatePath = "/img/certificate/" + tutor.getTutorId() + ".png"; // Path for tutor certificate
                 request.setAttribute("certificatePath", request.getContextPath() + certificatePath);
+                String certificatePath2 = "/img/certificate2/" + tutor.getTutorId() + ".png";
+                request.setAttribute("certificatePath2", new File(request.getServletContext().getRealPath(certificatePath2)).exists() ? request.getContextPath() + certificatePath2 : null);
+                String certificatePath3 = "/img/certificate3/" + tutor.getTutorId() + ".png";
+                request.setAttribute("certificatePath3", new File(request.getServletContext().getRealPath(certificatePath3)).exists() ? request.getContextPath() + certificatePath3 : null);
                 request.setAttribute("name", tutor.getName());
                 request.setAttribute("phonenumber", tutor.getPhoneNumber());
                 request.setAttribute("location", tutor.getLocation());

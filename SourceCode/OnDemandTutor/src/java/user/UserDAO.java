@@ -1,6 +1,8 @@
 package user;
 
 import database.DBUtils;
+import hashing.Hasher;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +33,7 @@ public class UserDAO {
 
     private static final Map<String, String> otpStorage = new HashMap<>();
 
-    public UserDTO checkLogin(String Username, String Password) throws SQLException {
+    public UserDTO checkLogin(String Username, String Password) throws SQLException, NoSuchAlgorithmException {
         UserDTO user = null;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -50,8 +52,9 @@ public class UserDAO {
                 if (rs.next()) {
                     String dbPassword = rs.getString("Password");
                     String dbUsername = rs.getString("Username");
+                    String hashedPassword = Hasher.hash(Password);
                     // So sánh tên đăng nhập và mật khẩu phân biệt chữ hoa chữ thường trong mã Java
-                    if (Username.equals(dbUsername) && Password.equals(dbPassword)) {
+                    if (Username.equalsIgnoreCase(dbUsername) && hashedPassword.equals(dbPassword)) {
                         int Id = rs.getInt("Id");
                         String Name = rs.getString("Name");
                         String Role = rs.getString("Role");
@@ -173,7 +176,7 @@ public class UserDAO {
         return check;
     }
 
-    public boolean insert(UserDTO user) throws SQLException {
+    public boolean insert(UserDTO user) throws SQLException, NoSuchAlgorithmException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -184,7 +187,9 @@ public class UserDAO {
                 ptm = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
                 ptm.setString(1, user.getName());
                 ptm.setString(2, user.getUsername());
-                ptm.setString(3, user.getPassword());
+                // Hash the password before inserting
+                String hashedPassword = Hasher.hash(user.getPassword());
+                ptm.setString(3, hashedPassword);
                 ptm.setString(4, user.getRole());
                 int rowsAffected = ptm.executeUpdate();
                 check = rowsAffected > 0;
@@ -866,7 +871,7 @@ public class UserDAO {
         return false;
     }
 
-    public boolean updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException {
+    public boolean updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
         Connection conn = null;
         PreparedStatement ptm = null;
         try {
@@ -874,7 +879,9 @@ public class UserDAO {
             if (conn != null) {
                 String sql = "UPDATE Account SET Password = ? WHERE Username = ?";
                 ptm = conn.prepareStatement(sql);
-                ptm.setString(1, newPassword);
+                // Hash the new password before updating
+                String hashedPassword = Hasher.hash(newPassword);
+                ptm.setString(1, hashedPassword);
                 ptm.setString(2, username);
                 int result = ptm.executeUpdate();
                 return result > 0;

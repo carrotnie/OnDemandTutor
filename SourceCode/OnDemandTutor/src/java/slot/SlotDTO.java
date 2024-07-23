@@ -15,7 +15,7 @@ public class SlotDTO {
 
     private int id;
     private String day;
-    private String startTime;   
+    private String startTime;
     private String endTime;
     private String subjectName;
     private BigDecimal price;
@@ -76,6 +76,6 @@ public class SlotDTO {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-    
+
 
 }

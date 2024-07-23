@@ -7,12 +7,13 @@
 <%@page import="user.UserDTO"%>
 <%@page import="tutor.TutorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Điền Thông Tin Giáo Viên - Giasumienphi.edu.vn</title>
+        <title>Điền Thông Tin Giáo Viên</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -272,6 +273,20 @@
                     <div class="certificate">
                         <img src="<%= request.getAttribute("certificatePath")%>" alt="Ảnh bằng cấp">
                     </div>
+                    
+                    <c:if test="${not empty certificatePath2}">
+                        <label for="certificate2">Bằng Cấp 2:</label>
+                        <div class="certificate">
+                            <img src="${certificatePath2}" alt="Ảnh bằng cấp">
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty certificatePath3}">
+                        <label for="certificate3">Bằng Cấp 3:</label>
+                        <div class="certificate">
+                            <img src="${certificatePath3}" alt="Ảnh bằng cấp">
+                        </div>
+                    </c:if>
 
                     <!-- Submit Button -->
                     <button type="submit">Lưu thông tin</button>

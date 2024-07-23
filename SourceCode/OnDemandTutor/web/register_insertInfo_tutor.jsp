@@ -80,6 +80,9 @@
             .error{
                 color: red;
             }
+            .hidden {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -185,9 +188,31 @@
                     <input type="file" id="picture" name="picture" accept=".jpg" required>
                     <span class="error"><%= request.getAttribute("pictureError") != null ? request.getAttribute("pictureError") : ""%></span>
 
-                    <label for="certificate">Certificate:</label>
+                    <label for="certificate">Bằng Cấp:</label>
                     <input type="file" id="certificate" name="certificate" accept=".png" required>
                     <span class="error"><%= request.getAttribute("certificateError") != null ? request.getAttribute("certificateError") : ""%></span>
+
+                    <label for="certificate2">Bằng Cấp 2: (nếu có)</label>
+                    <input type="file" id="certificate2" name="certificate2" accept=".png">
+                    <span class="error"><%= request.getAttribute("certificateError") != null ? request.getAttribute("certificateError") : ""%></span>
+
+                    <div id="certificate3-container" class="hidden">
+                        <label for="certificate3">Bằng Cấp 3: (nếu có)</label>
+                        <input type="file" id="certificate3" name="certificate3" accept=".png">
+                        <span class="error"><%= request.getAttribute("certificateError") != null ? request.getAttribute("certificateError") : ""%></span>
+                    </div>
+
+                    <script>
+                        document.getElementById('certificate2').addEventListener('change', function () {
+                            let certificate3Container = document.getElementById('certificate3-container');
+
+                            if (this.files.length > 0) {
+                                certificate3Container.classList.remove('hidden');
+                            } else {
+                                certificate3Container.classList.add('hidden');
+                            }
+                        });
+                    </script>
 
                     <!-- Submit Button -->
                     <button type="submit">Lưu thông tin</button>

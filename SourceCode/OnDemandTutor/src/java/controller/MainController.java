@@ -85,6 +85,8 @@ public class MainController extends HttpServlet {
     private static final String VIEW_REJECTED_CV = "ViewRejectedCv";
     private static final String VIEW_REJECTED_CV_CONTROLLER = "ViewRejectedCvController";
     
+    private static final String LIST_SLOT = "ListSlot";
+    private static final String LIST_SLOT_CONTROLLER = "ListSlot";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -143,6 +145,8 @@ public class MainController extends HttpServlet {
                 url = VIEW_CV_CHECKED_CONTROLLER;
             } else if (VIEW_REJECTED_CV.equals(action)) {
                 url = VIEW_REJECTED_CV_CONTROLLER;
+            }else if (LIST_SLOT.equals(action)) {  
+                url = LIST_SLOT_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController: " + e.toString());

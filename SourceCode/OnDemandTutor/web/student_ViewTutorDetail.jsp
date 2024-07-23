@@ -1,7 +1,11 @@
+<%@page import="slot.SlotDTO"%>
+<%@page import="slot.SlotDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="tutor.TutorDAO"%>
 <%@page import="tutor.TutorDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -98,7 +102,7 @@
                 } else {
                     TutorDAO dao = new TutorDAO();
                     TutorDTO tutor = dao.getTutorById(tutorId);
-                    if (tutor != null) {
+                    if (tutor != null) { 
             %>
             <div class="content">
                 <div class="teacher-info">
@@ -110,12 +114,29 @@
                     <p>Đánh giá: <%= String.format("%.1f", tutor.getRating()) %> ★</p>
                     <p>UserName: <%= tutor.getUserName() %></p>
                     <h6>*Note: UserName được dùng để kết nối với GV ở khung Chat</h6>
-                </div>
+
+                    <%
+                    SlotDAO slotDAO = new SlotDAO();
+                    List<Integer> classIds = slotDAO.getClassIdsByTutorId(tutor.getId()); // Lấy danh sách ClassId dựa trên TutorId
+                    out.println("<p>Số lượng lớp: " + classIds.size() + "</p>"); // In ra số lượng classId
+
+                    if (classIds != null && !classIds.isEmpty()) {
+                        for (Integer classId : classIds) {
+//                            out.println("<p>Class: " + classId + "</p>"); // In ra ID của từng class
+                %>
+                <a class="btn btn-info mt-2" href="ListSlot?cId=<%= classId %>">Chi Tiết Giờ Học</a><br/>
+                <%
+                        }
+                    } else {
+                        out.println("<p>Không có thông tin chi tiết giờ học.</p>");
+                    }
+                %>
+            </div>
                 <div class="video-container">
                     <% if (tutor.getYoutubeUrl() != null && !tutor.getYoutubeUrl().isEmpty()) { %>
                         <iframe src="https://www.youtube.com/embed/<%= tutor.getYoutubeUrl() %>" allowfullscreen></iframe>
-                    <% } else { %>
-                        <p>Không có video YouTube nào.</p>
+                        <% } else { %>
+                    <p>Không có video YouTube nào.</p>
                     <% } %>
                 </div>
             </div>
