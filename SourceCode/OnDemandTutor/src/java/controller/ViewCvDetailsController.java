@@ -1,6 +1,7 @@
 package controller;
 
 import database.DBUtils;
+import java.io.File;
 import mod.CvDTO;
 import mod.ModDAO;
 
@@ -45,6 +46,10 @@ public class ViewCvDetailsController extends HttpServlet {
                 request.setAttribute("photoPath", request.getContextPath() + photoPath);
                 String certificatePath = "/img/certificate/" + cv.getTutorId() + ".png";
                 request.setAttribute("certificatePath", request.getContextPath() + certificatePath);
+                String certificatePath2 = "/img/certificate2/" + cv.getTutorId() + ".png";
+                request.setAttribute("certificatePath2", new File(request.getServletContext().getRealPath(certificatePath2)).exists() ? request.getContextPath() + certificatePath2 : null);
+                String certificatePath3 = "/img/certificate3/" + cv.getTutorId() + ".png";
+                request.setAttribute("certificatePath3", new File(request.getServletContext().getRealPath(certificatePath3)).exists() ? request.getContextPath() + certificatePath3 : null);
                 request.setAttribute("cvId", cvId); // Add cvId to the request
                 request.setAttribute("cvActive", cv.getActive());
             } else {
@@ -80,7 +85,7 @@ public class ViewCvDetailsController extends HttpServlet {
                         message = result ? "CV này đã được duyệt thành công" : "Duyệt CV thất bại";
                         break;
                     case "/rejectTutor":
-                        String reason = new String(request.getParameter("rejectionReason").getBytes("ISO-8859-1"),("UTF-8"));
+                        String reason = new String(request.getParameter("rejectionReason").getBytes("ISO-8859-1"), ("UTF-8"));
                         if (reason == null || reason.trim().isEmpty()) {
                             message = "Rejection reason is required.";
                         } else {
