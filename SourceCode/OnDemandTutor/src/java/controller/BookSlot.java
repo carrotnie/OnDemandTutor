@@ -1,6 +1,9 @@
 package controller;
 
+import slot.SlotDAO;
+import slot.SlotDTO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,9 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import slot.SlotDAO;
-import slot.SlotDTO;
 import user.UserDTO;
+
 @WebServlet(name = "BookSlot", urlPatterns = {"/BookSlot"})
 public class BookSlot extends HttpServlet {
 
@@ -34,6 +36,7 @@ public class BookSlot extends HttpServlet {
 
                 int slotIdInt = Integer.parseInt(slotId);
                 SlotDAO slotDAO = new SlotDAO();
+                int studentId = slotDAO.getStudentIdByAccountId(loginUser.getId());
                 List<SlotDTO> slots = slotDAO.getAll(classId);
 
                 SlotDTO slotToBook = null;
@@ -50,15 +53,22 @@ public class BookSlot extends HttpServlet {
                     return;
                 }
 
-                if (slotDAO.checkSlotConflict(slotId, loginUser.getId())) {
+                if (slotDAO.checkSlotConflict(slotId, studentId)) {
+                    request.setAttribute("studentId", studentId);
                     request.setAttribute("errorMessage", "Lịch học bị trùng, không thể đăng ký.");
                     request.getRequestDispatcher("error_page.jsp").forward(request, response);
-                } else if (!slotDAO.checkBalance(loginUser.getId(), slotToBook.getPrice())) {
+                } else if (!slotDAO.checkBalance(studentId, slotToBook.getPrice())) {
+                    request.setAttribute("studentId", studentId);
                     request.setAttribute("errorMessage", "Số dư trong ví của bạn không đủ để đăng ký, vui lòng nạp thêm.");
                     request.getRequestDispatcher("error_page.jsp").forward(request, response);
                 } else {
-                    slotDAO.bookingSlot(slotId, loginUser.getId());
-                    response.sendRedirect("booking_slot_successful.html");
+                    if (slotDAO.bookingSlot(slotId, studentId)) {
+                        response.sendRedirect("booking_slot_successful.html");
+                    } else {
+                        request.setAttribute("studentId", studentId);
+                        request.setAttribute("errorMessage", "Có lỗi xảy ra trong quá trình đăng ký slot.");
+                        request.getRequestDispatcher("error_page.jsp").forward(request, response);
+                    }
                 }
             }
         } catch (Exception e) {

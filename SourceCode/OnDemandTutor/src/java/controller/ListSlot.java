@@ -3,6 +3,7 @@ package controller;
 import slot.SlotDAO;
 import slot.SlotDTO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +23,10 @@ public class ListSlot extends HttpServlet {
             String cId = request.getParameter("cId");
             request.setAttribute("classId", cId);
             SlotDAO slotDAO = new SlotDAO();
+            List<String> logs = new ArrayList<>();
             List<SlotDTO> slots = slotDAO.getAll(cId);
             request.setAttribute("sl", slots);
+            request.setAttribute("logs", logs);
             request.getRequestDispatcher(SLOTS_PAGE).forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

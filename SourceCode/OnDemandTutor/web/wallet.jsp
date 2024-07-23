@@ -177,7 +177,7 @@
                 confirmationMessage.style.display = "block"; // Hiển thị thông báo xác nhận
                 setTimeout(function () {
                     form.submit(); // Submit form sau khi hiển thị thông báo
-                }, 2000); // Delay 2 giây trước khi submit form
+                }, 500); // Delay 2 giây trước khi submit form
             }
 
             amountInput.oninput = function () {
