@@ -92,18 +92,11 @@ public class TimeTableDAO {
                 String query = "INSERT INTO Complaint (StudentId, SlotId, TutorId, ModId, Content) VALUES (?, ?, ?, ?, ?)";
                 stm = conn.prepareStatement(query);
 
-                // Debugging statements
-                System.out.println("Inserting complaint with StudentId: " + complaint.getStudentId());
-                System.out.println("SlotId: " + complaint.getSlotId());
-                System.out.println("TutorId: " + complaint.getTutorId());
-                System.out.println("ModId: " + complaint.getModId());
-                System.out.println("Content: " + complaint.getContent());
-
                 stm.setInt(1, complaint.getStudentId());
                 stm.setInt(2, complaint.getSlotId());
                 stm.setInt(3, complaint.getTutorId());
-                stm.setInt(4, complaint.getModId());
-                stm.setString(5, complaint.getContent());
+                stm.setInt(4, complaint.getModId());  // Correct index here
+                stm.setString(5, complaint.getContent());  // Correct index here
 
                 stm.executeUpdate();
             }

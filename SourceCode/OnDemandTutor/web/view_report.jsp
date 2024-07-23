@@ -166,7 +166,7 @@
             }
         </style>
         <script>
-            function showModal(action, complaintId) {
+            function showModal(action, complaintId, slotId, price) {
                 var modal = document.getElementById('confirmationModal');
                 var modalContent = document.getElementById('modalContent');
                 var confirmButton = document.getElementById('confirmButton');
@@ -177,6 +177,8 @@
                     confirmButton.onclick = function () {
                         document.getElementById('confirmationForm').action = 'ConfirmReportController';
                         document.getElementById('complaintIdInput').value = complaintId;
+                        document.getElementById('slotIdInput').value = slotId;
+                        document.getElementById('priceInput').value = price;
                         document.getElementById('actionInput').value = 'confirm'; // Set action
                         document.getElementById('confirmationForm').submit();
                     };
@@ -217,7 +219,7 @@
         </div>
         <div class="main-content" id="main">
             <div class="card">
-                <h2 class="card-title">Quản Lý Báo Cáo</h2>
+                <h2 class="card-title">Quản Lý Reports</h2>
                 <c:if test="${not empty successMessage}">
                     <div class="success-message">${successMessage}</div>
                 </c:if>
@@ -256,7 +258,7 @@
                                     <td>
                                         <c:if test="${report.status == 'đang xử lý'}">
                                             <div class="d-flex justify-content-between">
-                                                <button type="button" class="btn btn-primary btn-sm btn-equal mr-1" onclick="showModal('confirm', ${report.complaintId})">Có</button>
+                                                <button type="button" class="btn btn-primary btn-sm btn-equal mr-1" onclick="showModal('confirm', ${report.complaintId}, ${report.slotId}, ${report.price})">Có</button>
                                                 <button type="button" class="btn btn-danger btn-sm btn-equal" onclick="showModal('deny', ${report.complaintId})">Không</button>
                                             </div>
                                         </c:if>
@@ -275,6 +277,8 @@
                 <p id="modalContent"></p>
                 <form id="confirmationForm" method="post">
                     <input type="hidden" id="complaintIdInput" name="complaintId" value=""/>
+                    <input type="hidden" id="slotIdInput" name="slotId" value=""/>
+                    <input type="hidden" id="priceInput" name="price" value=""/>
                     <input type="hidden" id="actionInput" name="action" value=""/>
                     <div class="button-container">
                         <button type="button" id="confirmButton" class="btn btn-primary btn-sm btn-equal">Có</button>
