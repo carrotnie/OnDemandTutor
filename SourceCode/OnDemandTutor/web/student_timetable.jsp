@@ -56,7 +56,7 @@
             font-weight: bold;
             padding: 14px 20px;
             margin: 0 5px;
-            display: inline-block.
+            display: inline-block;
         }
         .nav .dropdown {
             position: relative;
@@ -77,51 +77,51 @@
         }
         .nav .dropdown-content a {
             color: white;
-            padding: 12px 16px.
+            padding: 12px 16px;
             text-decoration: none;
             display: block;
-            text-align: left.
+            text-align: left;
         }
         .nav .dropdown-content a:hover {
-            background-color: #575757.
+            background-color: #575757;
         }
         .nav .dropdown:hover .dropdown-content {
-            display: block.
+            display: block;
         }
         .nav .nav-links {
             display: flex;
             flex-grow: 1;
-            justify-content: center.
+            justify-content: center;
         }
         .main {
-            padding: 20px.
+            padding: 20px;
         }
         .container {
-            max-width: 1200px.
-            margin: 0 auto.
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .main {
-            padding: 20px.
+            padding: 20px;
         }
         .back-button {
-            margin-top: 20px.
-            padding: 10px 20px.
-            background-color: transparent.
-            color: white.
-            text-decoration: none.
-            border: none.
-            border-radius: 5px.
-            display: inline-block.
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            display: inline-block;
         }
         .icon-home {
-            color: black.
-            font-size: 24px.
+            color: black;
+            font-size: 24px;
         }
         .back-button:hover .icon-home {
-            color: #717171.
+            color: #717171;
         }
         .report-btn {
-            display: none.
+            display: none;
         }
     </style>
 </head>
